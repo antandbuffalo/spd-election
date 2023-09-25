@@ -6,7 +6,7 @@ const Home = () => {
 
   useEffect(() => {
     getMemberStatus().then((data) => {
-      setMembersByRank(data.sort((a, b) => a.rank - b.rank));
+      setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
     });
   }, []);
   return (
