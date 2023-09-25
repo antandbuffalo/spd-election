@@ -1,8 +1,14 @@
+import { useEffect, useState } from "react";
+import { getMemberStatus } from "../service/api";
 import "./index.scss";
-import members from "./memberStatus.json";
 const Home = () => {
-  console.log(members);
-  const membersByRank = members.sort((a, b) => a.rank - b.rank);
+  const [membersByRank, setMembersByRank] = useState([]);
+
+  useEffect(() => {
+    getMemberStatus().then((data) => {
+      setMembersByRank(data.sort((a, b) => a.rank - b.rank));
+    });
+  }, []);
   return (
     <div className="home">
       <div className="members-heading">
@@ -14,7 +20,9 @@ const Home = () => {
         return (
           <div className="members">
             <div className="number">{member.no}</div>
-            <div className="image"><img src={`/images/${member.no}.png`}></img></div>
+            <div className="image">
+              <img src={`/images/${member.no}.png`} loading="lazy"></img>
+            </div>
             <div className="name">{member.name}</div>
             <div className="rank">{member.rank}</div>
           </div>
