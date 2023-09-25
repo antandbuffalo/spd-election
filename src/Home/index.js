@@ -27,9 +27,9 @@ const Home = () => {
         </div>
         <div className="updated-at">
           <div>Updated At: {updatedAt}</div>
-          <div className="refresh-button" onClick={refresh}>
+          <button className="refresh-button" onClick={refresh}>
             Refresh
-          </div>
+          </button>
         </div>
       </div>
       {membersByRank.map((member) => {
