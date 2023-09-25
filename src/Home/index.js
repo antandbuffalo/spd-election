@@ -4,9 +4,12 @@ import "./index.scss";
 const Home = () => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
   const getData = () => {
+    setRefreshing(true);
     getMemberStatus().then((data) => {
+      setRefreshing(false);
       setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
       setUpdatedAt(data?.time);
     });
@@ -27,7 +30,7 @@ const Home = () => {
         </div>
         <div className="updated-at">
           <div>Updated At: {updatedAt}</div>
-          <button className="refresh-button" onClick={refresh}>
+          <button className="refresh-button" onClick={refresh} disabled={refreshing}>
             Refresh
           </button>
         </div>
