@@ -1,0 +1,38 @@
+.home {
+  > .members, .members-heading {
+    display: flex;
+    justify-content: space-between;
+    height: 80px;
+    align-items: center;
+    &:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+    > .number {
+      padding-left: 10px;
+      text-align: center;
+      width: 10vw;
+    }
+    > .image {
+      img {
+        border-radius: 25px;
+        width: 50px;
+      }
+    }
+    > .name {
+      width: 80vw;
+      text-align: center;
+    }
+    > .rank {
+      padding-right: 20px;
+      text-align: center;
+    }
+  }
+
+  > .members-heading {
+    background-color: #505766;
+    color: white;
+    font-weight: 500;
+    position: sticky;
+    top: 0;
+  }
+}
