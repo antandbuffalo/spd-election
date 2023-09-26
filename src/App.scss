@@ -12,6 +12,27 @@
   padding: 8px 4px;
 }
 
+.timer {
+  justify-content: center;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  font-size: 18px;
+  margin-top: 10px;
+
+  span:first-child {
+    text-align: right;
+  }
+  span:nth-child(2) {
+    width: 120px;
+    color: #52ff7d;
+  }
+  // span:nth-child(3) {
+  //   // width: 33vw;
+  // }
+}
+
 .footer {
   min-height: 50px;
   display: flex;

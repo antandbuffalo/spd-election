@@ -44,7 +44,9 @@ const Home = () => {
   return (
     <div className="home">
       <div className="home-header">
-        <div className="updated-at">தற்போதய நிலவரம்: {updatedAt}</div>
+        <div className="updated-at">
+          <span>{updatedAt}</span> - இல் புதுபிக்கப்பட்டது
+        </div>
         {refreshing && <Spinner className="spinner" />}
         {!refreshing && (
           <button

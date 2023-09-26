@@ -1,6 +1,6 @@
 .home {
   .home-header {
-    background-color: #505766;
+    background-color: #3e4552;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -12,11 +12,15 @@
     .spinner {
       width: 30px;
       padding: 10px;
+      min-width: 60px;
     }
 
     > .updated-at {
       color: white;
       margin-left: 10px;
+      span:first-child {
+        color: #00ff3f;
+      }
     }
     .refresh-button {
       background-color: #019c01;
@@ -24,6 +28,7 @@
       border-radius: 10px;
       font-size: 14px;
       margin-right: 10px;
+      min-width: 60px;
       cursor: pointer;
       color: white;
       border: none;
@@ -35,8 +40,6 @@
     }
   }
   .members-container {
-    // display: grid;
-    // grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
     > .members {
       display: flex;
       justify-content: space-between;
@@ -91,8 +94,8 @@
           margin-left: 10px;
           > .votes {
             color: #888;
-            display: flex;
-            gap: 20px;
+            // display: flex;
+            // gap: 20px;
           }
           .team {
             width: 10px;
