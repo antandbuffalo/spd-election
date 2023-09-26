@@ -14,8 +14,21 @@ const Home = () => {
       setUpdatedAt(data?.time);
     });
   };
+  const startTimer = () => {
+    //fetch data every 1 minute
+    const interval = setInterval(() => {
+      getData();
+    }, 60000);
+    // return the ref
+    return () => clearInterval(interval);
+  };
   useEffect(() => {
     getData();
+    // invoke the startTimer function and destory the interval
+    const clearFn = startTimer();
+    return () => {
+      clearFn();
+    }
   }, []);
   const refresh = () => {
     getData();
@@ -32,25 +45,27 @@ const Home = () => {
           Refresh
         </button>
       </div>
-      {membersByRank.map((member) => {
-        return (
-          <div className="members" key={member.name}>
-            <div className="part1">
-              <div className="number">{member.no}</div>
-              <div className="image">
-                <img src={`/images/${member.no}.png`} loading="lazy"></img>
+      <div className="members-container">
+        {membersByRank.map((member) => {
+          return (
+            <div className="members" key={member.name}>
+              <div className="part1">
+                <div className="number">{member.no}</div>
+                <div className="image">
+                  <img src={`/images/${member.no}.png`} loading="lazy"></img>
+                </div>
+              </div>
+              <div className="part2">
+                <div className="name">{member.name}</div>
+                <div className="votes">
+                  <div>வாக்குகள்: {member.votes}</div>
+                  <div>நிலை: {member.rank}</div>
+                </div>
               </div>
             </div>
-            <div className="part2">
-              <div className="name">{member.name}</div>
-              <div className="votes">
-                <div>வாக்குகள்: {member.votes}</div>
-                <div>நிலை: {member.rank}</div>
-              </div>
-            </div>
-          </div>
-        );
-      })}
+          );
+        })}
+      </div>
     </div>
   );
 };
