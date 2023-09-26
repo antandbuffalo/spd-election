@@ -11,3 +11,13 @@
   text-align: center;
   padding: 8px 4px;
 }
+
+.footer {
+  min-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #aaa;
+  padding: 0px 4px 8px 4px;
+}
