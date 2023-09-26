@@ -23,17 +23,14 @@ const Home = () => {
   return (
     <div className="home">
       <div className="home-header">
-        <div className="members-heading">
-          <div className="number">எண்</div>
-          <div className="name">பெயர்</div>
-          <div className="rank">நிலவரம்</div>
-        </div>
-        <div className="updated-at">
-          <div>Updated At: {updatedAt}</div>
-          <button className="refresh-button" onClick={refresh} disabled={refreshing}>
-            Refresh
-          </button>
-        </div>
+        <div className="updated-at">தற்போதய நிலவரம்: {updatedAt}</div>
+        <button
+          className="refresh-button"
+          onClick={refresh}
+          disabled={refreshing}
+        >
+          Refresh
+        </button>
       </div>
       {membersByRank.map((member) => {
         return (
@@ -43,7 +40,7 @@ const Home = () => {
               <img src={`/images/${member.no}.png`} loading="lazy"></img>
             </div>
             <div className="name">{member.name}</div>
-            <div className="rank">{member.rank}</div>
+            <div className="rank">{member.votes}</div>
           </div>
         );
       })}

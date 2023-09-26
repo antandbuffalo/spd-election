@@ -1,17 +1,20 @@
 .home {
   .home-header {
     background-color: #505766;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-height: 50px;
     > .updated-at {
       color: white;
-      display: flex;
-      justify-content: space-between;
-      padding: 0 10px 10px 10px;
+      margin-left: 10px;
     }
     .refresh-button {
       background-color: green;
-      padding: 6px;
+      padding: 10px;
       border-radius: 10px;
       font-size: 14px;
+      margin-right: 10px;
       cursor: pointer;
       color: white;
       border: none;
