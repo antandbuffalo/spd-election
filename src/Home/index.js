@@ -3,6 +3,7 @@ import { getMemberStatus } from "../service/api";
 import "./index.scss";
 import Spinner from "../Spinner";
 import { API_STATUS } from "../utility/constants";
+import { isCountingStarted } from "../utility/config";
 const Home = () => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
@@ -47,6 +48,12 @@ const Home = () => {
     const prevMember = membersByRank[index - 1];
     return member.votes - prevMember.votes;
   };
+
+  const getFlashBgClass = (index) => {
+    if (isCountingStarted) {
+      return `a${index}`;
+    }
+  };
   return (
     <div className="home">
       <div className="home-header-container">
@@ -85,7 +92,10 @@ const Home = () => {
       <div className="members-container">
         {membersByRank.map((member, index) => {
           return (
-            <div className={`members a${index}`} key={member.name}>
+            <div
+              className={`members ${getFlashBgClass(index)}`}
+              key={member.name}
+            >
               <div className="left-side">
                 <div className="part1">
                   <div className="number">{member.no}</div>
@@ -95,13 +105,17 @@ const Home = () => {
                 </div>
                 <div className="part2">
                   <div className="name">{member.name}</div>
-                  <div className="votes">
-                    <div>வாக்குகள்: {member.votes}</div>
-                    <div>நிலை: {member.rank}</div>
-                  </div>
+                  {isCountingStarted && (
+                    <div className="votes">
+                      <div>வாக்குகள்: {member.votes}</div>
+                      <div className="rank">நிலை: {member.rank}</div>
+                    </div>
+                  )}
                 </div>
               </div>
-              <div className="part3">{getVoteDifference(member, index)}</div>
+              {isCountingStarted && (
+                <div className="part3">{getVoteDifference(member, index)}</div>
+              )}
             </div>
           );
         })}
