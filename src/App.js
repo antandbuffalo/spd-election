@@ -7,7 +7,7 @@ import { convertMillisecondsToTime } from "./utility/util";
 function App() {
   const [time, setTime] = useState("");
   const [showCountDown, setShowCountDown] = useState(false);
-  const [nameColor, setNameColor] = useState({ color: "#aaa" });
+  const [nameColor, setNameColor] = useState({ color: "#52ff7d" });
 
   const calculateTime = () => {
     const diff = startTime - new Date().getTime();
