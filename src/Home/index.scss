@@ -1,43 +1,51 @@
 .home {
-  .home-header {
+  .home-header-container {
     background-color: #282c34;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    min-height: 50px;
     position: sticky;
     top: 0px;
-    padding: 8px 0;
-
-    .spinner {
-      width: 30px;
-      padding: 10px;
-      min-width: 60px;
+    .round {
+      text-align: center;
+      color: #00ff3f;
+      padding-top: 6px;
+      font-size: 20px;
     }
+    .home-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      min-height: 50px;
+      padding: 8px 0;
 
-    > .updated-at {
-      color: white;
-      margin-left: 10px;
-      color: #ccc;
-      font-size: 16px;
-      span:first-child {
-        color: #00ff3f;
+      .spinner {
+        width: 30px;
+        padding: 10px;
+        min-width: 60px;
       }
-    }
-    .refresh-button {
-      background-color: #019c01;
-      padding: 10px;
-      border-radius: 10px;
-      font-size: 14px;
-      margin-right: 10px;
-      min-width: 60px;
-      cursor: pointer;
-      color: white;
-      border: none;
-      &:disabled {
-        background-color: rgb(5, 61, 5);
-        color: gray;
-        cursor: not-allowed;
+
+      > .updated-at {
+        color: white;
+        margin-left: 10px;
+        color: #ccc;
+        font-size: 16px;
+        span:first-child {
+          color: #ffc027;
+        }
+      }
+      .refresh-button {
+        background-color: #019c01;
+        padding: 10px;
+        border-radius: 10px;
+        font-size: 14px;
+        margin-right: 10px;
+        min-width: 60px;
+        cursor: pointer;
+        color: white;
+        border: none;
+        &:disabled {
+          background-color: rgb(5, 61, 5);
+          color: gray;
+          cursor: not-allowed;
+        }
       }
     }
   }
@@ -137,14 +145,16 @@
     }
   }
   @media (min-width: 1000px) {
-    .home-header {
-      > .updated-at {
-        color: white;
-        margin-left: 10px;
-        color: #ccc;
-        font-size: 24px;
-        span:first-child {
-          color: #00ff3f;
+    .home-header-container {
+      .round {
+        font-size: 34px;
+      }
+      .home-header {
+        .updated-at {
+          color: white;
+          margin-left: 10px;
+          color: #ccc;
+          font-size: 24px;
         }
       }
     }

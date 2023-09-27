@@ -7,16 +7,18 @@ const Home = () => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
   const [apiStatus, setApiStatus] = useState(API_STATUS.NOT_STARTED);
+  const [round, setRound] = useState(0);
 
   const getData = () => {
     setApiStatus(API_STATUS.IN_PROGRESS);
     getMemberStatus().then((data) => {
       setApiStatus(API_STATUS.SUCCESS);
-      if(!data) {
+      if (!data) {
         return;
       }
       setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
       setUpdatedAt(data?.time);
+      setRound(data?.round);
     });
   };
   const startTimer = () => {
@@ -47,20 +49,27 @@ const Home = () => {
   };
   return (
     <div className="home">
-      <div className="home-header">
-        <div className="updated-at">
-          <span>{updatedAt}</span> - இல் புதுபிக்கப்பட்டது
+      <div className="home-header-container">
+        <div className="round">சுற்று - {round}</div>
+        <div className="home-header">
+          <div className="updated-at">
+            <span>{updatedAt}</span> - இல் புதுபிக்கப்பட்டது
+          </div>
+          <div>
+            {apiStatus === API_STATUS.IN_PROGRESS && (
+              <Spinner className="spinner" />
+            )}
+            {apiStatus !== API_STATUS.IN_PROGRESS && (
+              <button
+                className="refresh-button"
+                onClick={refresh}
+                disabled={apiStatus === API_STATUS.IN_PROGRESS}
+              >
+                Refresh
+              </button>
+            )}
+          </div>
         </div>
-        {apiStatus === API_STATUS.IN_PROGRESS && <Spinner className="spinner" />}
-        {apiStatus !== API_STATUS.IN_PROGRESS && (
-          <button
-            className="refresh-button"
-            onClick={refresh}
-            disabled={apiStatus === API_STATUS.IN_PROGRESS}
-          >
-            Refresh
-          </button>
-        )}
       </div>
       <div className="members-container">
         {membersByRank.map((member, index) => {
