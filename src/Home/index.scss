@@ -51,6 +51,10 @@
       border-radius: 20px;
       background-color: #f5f5f5;
 
+      &.a0, &.a1, &.a2, &.a3, &.a4 {
+        background-color: #c9eec9;
+      }
+
       .left-side {
         display: flex;
         align-items: center;

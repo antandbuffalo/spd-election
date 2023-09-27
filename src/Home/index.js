@@ -2,15 +2,19 @@ import { useEffect, useState } from "react";
 import { getMemberStatus } from "../service/api";
 import "./index.scss";
 import Spinner from "../Spinner";
+import { API_STATUS } from "../utility/constants";
 const Home = () => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
-  const [refreshing, setRefreshing] = useState(false);
+  const [apiStatus, setApiStatus] = useState(API_STATUS.NOT_STARTED);
 
   const getData = () => {
-    setRefreshing(true);
+    setApiStatus(API_STATUS.IN_PROGRESS);
     getMemberStatus().then((data) => {
-      setRefreshing(false);
+      setApiStatus(API_STATUS.SUCCESS);
+      if(!data) {
+        return;
+      }
       setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
       setUpdatedAt(data?.time);
     });
@@ -47,12 +51,12 @@ const Home = () => {
         <div className="updated-at">
           <span>{updatedAt}</span> - இல் புதுபிக்கப்பட்டது
         </div>
-        {refreshing && <Spinner className="spinner" />}
-        {!refreshing && (
+        {apiStatus === API_STATUS.IN_PROGRESS && <Spinner className="spinner" />}
+        {apiStatus !== API_STATUS.IN_PROGRESS && (
           <button
             className="refresh-button"
             onClick={refresh}
-            disabled={refreshing}
+            disabled={apiStatus === API_STATUS.IN_PROGRESS}
           >
             Refresh
           </button>
@@ -61,7 +65,7 @@ const Home = () => {
       <div className="members-container">
         {membersByRank.map((member, index) => {
           return (
-            <div className="members" key={member.name}>
+            <div className={`members a${index}`} key={member.name}>
               <div className="left-side">
                 <div className="part1">
                   <div className="number">{member.no}</div>
