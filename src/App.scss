@@ -6,7 +6,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: 5vw;
+  font-size: 18px;
   color: #eee;
   text-align: center;
   padding: 8px 4px;
@@ -18,14 +18,15 @@
   flex-wrap: wrap;
   gap: 10px;
   align-items: center;
-  font-size: 3.5vw;
+  font-size: 16px;
   margin-top: 10px;
+  color: #bbb;
 
   span:first-child {
     text-align: right;
   }
   span:nth-child(2) {
-    width: 24vw;
+    width: 120px;
     color: #52ff7d;
   }
 }
@@ -42,13 +43,13 @@
 
 @media (min-width: 900px) {
   .App-header {
-    font-size: 2vw;
+    font-size: 32px;
   }
   .timer {
-    font-size: 1.5vw;
+    font-size: 26px;
 
     span:nth-child(2) {
-      width: 20vw;
+      width: 200px;
     }
   }
 }
