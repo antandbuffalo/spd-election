@@ -7,7 +7,7 @@ const Home = () => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
   const [apiStatus, setApiStatus] = useState(API_STATUS.NOT_STARTED);
-  const [round, setRound] = useState(0);
+  const [round, setRound] = useState("");
 
   const getData = () => {
     setApiStatus(API_STATUS.IN_PROGRESS);
@@ -18,7 +18,7 @@ const Home = () => {
       }
       setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
       setUpdatedAt(data?.time);
-      setRound(data?.round);
+      setRound(data?.round? data?.round : "");
     });
   };
   const startTimer = () => {
@@ -50,7 +50,7 @@ const Home = () => {
   return (
     <div className="home">
       <div className="home-header-container">
-        <div className="round">சுற்று - {round}</div>
+        {round !== "" && <div className="round">சுற்று - {round}</div>}
         <div className="home-header">
           <div className="updated-at">
             <span>{updatedAt}</span> - இல் புதுபிக்கப்பட்டது
