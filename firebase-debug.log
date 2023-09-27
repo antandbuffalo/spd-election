@@ -1,0 +1,19 @@
+[debug] [2023-09-27T03:44:56.871Z] ----------------------------------------------------------------------
+[debug] [2023-09-27T03:44:56.872Z] Command:       /Users/jeyabalaji.tm/.nvm/versions/node/v16.16.0/bin/node /Users/jeyabalaji.tm/.nvm/versions/node/v16.16.0/bin/firebase deploy
+[debug] [2023-09-27T03:44:56.873Z] CLI Version:   11.16.0
+[debug] [2023-09-27T03:44:56.873Z] Platform:      darwin
+[debug] [2023-09-27T03:44:56.873Z] Node Version:  v16.16.0
+[debug] [2023-09-27T03:44:56.876Z] Time:          Wed Sep 27 2023 09:14:56 GMT+0530 (India Standard Time)
+[debug] [2023-09-27T03:44:56.877Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-09-27T03:44:56.929Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-09-27T03:44:56.929Z] > authorizing via signed-in user (balaji.jeya@gmail.com)
+[debug] [2023-09-27T03:44:56.930Z] [iam] checking project spd-election for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-09-27T03:44:56.931Z] > refreshing access token with scopes: []
+[debug] [2023-09-27T03:44:56.932Z] >>> [apiv2][query] POST https://www.googleapis.com/oauth2/v3/token [none]
+[debug] [2023-09-27T03:44:56.932Z] >>> [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-09-27T03:44:57.289Z] <<< [apiv2][status] POST https://www.googleapis.com/oauth2/v3/token 200
+[debug] [2023-09-27T03:44:57.289Z] <<< [apiv2][body] POST https://www.googleapis.com/oauth2/v3/token [omitted]
+[debug] [2023-09-27T03:44:57.311Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/spd-election:testIamPermissions [none]
+[debug] [2023-09-27T03:44:57.311Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/spd-election:testIamPermissions x-goog-quota-user=projects/spd-election
+[debug] [2023-09-27T03:44:57.311Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/spd-election:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
