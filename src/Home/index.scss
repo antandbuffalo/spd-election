@@ -1,6 +1,6 @@
 .home {
   .home-header {
-    background-color: #3e4552;
+    background-color: #282c34;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -18,6 +18,8 @@
     > .updated-at {
       color: white;
       margin-left: 10px;
+      color: #ccc;
+      font-size: 16px;
       span:first-child {
         color: #00ff3f;
       }
@@ -113,6 +115,18 @@
     }
   }
   @media (min-width: 1000px) {
+    .home-header {
+      > .updated-at {
+        color: white;
+        margin-left: 10px;
+        color: #ccc;
+        font-size: 24px;
+        span:first-child {
+          color: #00ff3f;
+        }
+      }
+    }
+
     .members-container {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
