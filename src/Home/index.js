@@ -18,7 +18,7 @@ const Home = () => {
       }
       setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
       setUpdatedAt(data?.time);
-      setRound(data?.round? data?.round : "");
+      setRound(data?.round ? data?.round : "");
     });
   };
   const startTimer = () => {
@@ -50,12 +50,23 @@ const Home = () => {
   return (
     <div className="home">
       <div className="home-header-container">
-        {round !== "" && <div className="round">சுற்று - {round}</div>}
         <div className="home-header">
-          <div className="updated-at">
-            <span>{updatedAt}</span> - இல் புதுபிக்கப்பட்டது
+          <div className="title">
+            {round !== "" && (
+              <div>
+                சுற்று
+                <span>{round}</span>
+                முடிவுகள்
+              </div>
+            )}
+            {round === "" && (
+              <div>
+                <div>தற்போதைய நிலவரம்</div>
+              </div>
+            )}
+            <div className="updated-at">{updatedAt}</div>
           </div>
-          <div>
+          <div className="btn-container">
             {apiStatus === API_STATUS.IN_PROGRESS && (
               <Spinner className="spinner" />
             )}

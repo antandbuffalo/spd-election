@@ -7,19 +7,37 @@ import { convertMillisecondsToTime } from "./utility/util";
 function App() {
   const [time, setTime] = useState("");
   const [showCountDown, setShowCountDown] = useState(false);
+  const [nameColor, setNameColor] = useState({ color: "#aaa" });
+
+  const calculateTime = () => {
+    const diff = startTime - new Date().getTime();
+    if (diff > 0) {
+      setShowCountDown(true);
+      setTime(convertMillisecondsToTime(diff));
+      return false;
+    } else {
+      setShowCountDown(false);
+      return true;
+    }
+  };
 
   useEffect(() => {
+    calculateTime();
     const interval = setInterval(() => {
-      const diff = startTime - new Date().getTime();
-      if (diff > 0) {
-        setShowCountDown(true);
-        setTime(convertMillisecondsToTime(diff));
-      } else {
-        setShowCountDown(false);
+      const isClear = calculateTime();
+      if (isClear) {
         clearInterval(interval);
       }
     }, 1000);
-    return () => clearInterval(interval);
+
+    const colorInterval = setInterval(() => {
+      const hue = Math.floor(Math.random() * 255);
+    }, 10000);
+
+    return () => {
+      clearInterval(interval);
+      clearInterval(colorInterval);
+    };
   }, []);
 
   return (
@@ -36,7 +54,9 @@ function App() {
       </header>
       <Home />
       <footer>
-        <div className="footer">Brought to you by Jeyabalaji</div>
+        <div className="footer" style={nameColor}>
+          Developed by Jeyabalaji
+        </div>
       </footer>
     </div>
   );

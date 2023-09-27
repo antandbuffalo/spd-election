@@ -3,40 +3,46 @@
     background-color: #282c34;
     position: sticky;
     top: 0px;
-    .round {
-      text-align: center;
-      color: #00ff3f;
-      padding-top: 6px;
-      font-size: 20px;
-    }
+
     .home-header {
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
       min-height: 50px;
       padding: 8px 0;
 
-      .spinner {
-        width: 30px;
-        padding: 10px;
-        min-width: 60px;
-      }
-
-      > .updated-at {
-        color: white;
-        margin-left: 10px;
-        color: #ccc;
-        font-size: 16px;
+      > .title {
+        text-align: center;
+        font-size: 20px;
+        text-align: center;
+        color: #ffc027;
         span:first-child {
-          color: #ffc027;
+          color: #00ff3f;
+          margin: 0 6px;
+        }
+        .updated-at {
+          font-size: 12px;
+          margin-top: 4px;
+          color: #ccc;
         }
       }
+
+      .btn-container {
+        position: absolute;
+        right: 12px;
+        top: 14px;
+        bottom: 14px;
+      }
+
+      .spinner {
+        margin-right: 12px;
+      }
+
       .refresh-button {
         background-color: #019c01;
         padding: 10px;
         border-radius: 10px;
         font-size: 14px;
-        margin-right: 10px;
         min-width: 60px;
         cursor: pointer;
         color: white;
@@ -146,15 +152,17 @@
   }
   @media (min-width: 1000px) {
     .home-header-container {
-      .round {
-        font-size: 34px;
-      }
       .home-header {
-        .updated-at {
-          color: white;
-          margin-left: 10px;
-          color: #ccc;
-          font-size: 24px;
+        padding: 8px 0 12px 0;
+        .title {
+          font-size: 28px;
+          .updated-at {
+            font-size: 16px;
+          }
+        }
+        .btn-container {
+          top: 20px;
+          bottom: 20px;
         }
       }
     }
