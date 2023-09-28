@@ -3,12 +3,12 @@ import { getMemberStatus } from "../service/api";
 import "./index.scss";
 import Spinner from "../Spinner";
 import { API_STATUS } from "../utility/constants";
-import { isCountingStarted } from "../utility/config";
-const Home = () => {
+import { isCountingStarted, showStatus } from "../utility/config";
+const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
   const [apiStatus, setApiStatus] = useState(API_STATUS.NOT_STARTED);
-  const [round, setRound] = useState("");
+  const [round, setRound] = useState(0);
 
   const getData = () => {
     setApiStatus(API_STATUS.IN_PROGRESS);
@@ -19,7 +19,8 @@ const Home = () => {
       }
       setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
       setUpdatedAt(data?.time);
-      setRound(data?.round ? data?.round : "");
+      setRound(data?.round ? data?.round : 0);
+      sendApiResponse(data);
     });
   };
   const startTimer = () => {
@@ -54,19 +55,26 @@ const Home = () => {
       return `a${index}`;
     }
   };
+
+  const shouldShowStatus = (status, index) => {
+    return isCountingStarted && status && index < 5;
+  };
+
+  const isFinalRound = round === 20;
+
   return (
     <div className="home">
       <div className="home-header-container">
         <div className="home-header">
           <div className="title">
-            {round !== "" && (
+            {round !== 0 && (
               <div>
                 சுற்று
                 <span>{round}</span>
                 முடிவுகள்
               </div>
             )}
-            {round === "" && (
+            {round === 0 && (
               <div>
                 <div>தற்போதைய நிலவரம்</div>
               </div>
@@ -109,6 +117,14 @@ const Home = () => {
                     <div className="votes">
                       <div>வாக்குகள்: {member.votes}</div>
                       <div className="rank">நிலை: {member.rank}</div>
+                    </div>
+                  )}
+                  {shouldShowStatus(showStatus, index) && (
+                    <div
+                      className={`status ${!isFinalRound ? "animation" : ""}`}
+                    >
+                      {isFinalRound && <span>வெற்றி</span>}
+                      {!isFinalRound && <span>முன்னிலை</span>}
                     </div>
                   )}
                 </div>

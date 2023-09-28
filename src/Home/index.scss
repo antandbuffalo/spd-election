@@ -84,8 +84,8 @@
       &.a2,
       &.a3,
       &.a4 {
-        // background-color: #c9eec9;
-        animation-name: colorchange;
+        background-color: #d4f3d4;
+        // animation-name: colorchange;
         animation-duration: 1s;
         animation-iteration-count: infinite;
         animation-direction: alternate;
@@ -140,7 +140,7 @@
           > .votes {
             color: #777;
             .rank {
-              font-size: 20px;
+              font-size: 18px;
             }
           }
           .team {
@@ -148,6 +148,30 @@
             height: 10px;
             background-color: red;
             border-radius: 50%;
+          }
+          @keyframes fontColorChange {
+            0% {
+              color: #00790c;
+            }
+            // 50% {
+            //   color: #00790c;
+            // }
+            100% {
+              // color: #c9eec9;
+              color: #d4f3d4;
+            }
+          }
+          .status {
+            font-size: 16px;
+            margin-top: 4px;
+            color: #00790c;
+            font-weight: bold;
+            &.animation {
+              animation-name: fontColorChange;
+              animation-duration: 0.8s;
+              animation-iteration-count: infinite;
+              animation-direction: alternate;
+            }
           }
         }
       }
@@ -189,6 +213,22 @@
           .part1 {
             > .number {
               padding: 5px;
+            }
+          }
+          .part2 {
+            margin-left: 10px;
+            > .votes {
+              color: #777;
+              font-size: 22px;
+              .rank {
+                font-size: 18px;
+              }
+            }
+            .team {
+              width: 10px;
+              height: 10px;
+              background-color: red;
+              border-radius: 50%;
             }
           }
         }

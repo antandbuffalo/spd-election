@@ -15,6 +15,18 @@ html {
   text-align: center;
   padding: 8px 4px;
   border-bottom: 0.5px solid #aaa;
+  .vote-details {
+    margin-top: 4px;
+    font-size: 16px;
+    color: #eee;
+    div:nth-child(2) {
+      color: #52ff7d;
+      margin-top: 4px;
+    }
+    div:nth-child(3) {
+      margin-top: 4px;
+    }
+  }
 }
 
 .timer {
@@ -51,6 +63,21 @@ html {
 @media (min-width: 900px) {
   .App-header {
     font-size: 32px;
+    .vote-details {
+      margin-top: 8px;
+      font-size: 24px;
+      color: #eee;
+      display: flex;
+      justify-content: space-evenly;
+      width: 100%;
+      color: #52ff7d;
+      div:nth-child(2) {
+        margin-top: 0px;
+      }
+      div:nth-child(3) {
+        margin-top: 0px;
+      }
+    }
   }
   .timer {
     font-size: 26px;

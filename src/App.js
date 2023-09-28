@@ -1,13 +1,15 @@
 import { useEffect, useState } from "react";
 import "./App.scss";
 import Home from "./Home";
-import { startTime } from "./utility/config";
+import { isCountingStarted, startTime } from "./utility/config";
 import { convertMillisecondsToTime } from "./utility/util";
 
 function App() {
   const [time, setTime] = useState("");
   const [showCountDown, setShowCountDown] = useState(false);
   const [nameColor, setNameColor] = useState({ color: "#52ff7d" });
+  const [totalVotes, setTotalVotes] = useState(0);
+  const [countedVotes, setCountedVotes] = useState(0);
 
   const calculateTime = () => {
     const diff = startTime - new Date().getTime();
@@ -43,6 +45,24 @@ function App() {
     };
   }, []);
 
+  const getApiResponse = (response) => {
+    setTotalVotes(response?.totalVotes);
+    setCountedVotes(response?.countedVotes);
+  };
+
+  const getPercentage = (countedVotes, totalVotes) => {
+    try {
+      const percentage = countedVotes / totalVotes;
+      if(isNaN(percentage)) {
+        return 0;
+      }
+      return ((countedVotes / totalVotes) * 100).toFixed(2);
+    } catch (e) {
+      console.log("error calculating percentage", e);
+      return 0;
+    }
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -54,8 +74,15 @@ function App() {
             <span>மணித்துளிகளில்</span>
           </div>
         )}
+        {isCountingStarted && (
+          <div className="vote-details">
+            <div>பதிவான வாக்குகள்: {totalVotes}</div>
+            <div>எண்ணப்பட்ட வாக்குகள்: {countedVotes}</div>
+            <div>சதவிகிதம்: {getPercentage(countedVotes, totalVotes)}</div>
+          </div>
+        )}
       </header>
-      <Home />
+      <Home sendApiResponse={getApiResponse} />
       <footer>
         <div className="footer" style={nameColor}>
           Developed by Jeyabalaji
