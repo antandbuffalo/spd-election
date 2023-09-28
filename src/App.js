@@ -3,6 +3,7 @@ import "./App.scss";
 import Home from "./Home";
 import { isCountingStarted, startTime } from "./utility/config";
 import { convertMillisecondsToTime } from "./utility/util";
+import ViewCount from "./ViewCount";
 
 function App() {
   const [time, setTime] = useState("");
@@ -53,7 +54,7 @@ function App() {
   const getPercentage = (countedVotes, totalVotes) => {
     try {
       const percentage = countedVotes / totalVotes;
-      if(isNaN(percentage)) {
+      if (isNaN(percentage)) {
         return 0;
       }
       return ((countedVotes / totalVotes) * 100).toFixed(2);
@@ -83,6 +84,9 @@ function App() {
         )}
       </header>
       <Home sendApiResponse={getApiResponse} />
+      <div className="view-count">
+        <ViewCount />
+      </div>
       <footer>
         <div className="footer" style={nameColor}>
           Developed by Jeyabalaji

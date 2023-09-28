@@ -48,6 +48,10 @@ html {
   }
 }
 
+.view-count {
+  margin-top: 4px;
+}
+
 .footer {
   background-color: #282c34;
   min-height: 50px;
@@ -57,6 +61,7 @@ html {
   font-size: 20px;
   color: #52ff7d;
   padding: 0px 4px 8px 4px;
+  font-style: italic;
   // transition: color 1s;
 }
 
