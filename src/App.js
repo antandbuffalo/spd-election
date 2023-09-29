@@ -1,9 +1,10 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import "./App.scss";
 import Home from "./Home";
 import { isCountingStarted, startTime } from "./utility/config";
 import { convertMillisecondsToTime } from "./utility/util";
 import ViewCount from "./ViewCount";
+import FlipNumbers from "react-flip-numbers";
 
 function App() {
   const [time, setTime] = useState("");
@@ -11,6 +12,18 @@ function App() {
   const [nameColor, setNameColor] = useState({ color: "#52ff7d" });
   const [totalVotes, setTotalVotes] = useState(0);
   const [countedVotes, setCountedVotes] = useState(0);
+
+  const isMobile = useMemo(() => {
+    return window.innerWidth < 900;
+  }, [window.innerWidth]);
+
+  const numberWidth = useMemo(() => {
+    return window.innerWidth > 900 ? 14 : 10;
+  }, [window.innerWidth]);
+
+  const numberHeight = useMemo(() => {
+    return window.innerWidth > 900 ? 18 : 14;
+  }, [window.innerWidth]);
 
   const calculateTime = () => {
     const diff = startTime - new Date().getTime();
@@ -37,7 +50,9 @@ function App() {
       const red = Math.floor(Math.random() * 255);
       const green = Math.floor(Math.random() * 255);
       const blue = Math.floor(Math.random() * 255);
-      // setNameColor({color: `rgb(${red}, ${green}, ${blue})`});
+      if (isMobile) {
+        setNameColor({ color: `rgb(${red}, ${green}, ${blue})` });
+      }
     }, 1000);
 
     return () => {
@@ -71,15 +86,53 @@ function App() {
         {showCountDown && (
           <div className="timer">
             <span>இன்னும்</span>
-            <span>{time}</span>
+            <FlipNumbers
+              height={20}
+              width={18}
+              numbers={time}
+              perspective={100}
+              play
+              duration={1}
+            />
+            {/* <span>{time}</span> */}
             <span>மணித்துளிகளில்</span>
           </div>
         )}
         {isCountingStarted && (
           <div className="vote-details">
-            <div>பதிவான வாக்குகள்: {totalVotes}</div>
-            <div>எண்ணப்பட்ட வாக்குகள்: {countedVotes}</div>
-            <div>சதவிகிதம்: {getPercentage(countedVotes, totalVotes)}</div>
+            <div>
+              பதிவான வாக்குகள்:
+              <FlipNumbers
+                height={numberHeight}
+                width={numberWidth}
+                play
+                perspective={100}
+                duration={1}
+                numbers={totalVotes + ""}
+              />
+            </div>
+            <div>
+              எண்ணப்பட்ட வாக்குகள்:
+              <FlipNumbers
+                height={numberHeight}
+                width={numberWidth}
+                play
+                perspective={100}
+                duration={1}
+                numbers={countedVotes + ""}
+              />
+            </div>
+            <div>
+              சதவிகிதம்:
+              <FlipNumbers
+                height={numberHeight}
+                width={numberWidth}
+                play
+                perspective={100}
+                duration={1}
+                numbers={getPercentage(countedVotes, totalVotes)}
+              />
+            </div>
           </div>
         )}
       </header>

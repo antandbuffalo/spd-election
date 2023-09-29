@@ -60,6 +60,10 @@ const Home = ({ sendApiResponse }) => {
     return isCountingStarted && status && index < 5;
   };
 
+  const shouldAddEmptySpace = (status, index) => {
+    return isCountingStarted && status && index > 4;
+  };
+
   const isFinalRound = round === 20;
 
   return (
@@ -105,11 +109,21 @@ const Home = ({ sendApiResponse }) => {
               key={member.name}
             >
               <div className="left-side">
-                <div className="part1">
-                  <div className="number">{member.no}</div>
-                  <div className={`image ${member.team}`}>
-                    <img src={`/images/${member.no}.png`} loading="lazy"></img>
+                <div className="part-1-container">
+                  <div className="part1">
+                    <div className="number">{member.no}</div>
+                    <div className={`image ${member.team}`}>
+                      <img
+                        src={`/images/${member.no}.png`}
+                        loading="lazy"
+                      ></img>
+                    </div>
                   </div>
+                  {isCountingStarted && (
+                    <div className="diff">
+                      {getVoteDifference(member, index)}
+                    </div>
+                  )}
                 </div>
                 <div className="part2">
                   <div className="name">{member.name}</div>
@@ -127,6 +141,7 @@ const Home = ({ sendApiResponse }) => {
                       {!isFinalRound && <span>முன்னிலை</span>}
                     </div>
                   )}
+                  {shouldAddEmptySpace(showStatus, index) && <div>&nbsp;</div>}
                 </div>
               </div>
               {isCountingStarted && (

@@ -19,12 +19,20 @@ html {
     margin-top: 4px;
     font-size: 16px;
     color: #eee;
+    div:nth-child(1) {
+      display: flex;
+      justify-content: center;
+    }
     div:nth-child(2) {
       color: #52ff7d;
       margin-top: 4px;
+      display: flex;
+      justify-content: center;
     }
     div:nth-child(3) {
       margin-top: 4px;
+      display: flex;
+      justify-content: center;
     }
   }
 }
@@ -38,18 +46,22 @@ html {
   font-size: 16px;
   margin-top: 10px;
   color: #bbb;
-
-  span:first-child {
-    text-align: right;
-  }
-  span:nth-child(2) {
-    width: 120px;
+  section {
     color: #52ff7d;
   }
+
+  // span:first-child {
+  //   text-align: right;
+  // }
+  // span:nth-child(2) {
+  //   width: 120px;
+  //   color: #52ff7d;
+  // }
 }
 
 .view-count {
-  margin-top: 4px;
+  margin-top: 8px;
+  font-size: 18px;
 }
 
 .footer {
@@ -62,7 +74,7 @@ html {
   color: #52ff7d;
   padding: 0px 4px 8px 4px;
   font-style: italic;
-  // transition: color 1s;
+  transition: color 1s;
 }
 
 @media (min-width: 900px) {
@@ -87,8 +99,8 @@ html {
   .timer {
     font-size: 26px;
 
-    span:nth-child(2) {
-      width: 200px;
-    }
+    // span:nth-child(2) {
+    //   width: 200px;
+    // }
   }
 }
