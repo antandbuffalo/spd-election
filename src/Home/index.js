@@ -3,7 +3,7 @@ import { getMemberStatus } from "../service/api";
 import "./index.scss";
 import Spinner from "../Spinner";
 import { API_STATUS } from "../utility/constants";
-import { isCountingStarted, showStatus } from "../utility/config";
+import { isCountingStarted, isFinalRound, showStatus } from "../utility/config";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
@@ -63,8 +63,6 @@ const Home = ({ sendApiResponse }) => {
   const shouldAddEmptySpace = (status, index) => {
     return isCountingStarted && status && index > 4;
   };
-
-  const isFinalRound = round === 20;
 
   return (
     <div className="home">

@@ -2,11 +2,17 @@ import { useEffect, useState } from "react";
 import { getViewCount } from "../service/api";
 import "./index.scss";
 import FlipNumbers from "react-flip-numbers";
+import { API_STATUS } from "../utility/constants";
 
 const ViewCount = () => {
   const [viewCount, setViewCount] = useState(0);
+  const [viewCountApiStatus, setViewCountApiStatus] = useState(
+    API_STATUS.NOT_STARTED
+  );
   const getData = () => {
+    setViewCountApiStatus(API_STATUS.IN_PROGRESS);
     getViewCount().then((data) => {
+      setViewCountApiStatus(API_STATUS.SUCCESS);
       if (!data) {
         return;
       }
@@ -17,7 +23,9 @@ const ViewCount = () => {
     getData();
     // invoke the startTimer function and destory the interval
     const interval = setInterval(() => {
-      getData();
+      if (viewCountApiStatus !== API_STATUS.IN_PROGRESS) {
+        getData();
+      }
     }, 10000);
     return () => {
       clearInterval(interval);
