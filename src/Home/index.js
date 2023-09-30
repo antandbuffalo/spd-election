@@ -4,6 +4,7 @@ import "./index.scss";
 import Spinner from "../Spinner";
 import { API_STATUS } from "../utility/constants";
 import { isCountingStarted, isFinalRound, showStatus } from "../utility/config";
+import TeamDetails from "../TeamDetails";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
@@ -148,6 +149,9 @@ const Home = ({ sendApiResponse }) => {
             </div>
           );
         })}
+        <div className="members team-count">
+          <TeamDetails membersByRank={membersByRank} />
+        </div>
       </div>
     </div>
   );

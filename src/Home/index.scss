@@ -70,6 +70,10 @@
       border-radius: 20px;
       background-color: #f5f5f5;
 
+      &.team-count {
+        background-color: #c4c4c4;
+      }
+
       @keyframes colorchange {
         0% {
           background: #f5f5f5;
@@ -230,7 +234,7 @@
         background-color: #f5f5f5;
         margin: 10px;
         border-radius: 20px;
-        font-size: 26px;
+        font-size: 24px;
         padding: 10px;
 
         .left-side {
