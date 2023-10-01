@@ -1,3 +1,5 @@
+import { showLiveViewCount } from "../utility/config";
+import { viewCountApiUrl } from "../utility/constants";
 import { getUUID } from "../utility/util";
 
 export const getMemberStatus = async () => {
@@ -17,9 +19,8 @@ export const getMemberStatus = async () => {
 export const getViewCount = async () => {
   // crypto.randomUUID
   const isLocal = window.location.host.includes("localhost");
-  const url = isLocal
-    ? `http://localhost:3001`
-    : `https://spd-election.onrender.com`;
+  const url =
+    isLocal && !showLiveViewCount ? `http://localhost:3001` : viewCountApiUrl;
 
   try {
     const response = await fetch(

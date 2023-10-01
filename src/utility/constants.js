@@ -4,3 +4,5 @@ export const API_STATUS = {
   FAILURE: "FAILURE",
   NOT_STARTED: "NOT_STARTED",
 }
+
+export const viewCountApiUrl = "https://spd-election-v1.onrender.com";
