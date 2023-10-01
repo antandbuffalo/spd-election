@@ -36,7 +36,7 @@ const ViewCount = () => {
       தற்போதைய பார்வையாளர்கள்:
       <FlipNumbers
         height={16}
-        width={16}
+        width={12}
         color="#ffc027"
         background="#282c34"
         play
