@@ -144,6 +144,8 @@ function App() {
         <div className="footer" style={nameColor}>
           Developed by Jeyabalaji
         </div>
+        <div className="team">மக்கள் அணி கூட்டணி</div>
+        <br />
       </footer>
     </div>
   );

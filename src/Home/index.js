@@ -3,7 +3,7 @@ import { getMemberStatus } from "../service/api";
 import "./index.scss";
 import Spinner from "../Spinner";
 import { API_STATUS } from "../utility/constants";
-import { isCountingStarted, isFinalRound, showStatus } from "../utility/config";
+import { currentStatus, isCountingStarted, isFinalRound, showStatus } from "../utility/config";
 import TeamDetails from "../TeamDetails";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
@@ -82,6 +82,8 @@ const Home = ({ sendApiResponse }) => {
                 <div>தற்போதைய நிலவரம்</div>
               </div>
             )}
+            {currentStatus !== "" && <div className="current-status">{currentStatus}</div>}
+
             <div className="updated-at">{updatedAt}</div>
           </div>
           <div className="btn-container">
