@@ -4,7 +4,7 @@ import "./index.scss";
 import FlipNumbers from "react-flip-numbers";
 import { API_STATUS } from "../utility/constants";
 
-const ViewCount = () => {
+const ViewCount = ({ sendViewCount }) => {
   const [viewCount, setViewCount] = useState(0);
   const [viewCountApiStatus, setViewCountApiStatus] = useState(
     API_STATUS.NOT_STARTED
@@ -16,6 +16,7 @@ const ViewCount = () => {
       if (!data) {
         return;
       }
+      sendViewCount(data);
       setViewCount(data?.viewCount);
     });
   };

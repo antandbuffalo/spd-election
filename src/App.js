@@ -12,7 +12,7 @@ function App() {
   const [nameColor, setNameColor] = useState({ color: "#52ff7d" });
   const [totalVotes, setTotalVotes] = useState(0);
   const [countedVotes, setCountedVotes] = useState(0);
-  const [invalidVotes, setInvalidVotes] = useState(0);
+  const [viewCount, setViewCount] = useState(0);
 
   const isMobile = useMemo(() => {
     return window.innerWidth < 900;
@@ -80,6 +80,13 @@ function App() {
     }
   };
 
+  const viewCountResponse = (data) => {
+    if (!data) {
+      return;
+    }
+    setViewCount(data?.viewCount);
+  };
+
   return (
     <div className="App">
       <header className="App-header">
@@ -123,17 +130,6 @@ function App() {
                 numbers={countedVotes + ""}
               />
             </div>
-            {/* <div>
-              செல்லாத வாக்குகள்:
-              <FlipNumbers
-                height={numberHeight}
-                width={numberWidth}
-                play
-                perspective={100}
-                duration={1}
-                numbers={invalidVotes + ""}
-              />
-            </div> */}
             <div>
               சதவிகிதம்:
               <FlipNumbers
@@ -145,12 +141,22 @@ function App() {
                 numbers={getPercentage(countedVotes, totalVotes)}
               />
             </div>
+            <div style={{"display": "flex"}}>
+              Live: <FlipNumbers
+                height={16}
+                width={12}
+                play
+                perspective={100}
+                duration={1}
+                numbers={viewCount + ""}
+              />
+            </div>
           </div>
         )}
       </header>
       <Home sendApiResponse={getApiResponse} />
       <div className="view-count">
-        <ViewCount />
+        <ViewCount sendViewCount={viewCountResponse} />
       </div>
       <footer>
         <div className="footer" style={nameColor}>

@@ -178,9 +178,14 @@
           >.votes {
             color: #777;
 
+            .count {
+              color: blue;
+            }
+
             .rank {
               font-size: 22px;
               color: red;
+              // font-weight: bold;
             }
           }
 
@@ -290,6 +295,11 @@
             >.votes {
               font-size: 22px;
               color: #000;
+
+              .count {
+                color: blue;
+                font-weight: bold;
+              }
             }
 
             .team {
