@@ -103,6 +103,9 @@ const Home = ({ sendApiResponse }) => {
         </div>
       </div>
       <div className="members-container">
+        <div className="members team-count">
+          <TeamDetails membersByRank={membersByRank} />
+        </div>
         {membersByRank.map((member, index) => {
           return (
             <div
@@ -151,9 +154,9 @@ const Home = ({ sendApiResponse }) => {
             </div>
           );
         })}
-        <div className="members team-count">
+        {/* <div className="members team-count">
           <TeamDetails membersByRank={membersByRank} />
-        </div>
+        </div> */}
       </div>
     </div>
   );

@@ -12,6 +12,7 @@ function App() {
   const [nameColor, setNameColor] = useState({ color: "#52ff7d" });
   const [totalVotes, setTotalVotes] = useState(0);
   const [countedVotes, setCountedVotes] = useState(0);
+  const [invalidVotes, setInvalidVotes] = useState(0);
 
   const isMobile = useMemo(() => {
     return window.innerWidth < 900;
@@ -122,6 +123,17 @@ function App() {
                 numbers={countedVotes + ""}
               />
             </div>
+            {/* <div>
+              செல்லாத வாக்குகள்:
+              <FlipNumbers
+                height={numberHeight}
+                width={numberWidth}
+                play
+                perspective={100}
+                duration={1}
+                numbers={invalidVotes + ""}
+              />
+            </div> */}
             <div>
               சதவிகிதம்:
               <FlipNumbers
