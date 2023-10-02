@@ -6,6 +6,7 @@ import { convertMillisecondsToTime } from "./utility/util";
 import ViewCount from "./ViewCount";
 import FlipNumbers from "react-flip-numbers";
 import IconEye from "./Icons/IconEye";
+import Review from "./Review";
 
 function App() {
   const [time, setTime] = useState("");
@@ -14,6 +15,7 @@ function App() {
   const [totalVotes, setTotalVotes] = useState(0);
   const [countedVotes, setCountedVotes] = useState(0);
   const [viewCount, setViewCount] = useState(0);
+  const [showReview, setShowReview] = useState(true);
 
   const isMobile = useMemo(() => {
     return window.innerWidth < 900;
@@ -88,8 +90,13 @@ function App() {
     setViewCount(data?.viewCount);
   };
 
+  const onClickReviewClose = () => {
+    setShowReview(false);
+  }
+
   return (
     <div className="App">
+      {showReview && <Review onClickClose={onClickReviewClose}/>}
       <header className="App-header">
         <div>சு பெ தேவஸ்தானம் தேர்தல் முடிவுகள் 2023</div>
         {showCountDown && (
@@ -142,7 +149,7 @@ function App() {
                 numbers={getPercentage(countedVotes, totalVotes)}
               />
             </div>
-            <div className="live-count" style={{"display": "flex"}}>
+            <div className="live-count" style={{ "display": "flex" }}>
               <IconEye />
               <FlipNumbers
                 height={14}
