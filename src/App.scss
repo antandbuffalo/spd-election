@@ -34,6 +34,15 @@ html {
       display: flex;
       justify-content: center;
     }
+    .live-count {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      svg {
+        fill: #52ff7d;
+        align-self: center;
+      }
+    }
   }
 }
 

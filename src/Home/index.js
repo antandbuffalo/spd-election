@@ -26,6 +26,7 @@ const Home = ({ sendApiResponse }) => {
         return;
       }
       setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
+      // setMembersByRank(data?.members);
       setUpdatedAt(data?.time);
       setRound(data?.round ? data?.round : 0);
       sendApiResponse(data);
@@ -111,10 +112,6 @@ const Home = ({ sendApiResponse }) => {
         </div>
       </div>
       <div className="members-container">
-        {isMobile &&
-          <div className="members team-count">
-            <TeamDetails membersByRank={membersByRank} />
-          </div>}
         {membersByRank.map((member, index) => {
           return (
             <div
@@ -165,10 +162,10 @@ const Home = ({ sendApiResponse }) => {
             </div>
           );
         })}
-        {!isMobile &&
-          <div className="members team-count">
-            <TeamDetails membersByRank={membersByRank} />
-          </div>}
+
+        <div className="members team-count">
+          <TeamDetails membersByRank={membersByRank} />
+        </div>
       </div>
     </div>
   );

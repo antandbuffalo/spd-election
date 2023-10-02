@@ -5,6 +5,7 @@ import { isCountingStarted, startTime } from "./utility/config";
 import { convertMillisecondsToTime } from "./utility/util";
 import ViewCount from "./ViewCount";
 import FlipNumbers from "react-flip-numbers";
+import IconEye from "./Icons/IconEye";
 
 function App() {
   const [time, setTime] = useState("");
@@ -141,10 +142,11 @@ function App() {
                 numbers={getPercentage(countedVotes, totalVotes)}
               />
             </div>
-            <div style={{"display": "flex"}}>
-              Live: <FlipNumbers
-                height={16}
-                width={12}
+            <div className="live-count" style={{"display": "flex"}}>
+              <IconEye />
+              <FlipNumbers
+                height={14}
+                width={10}
                 play
                 perspective={100}
                 duration={1}
