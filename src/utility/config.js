@@ -1,6 +1,10 @@
-export const startTime = new Date("2023-10-01 22:00:00").getTime();
+export const startTime = new Date("2023-10-01 23:30:00").getTime();
 
 export const showLiveViewCount = true;
-export const isCountingStarted = false;
-export const showStatus = false;
-export const isFinalRound = false;
+export const isCountingStarted = true;
+export const showStatus = true;
+export const isFinalRound = true;
+
+export const currentStatus = "";
+
+export const enableReview = true;

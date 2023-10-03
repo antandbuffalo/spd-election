@@ -34,6 +34,15 @@ html {
       display: flex;
       justify-content: center;
     }
+    .live-count {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      svg {
+        fill: #52ff7d;
+        align-self: center;
+      }
+    }
   }
 }
 
@@ -62,6 +71,13 @@ html {
 .view-count {
   margin-top: 8px;
   font-size: 18px;
+}
+
+footer {
+  text-align: center;
+  .team {
+    color: white;
+  }
 }
 
 .footer {

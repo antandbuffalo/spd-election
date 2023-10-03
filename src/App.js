@@ -1,10 +1,12 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.scss";
 import Home from "./Home";
-import { isCountingStarted, startTime } from "./utility/config";
+import { enableReview, isCountingStarted, startTime } from "./utility/config";
 import { convertMillisecondsToTime } from "./utility/util";
 import ViewCount from "./ViewCount";
 import FlipNumbers from "react-flip-numbers";
+import IconEye from "./Icons/IconEye";
+import Review from "./Review";
 
 function App() {
   const [time, setTime] = useState("");
@@ -12,6 +14,8 @@ function App() {
   const [nameColor, setNameColor] = useState({ color: "#52ff7d" });
   const [totalVotes, setTotalVotes] = useState(0);
   const [countedVotes, setCountedVotes] = useState(0);
+  const [viewCount, setViewCount] = useState(0);
+  const [showReview, setShowReview] = useState(true);
 
   const isMobile = useMemo(() => {
     return window.innerWidth < 900;
@@ -79,8 +83,22 @@ function App() {
     }
   };
 
+  const viewCountResponse = (data) => {
+    if (!data) {
+      return;
+    }
+    setViewCount(data?.viewCount);
+  };
+
+  const onClickReviewClose = () => {
+    setShowReview(false);
+  };
+
   return (
     <div className="App">
+      {showReview && enableReview && (
+        <Review onClickClose={onClickReviewClose} />
+      )}
       <header className="App-header">
         <div>சு பெ தேவஸ்தானம் தேர்தல் முடிவுகள் 2023</div>
         {showCountDown && (
@@ -133,17 +151,30 @@ function App() {
                 numbers={getPercentage(countedVotes, totalVotes)}
               />
             </div>
+            <div className="live-count" style={{ display: "flex" }}>
+              <IconEye />
+              <FlipNumbers
+                height={14}
+                width={10}
+                play
+                perspective={100}
+                duration={1}
+                numbers={viewCount + ""}
+              />
+            </div>
           </div>
         )}
       </header>
       <Home sendApiResponse={getApiResponse} />
       <div className="view-count">
-        <ViewCount />
+        <ViewCount sendViewCount={viewCountResponse} />
       </div>
       <footer>
         <div className="footer" style={nameColor}>
           Developed by Jeyabalaji
         </div>
+        <div className="team">மக்கள் அணி கூட்டணி</div>
+        <br />
       </footer>
     </div>
   );

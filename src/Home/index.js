@@ -1,15 +1,22 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { getMemberStatus } from "../service/api";
 import "./index.scss";
 import Spinner from "../Spinner";
 import { API_STATUS } from "../utility/constants";
-import { isCountingStarted, isFinalRound, showStatus } from "../utility/config";
+import { currentStatus, isCountingStarted, isFinalRound, showStatus } from "../utility/config";
 import TeamDetails from "../TeamDetails";
+import ViewCount from "../ViewCount";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
   const [apiStatus, setApiStatus] = useState(API_STATUS.NOT_STARTED);
   const [round, setRound] = useState(0);
+  const [viewCountData, setViewCountData] = useState({});
+  const [totalVotes, setTotalVotes] = useState(0);
+
+  const isMobile = useMemo(() => {
+    return window.innerWidth < 900;
+  }, [window.innerWidth]);
 
   const getData = () => {
     setApiStatus(API_STATUS.IN_PROGRESS);
@@ -19,9 +26,11 @@ const Home = ({ sendApiResponse }) => {
         return;
       }
       setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
+      // setMembersByRank(data?.members);
       setUpdatedAt(data?.time);
       setRound(data?.round ? data?.round : 0);
       sendApiResponse(data);
+      setTotalVotes(data?.totalVotes);
     });
   };
   const startTimer = () => {
@@ -82,6 +91,8 @@ const Home = ({ sendApiResponse }) => {
                 <div>தற்போதைய நிலவரம்</div>
               </div>
             )}
+            {currentStatus !== "" && <div className="current-status">{currentStatus}</div>}
+
             <div className="updated-at">{updatedAt}</div>
           </div>
           <div className="btn-container">
@@ -128,7 +139,9 @@ const Home = ({ sendApiResponse }) => {
                   <div className="name">{member.name}</div>
                   {isCountingStarted && (
                     <div className="votes">
-                      <div>வாக்குகள்: {member.votes}</div>
+                      <div>வாக்குகள்: <span className="count">{member.votes}</span>
+                        {/* ({Math.round(((member.votes / totalVotes) * 100))} %) */}
+                      </div>
                       <div className="rank">நிலை: {member.rank}</div>
                     </div>
                   )}
@@ -149,6 +162,7 @@ const Home = ({ sendApiResponse }) => {
             </div>
           );
         })}
+
         <div className="members team-count">
           <TeamDetails membersByRank={membersByRank} />
         </div>

@@ -1,133 +1,133 @@
 {
-  "time": "30/9/2023, 22:58:05",
-  "totalVotes": 0,
-  "countedVotes": 0,
-  "invalidVotes": 0,
+  "time": "2/10/2023, 03:10:23",
+  "totalVotes": 3346,
+  "countedVotes": 3346,
+  "invalidVotes": 61,
   "members": [
     {
       "no": 1,
       "name": "அச்சுதராமன் M K மாணிக்கா",
-      "votes": 0,
-      "rank": 1,
+      "votes": 217,
+      "rank": 15,
       "team": "C"
     },
     {
       "no": 2,
       "name": "கிரிதரன் K T குச்சேரி",
-      "votes": 0,
-      "rank": 1,
+      "votes": 1476,
+      "rank": 4,
       "team": "B"
     },
     {
       "no": 3,
       "name": "கோவிந்தன் G N கெட்டி",
-      "votes": 0,
-      "rank": 1,
+      "votes": 1389,
+      "rank": 5,
       "team": "B"
     },
     {
       "no": 4,
       "name": "சரவணன் A R அம்பலம்",
-      "votes": 0,
-      "rank": 1,
+      "votes": 1283,
+      "rank": 8,
       "team": "A"
     },
     {
       "no": 5,
       "name": "சாந்துலால் K S கும்பா",
-      "votes": 0,
-      "rank": 1,
+      "votes": 286,
+      "rank": 14,
       "team": "C"
     },
     {
       "no": 6,
       "name": "சிரஞ்சீவி ராமன் K M குடுவா",
-      "votes": 0,
-      "rank": 1,
+      "votes": 197,
+      "rank": 16,
       "team": "C"
     },
     {
       "no": 7,
       "name": "சுப்பிரமணியன் T S திம்மக்கொண்டு",
-      "votes": 0,
-      "rank": 1,
+      "votes": 1067,
+      "rank": 10,
       "team": "B"
     },
     {
       "no": 8,
       "name": "நந்தகோபாலன் S M சொக்கலிங்கு",
-      "votes": 0,
-      "rank": 1,
+      "votes": 326,
+      "rank": 12,
       "team": "D"
     },
     {
       "no": 9,
       "name": "நாகநாதன் S N சலகவா",
-      "votes": 0,
-      "rank": 1,
+      "votes": 1361,
+      "rank": 6,
       "team": "B"
     },
     {
       "no": 10,
       "name": "நீலகண்டன் N R நீலம்",
-      "votes": 0,
+      "votes": 1875,
       "rank": 1,
       "team": "A"
     },
     {
       "no": 11,
       "name": "பாலமுருகன் K V குச்சேரி",
-      "votes": 0,
-      "rank": 1,
+      "votes": 294,
+      "rank": 13,
       "team": "D"
     },
     {
       "no": 12,
       "name": "பாலமுருகன் K R குச்சேரி",
-      "votes": 0,
-      "rank": 1,
+      "votes": 1108,
+      "rank": 9,
       "team": "A"
     },
     {
       "no": 13,
       "name": "மணிகண்டன் S A செல்கா",
-      "votes": 0,
-      "rank": 1,
+      "votes": 132,
+      "rank": 18,
       "team": "C"
     },
     {
       "no": 14,
       "name": "மாருதிராம் P R பொட்டி",
-      "votes": 0,
-      "rank": 1,
+      "votes": 849,
+      "rank": 11,
       "team": "B"
     },
     {
       "no": 15,
       "name": "ரமேஷ் T R துர்வாசு",
-      "votes": 0,
-      "rank": 1,
+      "votes": 1502,
+      "rank": 3,
       "team": "A"
     },
     {
       "no": 16,
       "name": "ரெங்காச்சாரி S R சித்து",
-      "votes": 0,
-      "rank": 1,
+      "votes": 1567,
+      "rank": 2,
       "team": "A"
     },
     {
       "no": 17,
       "name": "வாசுதேவன் P K பெத்தா",
-      "votes": 0,
-      "rank": 1,
+      "votes": 192,
+      "rank": 17,
       "team": "C"
     },
     {
       "no": 18,
       "name": "ஜவஹர்லால் K S கடுசங்கு",
-      "votes": 0,
-      "rank": 1,
+      "votes": 1304,
+      "rank": 7,
       "team": "D"
     }
   ]
