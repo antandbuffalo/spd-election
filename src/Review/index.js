@@ -1,13 +1,19 @@
 import { useEffect, useState } from "react";
 import IconClose from "../Icons/IconClose";
 import "./index.scss";
-import { REVIEW_MOOD } from "../utility/constants";
-import { getUUID } from "../utility/util";
+import { API_STATUS, REVIEW_MOOD } from "../utility/constants";
+import { getUUID, validateReviewRequest } from "../utility/util";
 import { submitReview } from "../service/api";
-const Review = ({ onClickClose }) => {
+import { useNavigate } from "react-router-dom";
+import Spinner from "../Spinner";
+const Review = () => {
   const [reviewMood, setReviewMood] = useState(REVIEW_MOOD.GOOD);
   const [reviewComment, setReviewComment] = useState("");
   const [name, setName] = useState("");
+  const navigate = useNavigate();
+  const [addReviewApiStatus, setAddReviewApiStatus] = useState(
+    API_STATUS.NOT_STARTED
+  );
 
   useEffect(() => {
     const htmlElement = document.querySelector("html");
@@ -31,16 +37,20 @@ const Review = ({ onClickClose }) => {
   };
   const onClickSubmitReview = () => {
     const review = {
-      mood: reviewMood,
-      comment: reviewComment,
-      name: name,
+      mood: reviewMood?.trim(),
+      comment: reviewComment?.trim(),
+      name: name?.trim(),
       id: getUUID(),
     };
-    console.log(review);
+    if (!validateReviewRequest(review)) {
+      return;
+    }
+
+    setAddReviewApiStatus(API_STATUS.IN_PROGRESS);
     submitReview(review).then((response) => {
-      console.log(response);
+      setAddReviewApiStatus(API_STATUS.SUCCESS);
       if (response?.status === "success") {
-        localStorage.setItem("reviewed", true);
+        // localStorage.setItem("reviewed", true);
         alert("கருத்துக்களை பகிர்ந்தமைக்கு நன்றி");
         onClickClose();
         return;
@@ -54,6 +64,11 @@ const Review = ({ onClickClose }) => {
   };
   const onChangeName = (event) => {
     setName(event.target.value);
+  };
+
+  const onClickClose = () => {
+    sessionStorage.setItem("reviewClosed", true);
+    navigate(-1);
   };
   return (
     <div className="review">
@@ -119,10 +134,20 @@ const Review = ({ onClickClose }) => {
         </div>
         <br />
         <br />
-
-        <button className="submit" onClick={onClickSubmitReview}>
-          அனுப்புக
-        </button>
+        {addReviewApiStatus === API_STATUS.IN_PROGRESS && (
+          <div className="spinner-container">
+            <Spinner />
+          </div>
+        )}
+        {addReviewApiStatus !== API_STATUS.IN_PROGRESS && (
+          <button
+            className="submit"
+            onClick={onClickSubmitReview}
+            disabled={addReviewApiStatus === API_STATUS.IN_PROGRESS}
+          >
+            அனுப்புக
+          </button>
+        )}
       </div>
       <br />
       <br />

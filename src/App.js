@@ -2,11 +2,12 @@ import { useEffect, useMemo, useState } from "react";
 import "./App.scss";
 import Home from "./Home";
 import { enableReview, isCountingStarted, startTime } from "./utility/config";
-import { convertMillisecondsToTime, isReviewSubmitted } from "./utility/util";
+import { convertMillisecondsToTime, isReviewClosed, isReviewSubmitted } from "./utility/util";
 import ViewCount from "./ViewCount";
 import FlipNumbers from "react-flip-numbers";
 import IconEye from "./Icons/IconEye";
 import Review from "./Review";
+import { useNavigate } from "react-router-dom";
 
 function App() {
   const [time, setTime] = useState("");
@@ -16,6 +17,8 @@ function App() {
   const [countedVotes, setCountedVotes] = useState(0);
   const [viewCount, setViewCount] = useState(0);
   const [showReview, setShowReview] = useState(!isReviewSubmitted());
+
+  const navigate = useNavigate();
 
   const isMobile = useMemo(() => {
     return window.innerWidth < 900;
@@ -42,6 +45,9 @@ function App() {
   };
 
   useEffect(() => {
+    if (!isReviewSubmitted() && !isReviewClosed()) {
+      navigate("/review");
+    }
     calculateTime();
     const interval = setInterval(() => {
       const isClear = calculateTime();
@@ -96,17 +102,17 @@ function App() {
       if (flag) {
         setShowReview(false);
       }
-    }
-    else {
+    } else {
       setShowReview(false);
     }
   };
 
+  const openReview = () => {
+    setShowReview(true);
+  };
+
   return (
     <div className="App">
-      {showReview && enableReview && (
-        <Review onClickClose={onClickReviewClose} />
-      )}
       <header className="App-header">
         <div>சு பெ தேவஸ்தானம் தேர்தல் முடிவுகள் 2023</div>
         {showCountDown && (
@@ -173,7 +179,7 @@ function App() {
           </div>
         )}
       </header>
-      <Home sendApiResponse={getApiResponse} />
+      <Home sendApiResponse={getApiResponse} openReview={openReview} />
       <div className="view-count">
         <ViewCount sendViewCount={viewCountResponse} />
       </div>

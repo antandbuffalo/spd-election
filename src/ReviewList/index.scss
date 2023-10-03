@@ -1,0 +1,78 @@
+$primary-color: #52ff7d;
+.reviews {
+  background-color: #282c34;
+  height: 100vh;
+  .App-header {
+    color: $primary-color;
+    font-size: 20px;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row;
+    .btn-close {
+      svg {
+        fill: white;
+      }
+    }
+    .view-count {
+      margin-top: 0;
+      font-size: 12px;
+      display: flex;
+      gap: 2px;
+      svg {
+        fill: $primary-color;
+        height: 20px;
+        width: 20px;
+      }
+    }
+  }
+  .review-card {
+    background: #efefef;
+    color: #282c34;
+    margin: 14px;
+    border-radius: 12px;
+    padding: 12px;
+    .comment {
+      font-size: 18px;
+    }
+    .name {
+      color: #000;
+      text-align: right;
+    }
+    .created-at {
+      text-align: right;
+      font-size: 12px;
+      color: #888;
+      margin-top: 4px;
+    }
+    &.good {
+      background-color: #e4ffe4;
+    }
+    &.bad {
+      background-color: #fee1e1;
+    }
+  }
+
+  .review-button {
+    background-color: #019c01;
+    padding: 10px;
+    border-radius: 10px;
+    font-size: 18px;
+    min-width: 60px;
+    cursor: pointer;
+    color: white;
+    border: none;
+    width: 90vw;
+    margin: 12px 5vw 12px 5vw;
+    &:disabled {
+      background-color: rgb(5, 61, 5);
+      color: gray;
+      cursor: not-allowed;
+    }
+  }
+  @media (min-width: 900px) {
+    .reviews-container {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(450px, 1fr));
+    }
+  }
+}

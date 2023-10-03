@@ -31,3 +31,19 @@ export const getUUID = () => {
 export const isReviewSubmitted = () => {
   return localStorage.getItem("reviewed");
 };
+
+export const isReviewClosed = () => {
+  return sessionStorage.getItem("reviewClosed");
+};
+
+export const showReviewCloseConfirmation = () => {
+  const flag = window.confirm("கருத்துக்களை பகிராமல் வெளியேற வேண்டுமா?");
+  return flag;
+};
+
+export const validateReviewRequest = (request) => {
+  if (!request) return false;
+  if (!request.mood) return false;
+  if (!request.comment) return false;
+  return true;
+};

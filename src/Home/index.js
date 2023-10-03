@@ -3,9 +3,16 @@ import { getMemberStatus } from "../service/api";
 import "./index.scss";
 import Spinner from "../Spinner";
 import { API_STATUS } from "../utility/constants";
-import { currentStatus, isCountingStarted, isFinalRound, showStatus } from "../utility/config";
+import {
+  currentStatus,
+  enableReview,
+  isCountingStarted,
+  isFinalRound,
+  showStatus,
+} from "../utility/config";
 import TeamDetails from "../TeamDetails";
 import ViewCount from "../ViewCount";
+import { useNavigate } from "react-router-dom";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
@@ -13,6 +20,7 @@ const Home = ({ sendApiResponse }) => {
   const [round, setRound] = useState(0);
   const [viewCountData, setViewCountData] = useState({});
   const [totalVotes, setTotalVotes] = useState(0);
+  const navigate = useNavigate();
 
   const isMobile = useMemo(() => {
     return window.innerWidth < 900;
@@ -74,32 +82,35 @@ const Home = ({ sendApiResponse }) => {
     return isCountingStarted && status && index > 4;
   };
 
+  const openReview = () => {
+    navigate("/review-list");
+  }
+
   return (
     <div className="home">
       <div className="home-header-container">
         <div className="home-header">
           <div className="title">
-            {round !== 0 && (
-              <div>
-                சுற்று
-                <span>{round}</span>
-                முடிவுகள்
-              </div>
+            <div>
+              {enableReview && (
+                <button
+                  className="review-button"
+                  onClick={openReview}
+                  disabled={apiStatus === API_STATUS.IN_PROGRESS}
+                >
+                  கருத்துக்களை பார்க்க
+                </button>
+              )}
+            </div>
+            {currentStatus !== "" && (
+              <div className="current-status">{currentStatus}</div>
             )}
-            {round === 0 && (
-              <div>
-                <div>தற்போதைய நிலவரம்</div>
-              </div>
-            )}
-            {currentStatus !== "" && <div className="current-status">{currentStatus}</div>}
-
-            <div className="updated-at">{updatedAt}</div>
           </div>
           <div className="btn-container">
             {apiStatus === API_STATUS.IN_PROGRESS && (
               <Spinner className="spinner" />
             )}
-            {apiStatus !== API_STATUS.IN_PROGRESS && (
+            {apiStatus !== API_STATUS.IN_PROGRESS && !enableReview && (
               <button
                 className="refresh-button"
                 onClick={refresh}
@@ -139,7 +150,8 @@ const Home = ({ sendApiResponse }) => {
                   <div className="name">{member.name}</div>
                   {isCountingStarted && (
                     <div className="votes">
-                      <div>வாக்குகள்: <span className="count">{member.votes}</span>
+                      <div>
+                        வாக்குகள்: <span className="count">{member.votes}</span>
                         {/* ({Math.round(((member.votes / totalVotes) * 100))} %) */}
                       </div>
                       <div className="rank">நிலை: {member.rank}</div>

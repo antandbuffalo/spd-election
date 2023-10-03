@@ -56,3 +56,19 @@ export const submitReview = async (review) => {
     return null;
   }
 };
+
+export const getReviewList = async () => {
+  const contextPath = "/review";
+  const url = isLocal
+    ? `http://localhost:3001${contextPath}`
+    : `${viewCountApiUrl}${contextPath}`;
+
+  try {
+    const response = await fetch(url);
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
