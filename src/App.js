@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.scss";
 import Home from "./Home";
-import { isCountingStarted, startTime } from "./utility/config";
+import { enableReview, isCountingStarted, startTime } from "./utility/config";
 import { convertMillisecondsToTime } from "./utility/util";
 import ViewCount from "./ViewCount";
 import FlipNumbers from "react-flip-numbers";
@@ -92,11 +92,13 @@ function App() {
 
   const onClickReviewClose = () => {
     setShowReview(false);
-  }
+  };
 
   return (
     <div className="App">
-      {showReview && <Review onClickClose={onClickReviewClose}/>}
+      {showReview && enableReview && (
+        <Review onClickClose={onClickReviewClose} />
+      )}
       <header className="App-header">
         <div>சு பெ தேவஸ்தானம் தேர்தல் முடிவுகள் 2023</div>
         {showCountDown && (
@@ -149,7 +151,7 @@ function App() {
                 numbers={getPercentage(countedVotes, totalVotes)}
               />
             </div>
-            <div className="live-count" style={{ "display": "flex" }}>
+            <div className="live-count" style={{ display: "flex" }}>
               <IconEye />
               <FlipNumbers
                 height={14}

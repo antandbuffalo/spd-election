@@ -6,3 +6,5 @@ export const showStatus = true;
 export const isFinalRound = true;
 
 export const currentStatus = "";
+
+export const enableReview = true;
