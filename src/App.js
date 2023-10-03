@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import "./App.scss";
 import Home from "./Home";
 import { enableReview, isCountingStarted, startTime } from "./utility/config";
-import { convertMillisecondsToTime } from "./utility/util";
+import { convertMillisecondsToTime, isReviewSubmitted } from "./utility/util";
 import ViewCount from "./ViewCount";
 import FlipNumbers from "react-flip-numbers";
 import IconEye from "./Icons/IconEye";
@@ -15,7 +15,7 @@ function App() {
   const [totalVotes, setTotalVotes] = useState(0);
   const [countedVotes, setCountedVotes] = useState(0);
   const [viewCount, setViewCount] = useState(0);
-  const [showReview, setShowReview] = useState(true);
+  const [showReview, setShowReview] = useState(!isReviewSubmitted());
 
   const isMobile = useMemo(() => {
     return window.innerWidth < 900;
@@ -91,7 +91,15 @@ function App() {
   };
 
   const onClickReviewClose = () => {
-    setShowReview(false);
+    if (!isReviewSubmitted()) {
+      const flag = window.confirm("கருத்துக்களை பகிராமல் வெளியேற வேண்டுமா?");
+      if (flag) {
+        setShowReview(false);
+      }
+    }
+    else {
+      setShowReview(false);
+    }
   };
 
   return (

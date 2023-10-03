@@ -3,6 +3,11 @@ export const API_STATUS = {
   SUCCESS: "SUCCESS",
   FAILURE: "FAILURE",
   NOT_STARTED: "NOT_STARTED",
-}
+};
 
-export const viewCountApiUrl = "https://spd-election-v1.onrender.com";
+export const viewCountApiUrl = "https://spd-election.onrender.com";
+
+export const REVIEW_MOOD = {
+  GOOD: "GOOD",
+  BAD: "BAD",
+};
