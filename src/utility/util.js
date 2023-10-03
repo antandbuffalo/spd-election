@@ -44,6 +44,5 @@ export const showReviewCloseConfirmation = () => {
 export const validateReviewRequest = (request) => {
   if (!request) return false;
   if (!request.mood) return false;
-  if (!request.comment) return false;
   return true;
 };

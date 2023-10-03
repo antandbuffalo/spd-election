@@ -1,7 +1,7 @@
 $primary-color: #52ff7d;
 .reviews {
   background-color: #282c34;
-  height: 100vh;
+  // height: 100vh;
   .App-header {
     color: $primary-color;
     font-size: 20px;
@@ -25,6 +25,7 @@ $primary-color: #52ff7d;
       }
     }
   }
+
   .review-card {
     background: #efefef;
     color: #282c34;
@@ -52,6 +53,25 @@ $primary-color: #52ff7d;
     }
   }
 
+  .review-btn-container {
+    position: sticky;
+    top: 0;
+    background-color: #282c34;
+    .mood-count {
+      display: flex;
+      color: $primary-color;
+      justify-content: space-between;
+      padding: 0 4px 12px 4px;
+      .good,
+      .bad {
+        display: flex;
+        gap: 4px;
+      }
+      .bad {
+        color: #ff9f00;
+      }
+    }
+  }
   .review-button {
     background-color: #019c01;
     padding: 10px;

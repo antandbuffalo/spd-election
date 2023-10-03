@@ -4,7 +4,7 @@ import "./index.scss";
 import { API_STATUS, REVIEW_MOOD } from "../utility/constants";
 import { getUUID, validateReviewRequest } from "../utility/util";
 import { submitReview } from "../service/api";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Spinner from "../Spinner";
 const Review = () => {
   const [reviewMood, setReviewMood] = useState(REVIEW_MOOD.GOOD);
@@ -14,6 +14,7 @@ const Review = () => {
   const [addReviewApiStatus, setAddReviewApiStatus] = useState(
     API_STATUS.NOT_STARTED
   );
+  const { pageName } = useParams();
 
   useEffect(() => {
     const htmlElement = document.querySelector("html");
@@ -68,7 +69,11 @@ const Review = () => {
 
   const onClickClose = () => {
     sessionStorage.setItem("reviewClosed", true);
-    navigate(-1);
+    if (!pageName) {
+      navigate(-1);
+    } else if (pageName === "home") {
+      navigate("/");
+    }
   };
   return (
     <div className="review">

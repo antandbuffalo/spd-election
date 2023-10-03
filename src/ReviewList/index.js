@@ -11,12 +11,21 @@ import FlipNumbers from "react-flip-numbers";
 const ReviewList = () => {
   const [reviews, setReviews] = useState([]);
   const [viewCount, setViewCount] = useState(0);
+  const [goodCount, setGoodCount] = useState(0);
+  const [badCount, setBadCount] = useState(0);
 
   const navigate = useNavigate();
   useEffect(() => {
     getReviewList().then((data) => {
       console.log(data);
       setReviews(data);
+      let tempGoodCount = 0,
+        tempBadCount = 0;
+      data.forEach((item) => {
+        item.mood === REVIEW_MOOD.GOOD ? tempGoodCount++ : tempBadCount++;
+      });
+      setGoodCount(tempGoodCount);
+      setBadCount(tempBadCount);
     });
   }, []);
 
@@ -67,10 +76,34 @@ const ReviewList = () => {
           <IconClose />
         </div>
       </header>
-      <div>
+      <div className="review-btn-container">
         <button className="review-button" onClick={addReview}>
           கருத்து சேர்க்க
         </button>
+        <div className="mood-count">
+          <div className="good">
+            தொடரவும்:
+            <FlipNumbers
+              height={14}
+              width={10}
+              play
+              perspective={100}
+              duration={1}
+              numbers={goodCount + ""}
+            />
+          </div>
+          <div className="bad">
+            தொடர வேண்டாம்:
+            <FlipNumbers
+              height={14}
+              width={10}
+              play
+              perspective={100}
+              duration={1}
+              numbers={badCount + ""}
+            />
+          </div>
+        </div>
       </div>
       <div className="reviews-container">
         {reviews.map((item) => {

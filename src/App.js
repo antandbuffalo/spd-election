@@ -46,7 +46,7 @@ function App() {
 
   useEffect(() => {
     if (!isReviewSubmitted() && !isReviewClosed()) {
-      navigate("/review");
+      navigate("/review?pageName=home");
     }
     calculateTime();
     const interval = setInterval(() => {
