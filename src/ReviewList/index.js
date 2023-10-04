@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { getReviewList } from "../service/api";
+import { deleteReview, getReviewList } from "../service/api";
 import "./index.scss";
 import { APP_ROUTES, REVIEW_MOOD } from "../utility/constants";
 import { useNavigate } from "react-router-dom";
@@ -8,6 +8,7 @@ import IconEye from "../Icons/IconEye";
 import ViewCount from "../ViewCount";
 import FlipNumbers from "react-flip-numbers";
 import MyName from "../MyName";
+import { isAdmin } from "../utility/util";
 
 const ReviewList = () => {
   const [reviews, setReviews] = useState([]);
@@ -36,6 +37,16 @@ const ReviewList = () => {
     ).toLocaleTimeString()}`;
   };
 
+  const onClickDeleteReview = (data) => {
+    deleteReview({ id: data.id, token: localStorage.getItem("token") }).then(
+      (response) => {
+        if (response?.status === "success") {
+          setReviews(reviews.filter((item) => item.id !== data.id));
+        }
+      }
+    );
+  };
+
   const getReviewCard = (data) => {
     if (!data || !data.comment) {
       return null;
@@ -45,6 +56,11 @@ const ReviewList = () => {
         <div className="comment">{data.comment}</div>
         <div className="name">- {data.name}</div>
         <div className="created-at">{getDateTime(data)}</div>
+        {isAdmin() && (
+          <div className="delete">
+            <button onClick={() => onClickDeleteReview(data)}>Delete</button>
+          </div>
+        )}
       </div>
     );
   };

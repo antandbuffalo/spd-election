@@ -16,4 +16,5 @@ export const APP_ROUTES = {
   home: "/",
   review: "/review",
   "review-list": "/review-list",
+  admin: "/admin",
 };

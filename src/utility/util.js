@@ -46,3 +46,8 @@ export const validateReviewRequest = (request) => {
   if (!request.mood) return false;
   return true;
 };
+
+export const isAdmin = () => {
+  const token = localStorage.getItem("token");
+  return token && token !== "";
+};

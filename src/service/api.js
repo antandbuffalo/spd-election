@@ -2,7 +2,7 @@ import { showLiveViewCount } from "../utility/config";
 import { viewCountApiUrl } from "../utility/constants";
 import { getUUID } from "../utility/util";
 
-const isLocal = window.location.host.includes("localhost") && false;
+const isLocal = window.location.host.includes("localhost");
 
 export const getMemberStatus = async () => {
   // const isLocal = window.location.host.includes("localhost");
@@ -83,6 +83,52 @@ export const addUser = async (user) => {
     const response = await fetch(url, {
       method: "POST",
       body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
+
+export const login = async (password) => {
+  const contextPath = "/login";
+  const url = isLocal
+    ? `http://localhost:3001${contextPath}`
+    : `${viewCountApiUrl}${contextPath}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify({ password }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
+
+export const deleteReview = async ({ id, token }) => {
+  if(!id || !token) return;
+
+  const contextPath = "/review";
+  const url = isLocal
+    ? `http://localhost:3001${contextPath}`
+    : `${viewCountApiUrl}${contextPath}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "DELETE",
+      body: JSON.stringify({ id, token }),
       headers: {
         "Content-Type": "application/json",
       },
