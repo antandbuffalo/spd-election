@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { deleteReview, getReviewList } from "../service/api";
 import "./index.scss";
-import { APP_ROUTES, REVIEW_MOOD } from "../utility/constants";
+import { API_STATUS, APP_ROUTES, REVIEW_MOOD } from "../utility/constants";
 import { useNavigate } from "react-router-dom";
 import IconClose from "../Icons/IconClose";
 import IconEye from "../Icons/IconEye";
@@ -15,11 +15,16 @@ const ReviewList = () => {
   const [viewCount, setViewCount] = useState(0);
   const [goodCount, setGoodCount] = useState(0);
   const [badCount, setBadCount] = useState(0);
+  const [reviewListApiStatus, setReviewListApiStatus] = useState(
+    API_STATUS.NOT_STARTED
+  );
 
   const navigate = useNavigate();
-  useEffect(() => {
+
+  const fetchReviews = () => {
+    setReviewListApiStatus(API_STATUS.IN_PROGRESS);
     getReviewList().then((data) => {
-      console.log(data);
+      setReviewListApiStatus(API_STATUS.SUCCESS);
       setReviews(data);
       let tempGoodCount = 0,
         tempBadCount = 0;
@@ -29,6 +34,16 @@ const ReviewList = () => {
       setGoodCount(tempGoodCount);
       setBadCount(tempBadCount);
     });
+  };
+
+  useEffect(() => {
+    fetchReviews();
+    const interval = setInterval(() => {
+      if (reviewListApiStatus !== API_STATUS.IN_PROGRESS) {
+        fetchReviews();
+      }
+    }, 10000);
+    return () => clearInterval(interval);
   }, []);
 
   const getDateTime = (data) => {
