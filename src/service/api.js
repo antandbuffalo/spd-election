@@ -19,7 +19,6 @@ export const getMemberStatus = async () => {
 };
 
 export const getViewCount = async () => {
-  // crypto.randomUUID
   const url =
     isLocal && !showLiveViewCount ? `http://localhost:3001` : viewCountApiUrl;
 

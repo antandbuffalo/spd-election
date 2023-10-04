@@ -25,6 +25,9 @@ const ReviewList = () => {
     setReviewListApiStatus(API_STATUS.IN_PROGRESS);
     getReviewList().then((data) => {
       setReviewListApiStatus(API_STATUS.SUCCESS);
+      if (!data) {
+        return;
+      }
       setReviews(data);
       let tempGoodCount = 0,
         tempBadCount = 0;

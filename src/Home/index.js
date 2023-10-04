@@ -52,10 +52,10 @@ const Home = ({ sendApiResponse }) => {
   useEffect(() => {
     getData();
     // invoke the startTimer function and destory the interval
-    const clearFn = startTimer();
-    return () => {
-      clearFn();
-    };
+    // const clearFn = startTimer();
+    // return () => {
+    //   clearFn();
+    // };
   }, []);
   const refresh = () => {
     getData();

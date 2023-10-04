@@ -15,6 +15,8 @@ import Review from "./Review";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "./service/api";
 import MyName from "./MyName";
+import IconComment from "./Icons/IconComment";
+import IconUser from "./Icons/IconUser";
 
 function App() {
   const [time, setTime] = useState("");
@@ -22,6 +24,8 @@ function App() {
   const [totalVotes, setTotalVotes] = useState(0);
   const [countedVotes, setCountedVotes] = useState(0);
   const [viewCount, setViewCount] = useState(0);
+  const [commentCount, setCommentCount] = useState(0);
+  const [userCount, setUserCount] = useState(0);
   const [showReview, setShowReview] = useState(!isReviewSubmitted());
 
   const navigate = useNavigate();
@@ -91,6 +95,8 @@ function App() {
       return;
     }
     setViewCount(data?.viewCount);
+    setCommentCount(data?.commentCount);
+    setUserCount(data?.uniqueUserCount);
   };
 
   const onClickReviewClose = () => {
@@ -162,16 +168,40 @@ function App() {
                 numbers={getPercentage(countedVotes, totalVotes)}
               />
             </div>
-            <div className="live-count" style={{ display: "flex" }}>
-              <IconEye />
-              <FlipNumbers
-                height={14}
-                width={10}
-                play
-                perspective={100}
-                duration={1}
-                numbers={viewCount + ""}
-              />
+            <div className="count-container">
+              <div className="live-count" style={{ display: "flex" }}>
+                <IconEye />
+                <FlipNumbers
+                  height={14}
+                  width={10}
+                  play
+                  perspective={100}
+                  duration={1}
+                  numbers={viewCount + ""}
+                />
+              </div>
+              <div className="live-count" style={{ display: "flex" }}>
+                <IconComment />
+                <FlipNumbers
+                  height={14}
+                  width={10}
+                  play
+                  perspective={100}
+                  duration={1}
+                  numbers={commentCount + ""}
+                />
+              </div>
+              <div className="live-count" style={{ display: "flex" }}>
+                <IconUser />
+                <FlipNumbers
+                  height={14}
+                  width={10}
+                  play
+                  perspective={100}
+                  duration={1}
+                  numbers={userCount + ""}
+                />
+              </div>
             </div>
           </div>
         )}
