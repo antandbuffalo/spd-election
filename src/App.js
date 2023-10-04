@@ -53,7 +53,7 @@ function App() {
   useEffect(() => {
     addUser({ id: getUUID() });
     if (!isReviewSubmitted() && !isReviewClosed() && enableReview) {
-      navigate("/review?pageName=home");
+      navigate("/review?pageName=review-list");
     }
     calculateTime();
     const interval = setInterval(() => {
