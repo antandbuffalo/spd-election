@@ -2,17 +2,23 @@ import { useEffect, useMemo, useState } from "react";
 import "./App.scss";
 import Home from "./Home";
 import { enableReview, isCountingStarted, startTime } from "./utility/config";
-import { convertMillisecondsToTime, isReviewClosed, isReviewSubmitted } from "./utility/util";
+import {
+  convertMillisecondsToTime,
+  getUUID,
+  isReviewClosed,
+  isReviewSubmitted,
+} from "./utility/util";
 import ViewCount from "./ViewCount";
 import FlipNumbers from "react-flip-numbers";
 import IconEye from "./Icons/IconEye";
 import Review from "./Review";
 import { useNavigate } from "react-router-dom";
+import { addUser } from "./service/api";
+import MyName from "./MyName";
 
 function App() {
   const [time, setTime] = useState("");
   const [showCountDown, setShowCountDown] = useState(false);
-  const [nameColor, setNameColor] = useState({ color: "#52ff7d" });
   const [totalVotes, setTotalVotes] = useState(0);
   const [countedVotes, setCountedVotes] = useState(0);
   const [viewCount, setViewCount] = useState(0);
@@ -45,7 +51,8 @@ function App() {
   };
 
   useEffect(() => {
-    if (!isReviewSubmitted() && !isReviewClosed()) {
+    addUser({ id: getUUID() });
+    if (!isReviewSubmitted() && !isReviewClosed() && enableReview) {
       navigate("/review?pageName=home");
     }
     calculateTime();
@@ -56,18 +63,8 @@ function App() {
       }
     }, 1000);
 
-    const colorInterval = setInterval(() => {
-      const red = Math.floor(Math.random() * 255);
-      const green = Math.floor(Math.random() * 255);
-      const blue = Math.floor(Math.random() * 255);
-      if (isMobile) {
-        setNameColor({ color: `rgb(${red}, ${green}, ${blue})` });
-      }
-    }, 1000);
-
     return () => {
       clearInterval(interval);
-      clearInterval(colorInterval);
     };
   }, []);
 
@@ -184,9 +181,7 @@ function App() {
         <ViewCount sendViewCount={viewCountResponse} />
       </div>
       <footer>
-        <div className="footer" style={nameColor}>
-          Developed by Jeyabalaji
-        </div>
+        <MyName />
         <div className="team">மக்கள் அணி கூட்டணி</div>
         <br />
       </footer>

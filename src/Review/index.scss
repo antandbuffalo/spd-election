@@ -2,20 +2,28 @@ $primary-color: #52ff7d;
 $seconday-color: #ccc;
 
 .review {
-  position: fixed;
-  background: rgba(0, 0, 0, 0.93);
-  height: 100%;
+  // position: fixed;
+  background: rgba(0, 0, 0, 0.9);
+  // height: 100%;
   color: white;
   padding: 20px;
-  overflow-y: scroll;
-  left: 0;
-  right: 0;
-  z-index: 1;
+  // overflow-y: scroll;
+  // left: 0;
+  // right: 0;
+  // z-index: 1;
+
+  .footer {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
 
   > .heading {
-    margin-top: 20px;
+    margin-top: 8px;
     text-align: center;
     font-size: 24px;
+    .sub-heading {
+      font-size: 20px;
+      margin-top: 16px;
+    }
   }
 
   .btn-close-container {

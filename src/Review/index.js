@@ -6,6 +6,7 @@ import { getUUID, validateReviewRequest } from "../utility/util";
 import { submitReview } from "../service/api";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Spinner from "../Spinner";
+import MyName from "../MyName";
 const Review = () => {
   const [reviewMood, setReviewMood] = useState(REVIEW_MOOD.GOOD);
   const [reviewComment, setReviewComment] = useState("");
@@ -16,15 +17,15 @@ const Review = () => {
   );
   const location = useLocation();
   const query = new URLSearchParams(location.search);
-  const pageName = query.get('pageName');
+  const pageName = query.get("pageName");
 
   useEffect(() => {
-    const htmlElement = document.querySelector("html");
-    htmlElement.style.overflow = "hidden";
+    // const htmlElement = document.querySelector("html");
+    // htmlElement.style.overflow = "hidden";
 
     return () => {
-      const htmlElement = document.querySelector("html");
-      htmlElement.style.overflow = "";
+      // const htmlElement = document.querySelector("html");
+      // htmlElement.style.overflow = "";
     };
   }, []);
 
@@ -86,7 +87,8 @@ const Review = () => {
       </div>
 
       <div className="heading">
-        இந்த வலைத்தளத்தை மேம்படுத்த, உங்கள் கருத்துக்களை பகிரவும்
+        <div>சு பெ தேவஸ்தானம் தேர்தல் முடிவுகள் 2023</div>
+        <div className="sub-heading">இந்த வலைத்தளத்தை மேம்படுத்த, உங்கள் கருத்துக்களை பகிரவும்</div>
       </div>
       <br />
       <br />
@@ -158,6 +160,7 @@ const Review = () => {
       </div>
       <br />
       <br />
+      <MyName />
     </div>
   );
 };

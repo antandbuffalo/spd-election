@@ -7,6 +7,7 @@ import IconClose from "../Icons/IconClose";
 import IconEye from "../Icons/IconEye";
 import ViewCount from "../ViewCount";
 import FlipNumbers from "react-flip-numbers";
+import MyName from "../MyName";
 
 const ReviewList = () => {
   const [reviews, setReviews] = useState([]);
@@ -30,7 +31,7 @@ const ReviewList = () => {
   }, []);
 
   const getDateTime = (data) => {
-    return `${new Date(data.createdAt).toLocaleDateString()} | ${new Date(
+    return `${new Date(data.createdAt).toLocaleDateString()}, ${new Date(
       data.createdAt
     ).toLocaleTimeString()}`;
   };
@@ -42,7 +43,7 @@ const ReviewList = () => {
     return (
       <div className={`review-card ${data.mood.toLowerCase()}`}>
         <div className="comment">{data.comment}</div>
-        <div className="name">{data.name}</div>
+        <div className="name">- {data.name}</div>
         <div className="created-at">{getDateTime(data)}</div>
       </div>
     );
@@ -110,8 +111,8 @@ const ReviewList = () => {
           return getReviewCard(item);
         })}
       </div>
-
       <ViewCount sendViewCount={viewCountResponse} />
+      <MyName />
     </div>
   );
 };

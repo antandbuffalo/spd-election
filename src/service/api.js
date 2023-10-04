@@ -2,7 +2,7 @@ import { showLiveViewCount } from "../utility/config";
 import { viewCountApiUrl } from "../utility/constants";
 import { getUUID } from "../utility/util";
 
-const isLocal = window.location.host.includes("localhost");
+const isLocal = window.location.host.includes("localhost") && false;
 
 export const getMemberStatus = async () => {
   // const isLocal = window.location.host.includes("localhost");
@@ -65,6 +65,28 @@ export const getReviewList = async () => {
 
   try {
     const response = await fetch(url);
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
+
+export const addUser = async (user) => {
+  const contextPath = "/add-user";
+  const url = isLocal
+    ? `http://localhost:3001${contextPath}`
+    : `${viewCountApiUrl}${contextPath}`;
+
+  try {
+    const response = await fetch(url, {
+      method: "POST",
+      body: JSON.stringify(user),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
     const json = await response.json();
     return json;
   } catch (e) {
