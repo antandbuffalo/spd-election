@@ -11,7 +11,7 @@ import { submitReview } from "../service/api";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Spinner from "../Spinner";
 import MyName from "../MyName";
-const Review = () => {
+const Review = ({ isFirstLoad, closeHandler = () => {} }) => {
   const [reviewMood, setReviewMood] = useState(REVIEW_MOOD.GOOD);
   const [reviewComment, setReviewComment] = useState("");
   const [name, setName] = useState("");
@@ -24,12 +24,14 @@ const Review = () => {
   const pageName = query.get("pageName");
 
   useEffect(() => {
-    // const htmlElement = document.querySelector("html");
-    // htmlElement.style.overflow = "hidden";
+    if (isFirstLoad) {
+      const htmlElement = document.querySelector("html");
+      htmlElement.style.overflow = "hidden";
+    }
 
     return () => {
-      // const htmlElement = document.querySelector("html");
-      // htmlElement.style.overflow = "";
+      const htmlElement = document.querySelector("html");
+      htmlElement.style.overflow = "";
     };
   }, []);
 
@@ -58,9 +60,9 @@ const Review = () => {
     submitReview(review).then((response) => {
       setAddReviewApiStatus(API_STATUS.SUCCESS);
       if (response?.status === "success") {
-        // localStorage.setItem("reviewed", true);
+        localStorage.setItem("reviewed", true);
         alert("கருத்துக்களை பகிர்ந்தமைக்கு நன்றி");
-        onClickClose(true);
+        navigate(APP_ROUTES["review-list"]);
         return;
       }
       alert("திரும்ப முயற்சிக்கவும்");
@@ -83,19 +85,19 @@ const Review = () => {
     }
   };
 
-  const onClickClose = (isSubmitted) => {
-    if (isSubmitted) {
-      navigateToPage();
-      return;
-    }
+  const onClickClose = () => {
     if (showReviewCloseConfirmation()) {
-      navigateToPage();
+      if (isFirstLoad) {
+        closeHandler();
+      } else {
+        navigateToPage();
+      }
     }
   };
   return (
     <div className="review">
       <div className="btn-close-container">
-        <button onClick={() => onClickClose(false)}>
+        <button onClick={() => onClickClose()}>
           <IconClose />
         </button>
       </div>

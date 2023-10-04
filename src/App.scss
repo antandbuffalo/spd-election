@@ -2,6 +2,21 @@ html {
   scroll-behavior: smooth;
   background-color: #282c34;
 }
+.App {
+  > .review-transparent {
+    > .review {
+      position: fixed;
+      z-index: 1;
+      overflow-y: scroll;
+      height: calc(100vh - 40px);
+      top: 0;
+      bottom: 0;
+      right: 0;
+      left: 0;
+      scroll-behavior: smooth;
+    }
+  }
+}
 .App-header {
   background-color: #282c34;
   min-height: 50px;

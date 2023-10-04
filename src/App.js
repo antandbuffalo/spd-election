@@ -56,8 +56,11 @@ function App() {
 
   useEffect(() => {
     addUser({ id: getUUID() });
-    if (!isReviewSubmitted() && !isReviewClosed() && enableReview) {
-      navigate("/review?pageName=review-list");
+    if (!isReviewSubmitted() && enableReview) {
+      setShowReview(true);
+      // navigate("/review?pageName=review-list");
+    } else {
+      setShowReview(false);
     }
     calculateTime();
     const interval = setInterval(() => {
@@ -100,14 +103,7 @@ function App() {
   };
 
   const onClickReviewClose = () => {
-    if (!isReviewSubmitted()) {
-      const flag = window.confirm("கருத்துக்களை பகிராமல் வெளியேற வேண்டுமா?");
-      if (flag) {
-        setShowReview(false);
-      }
-    } else {
-      setShowReview(false);
-    }
+    setShowReview(false);
   };
 
   const openReview = () => {
@@ -116,6 +112,12 @@ function App() {
 
   return (
     <div className="App">
+      {showReview && (
+        <div className="review-transparent">
+          <Review isFirstLoad={true} closeHandler={onClickReviewClose} />
+        </div>
+      )}
+
       <header className="App-header">
         <div>சு பெ தேவஸ்தானம் தேர்தல் முடிவுகள் 2023</div>
         {showCountDown && (

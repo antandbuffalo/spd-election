@@ -11,14 +11,12 @@ import {
   showStatus,
 } from "../utility/config";
 import TeamDetails from "../TeamDetails";
-import ViewCount from "../ViewCount";
 import { useNavigate } from "react-router-dom";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
   const [apiStatus, setApiStatus] = useState(API_STATUS.NOT_STARTED);
   const [round, setRound] = useState(0);
-  const [viewCountData, setViewCountData] = useState({});
   const [totalVotes, setTotalVotes] = useState(0);
   const navigate = useNavigate();
 
