@@ -1,22 +1,16 @@
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route } from "react-router-dom";
 import App from "../App";
 import Review from "../Review";
-import { showReviewCloseConfirmation } from "../utility/util";
 import ReviewList from "../ReviewList";
+import { APP_ROUTES } from "../utility/constants";
 
 const AppRoutes = () => {
-  const navigate = useNavigate();
-  const onClickReviewClose = () => {
-    if (showReviewCloseConfirmation()) {
-      navigate("/");
-    }
-  };
   return (
     <div>
       <Routes>
-        <Route path="/" element={<App />} />
-        <Route path="/review" element={<Review />} />
-        <Route path="/review-list" element={<ReviewList />} />
+        <Route path={APP_ROUTES.home} element={<App />} />
+        <Route path={APP_ROUTES.review} element={<Review />} />
+        <Route path={APP_ROUTES["review-list"]} element={<ReviewList />} />
       </Routes>
     </div>
   );

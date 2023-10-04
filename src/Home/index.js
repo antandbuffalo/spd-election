@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getMemberStatus } from "../service/api";
 import "./index.scss";
 import Spinner from "../Spinner";
-import { API_STATUS } from "../utility/constants";
+import { API_STATUS, APP_ROUTES } from "../utility/constants";
 import {
   currentStatus,
   enableReview,
@@ -83,8 +83,8 @@ const Home = ({ sendApiResponse }) => {
   };
 
   const openReview = () => {
-    navigate("/review-list");
-  }
+    navigate(APP_ROUTES["review-list"]);
+  };
 
   return (
     <div className="home">

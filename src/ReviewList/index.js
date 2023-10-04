@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getReviewList } from "../service/api";
 import "./index.scss";
-import { REVIEW_MOOD } from "../utility/constants";
+import { APP_ROUTES, REVIEW_MOOD } from "../utility/constants";
 import { useNavigate } from "react-router-dom";
 import IconClose from "../Icons/IconClose";
 import IconEye from "../Icons/IconEye";
@@ -50,10 +50,10 @@ const ReviewList = () => {
   };
 
   const addReview = () => {
-    navigate("/review");
+    navigate("/review?pageName=review-list");
   };
   const onClickClose = () => {
-    navigate(-1);
+    navigate(APP_ROUTES.home);
   };
   const viewCountResponse = (response) => {
     setViewCount(response.viewCount);

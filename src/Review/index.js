@@ -1,8 +1,12 @@
 import { useEffect, useState } from "react";
 import IconClose from "../Icons/IconClose";
 import "./index.scss";
-import { API_STATUS, REVIEW_MOOD } from "../utility/constants";
-import { getUUID, validateReviewRequest } from "../utility/util";
+import { API_STATUS, APP_ROUTES, REVIEW_MOOD } from "../utility/constants";
+import {
+  getUUID,
+  validateReviewRequest,
+  showReviewCloseConfirmation,
+} from "../utility/util";
 import { submitReview } from "../service/api";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Spinner from "../Spinner";
@@ -56,7 +60,7 @@ const Review = () => {
       if (response?.status === "success") {
         // localStorage.setItem("reviewed", true);
         alert("கருத்துக்களை பகிர்ந்தமைக்கு நன்றி");
-        onClickClose();
+        onClickClose(true);
         return;
       }
       alert("திரும்ப முயற்சிக்கவும்");
@@ -70,25 +74,37 @@ const Review = () => {
     setName(event.target.value);
   };
 
-  const onClickClose = () => {
+  const navigateToPage = () => {
     sessionStorage.setItem("reviewClosed", true);
-    if (!pageName) {
-      navigate(-1);
-    } else if (pageName === "home") {
-      navigate("/");
+    if (APP_ROUTES[pageName]) {
+      navigate(APP_ROUTES[pageName]);
+    } else {
+      navigate(APP_ROUTES.home);
+    }
+  };
+
+  const onClickClose = (isSubmitted) => {
+    if (isSubmitted) {
+      navigateToPage();
+      return;
+    }
+    if (showReviewCloseConfirmation()) {
+      navigateToPage();
     }
   };
   return (
     <div className="review">
       <div className="btn-close-container">
-        <button onClick={onClickClose}>
+        <button onClick={() => onClickClose(false)}>
           <IconClose />
         </button>
       </div>
 
       <div className="heading">
         <div>சு பெ தேவஸ்தானம் தேர்தல் முடிவுகள் 2023</div>
-        <div className="sub-heading">இந்த வலைத்தளத்தை மேம்படுத்த, உங்கள் கருத்துக்களை பகிரவும்</div>
+        <div className="sub-heading">
+          இந்த வலைத்தளத்தை மேம்படுத்த, உங்கள் கருத்துக்களை பகிரவும்
+        </div>
       </div>
       <br />
       <br />

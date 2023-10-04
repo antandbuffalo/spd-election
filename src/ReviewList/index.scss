@@ -8,6 +8,7 @@ $primary-color: #52ff7d;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
+    padding: 0 20px;
     .btn-close {
       svg {
         fill: white;
@@ -62,8 +63,8 @@ $primary-color: #52ff7d;
     .mood-count {
       display: flex;
       color: $primary-color;
-      justify-content: space-between;
-      padding: 0 4px 12px 4px;
+      justify-content: space-evenly;
+      padding: 0 12px 12px 12px;
       .good,
       .bad {
         display: flex;
@@ -83,8 +84,8 @@ $primary-color: #52ff7d;
     cursor: pointer;
     color: white;
     border: none;
-    width: 90vw;
-    margin: 12px 5vw 12px 5vw;
+    width: calc(100% - 24px);
+    margin: 12px;
     &:disabled {
       background-color: rgb(5, 61, 5);
       color: gray;
