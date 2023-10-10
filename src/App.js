@@ -110,6 +110,10 @@ function App() {
     setShowReview(true);
   };
 
+  const onClickComment = () => {
+    navigate("/review-list");
+  }
+
   return (
     <div className="App">
       {showReview && (
@@ -182,7 +186,7 @@ function App() {
                   numbers={viewCount + ""}
                 />
               </div>
-              <div className="live-count" style={{ display: "flex" }}>
+              <div className="live-count" style={{ display: "flex" }} onClick={onClickComment}>
                 <IconComment />
                 <FlipNumbers
                   height={14}
