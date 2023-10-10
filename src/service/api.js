@@ -2,7 +2,7 @@ import { showLiveViewCount } from "../utility/config";
 import { viewCountApiUrl } from "../utility/constants";
 import { getUUID } from "../utility/util";
 
-const isLocal = window.location.host.includes("localhost");
+const isLocal = window.location.host.includes("localhost") && false;
 
 export const getMemberStatus = async () => {
   // const isLocal = window.location.host.includes("localhost");

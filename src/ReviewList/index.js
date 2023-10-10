@@ -50,9 +50,16 @@ const ReviewList = () => {
   }, []);
 
   const getDateTime = (data) => {
-    return `${new Date(data.createdAt).toLocaleDateString()}, ${new Date(
-      data.createdAt
-    ).toLocaleTimeString()}`;
+    var options = {
+      weekday: "short",
+      year: "numeric",
+      month: "short",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+    };
+    return new Date(data.createdAt).toLocaleDateString("en-UK", options);
   };
 
   const onClickDeleteReview = (data) => {
