@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.scss";
 import Home from "./Home";
-import { enableReview, isCountingStarted, startTime } from "./utility/config";
+import { broughtToYouBy, enableReview, isCountingStarted, startTime, title } from "./utility/config";
 import {
   convertMillisecondsToTime,
   getUUID,
@@ -26,7 +26,7 @@ function App() {
   const [viewCount, setViewCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
-  const [showReview, setShowReview] = useState(!isReviewSubmitted());
+  const [showReview, setShowReview] = useState(!isReviewSubmitted() && enableReview);
 
   const navigate = useNavigate();
 
@@ -116,14 +116,14 @@ function App() {
 
   return (
     <div className="App">
-      {showReview && (
+      {/* {showReview && (
         <div className="review-transparent">
           <Review isFirstLoad={true} closeHandler={onClickReviewClose} />
         </div>
-      )}
+      )} */}
 
       <header className="App-header">
-        <div>சு பெ தேவஸ்தானம் தேர்தல் முடிவுகள் 2023</div>
+        <div>{title}</div>
         {showCountDown && (
           <div className="timer">
             <span>இன்னும்</span>
@@ -186,7 +186,7 @@ function App() {
                   numbers={viewCount + ""}
                 />
               </div>
-              <div className="live-count" style={{ display: "flex" }} onClick={onClickComment}>
+              {/* <div className="live-count" style={{ display: "flex" }} onClick={onClickComment}>
                 <IconComment />
                 <FlipNumbers
                   height={14}
@@ -207,7 +207,7 @@ function App() {
                   duration={1}
                   numbers={userCount + ""}
                 />
-              </div>
+              </div> */}
             </div>
           </div>
         )}
@@ -218,7 +218,7 @@ function App() {
       </div>
       <footer>
         <MyName />
-        <div className="team">மக்கள் அணி கூட்டணி</div>
+        <div className="team">{broughtToYouBy}</div>
         <br />
       </footer>
     </div>

@@ -2,7 +2,7 @@ import { showLiveViewCount } from "../utility/config";
 import { viewCountApiUrl } from "../utility/constants";
 import { getUUID } from "../utility/util";
 
-const isLocal = window.location.host.includes("localhost") && false;
+const isLocal = window.location.host.includes("localhost");
 
 export const getMemberStatus = async () => {
   // const isLocal = window.location.host.includes("localhost");
@@ -21,7 +21,7 @@ export const getMemberStatus = async () => {
 export const getViewCount = async () => {
   const url =
     isLocal && !showLiveViewCount ? `http://localhost:3001` : viewCountApiUrl;
-
+  if(isLocal) return;
   try {
     const response = await fetch(
       `${url}?id=${getUUID()}&time=${new Date().getTime()}`

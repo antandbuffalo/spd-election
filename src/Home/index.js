@@ -4,7 +4,8 @@ import "./index.scss";
 import Spinner from "../Spinner";
 import { API_STATUS, APP_ROUTES } from "../utility/constants";
 import {
-  currentStatus,
+  currentStatusDesc,
+  currentStatusTitle,
   enableReview,
   isCountingStarted,
   isFinalRound,
@@ -88,36 +89,39 @@ const Home = ({ sendApiResponse }) => {
     <div className="home">
       <div className="home-header-container">
         <div className="home-header">
+          <div></div>
           <div className="title">
-            <div>
-              {enableReview && (
-                <button
-                  className="review-button"
-                  onClick={openReview}
-                  disabled={apiStatus === API_STATUS.IN_PROGRESS}
-                >
-                  கருத்துக்களை பார்க்க
-                </button>
-              )}
-            </div>
-            {currentStatus !== "" && (
-              <div className="current-status">{currentStatus}</div>
+            {isCountingStarted ? currentStatusTitle.started : currentStatusTitle.default}
+            {currentStatusDesc.default !== "" && (
+              <div className="current-status">{isCountingStarted ? currentStatusDesc.started : currentStatusDesc.default}</div>
             )}
+            <div className="updated-at">{updatedAt}</div>
           </div>
           <div className="btn-container">
             {apiStatus === API_STATUS.IN_PROGRESS && (
               <Spinner className="spinner" />
             )}
-            {apiStatus !== API_STATUS.IN_PROGRESS && !enableReview && (
+            {apiStatus !== API_STATUS.IN_PROGRESS && (
               <button
                 className="refresh-button"
                 onClick={refresh}
                 disabled={apiStatus === API_STATUS.IN_PROGRESS}
               >
-                Refresh
+                புதுப்பி
               </button>
             )}
           </div>
+        </div>
+        <div>
+          {enableReview && (
+            <button
+              className="review-button"
+              onClick={openReview}
+              disabled={apiStatus === API_STATUS.IN_PROGRESS}
+            >
+              கருத்துக்களை பார்க்க
+            </button>
+          )}
         </div>
       </div>
       <div className="members-container">

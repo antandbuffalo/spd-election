@@ -3,13 +3,33 @@
     background-color: #282c34;
     position: sticky;
     top: 0px;
+    padding: 0 0 8px 0;
+
+    .review-button {
+      background-color: #019c01;
+      // background-color: rgb(23, 24, 29);
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 18px;
+      min-width: 60px;
+      cursor: pointer;
+      color: white;
+      border: none;
+      width: calc(100% - 20px);
+      margin: 0 10px;
+
+      &:disabled {
+        background-color: rgb(5, 61, 5);
+        color: gray;
+        cursor: not-allowed;
+      }
+    }
 
     .home-header {
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 50px;
-      padding: 8px 0 0 0;
 
       >.title {
         text-align: center;
@@ -41,6 +61,7 @@
       .btn-container {
         position: absolute;
         right: 12px;
+        align-self: center;
       }
 
       .spinner {
@@ -56,23 +77,6 @@
         cursor: pointer;
         color: white;
         border: none;
-
-        &:disabled {
-          background-color: rgb(5, 61, 5);
-          color: gray;
-          cursor: not-allowed;
-        }
-      }
-      .review-button {
-        background-color: #019c01;
-        padding: 10px;
-        border-radius: 10px;
-        font-size: 18px;
-        min-width: 60px;
-        cursor: pointer;
-        color: white;
-        border: none;
-        width: 100%;
 
         &:disabled {
           background-color: rgb(5, 61, 5);
@@ -272,11 +276,6 @@
           .updated-at {
             font-size: 16px;
           }
-        }
-
-        .btn-container {
-          top: 20px;
-          bottom: 20px;
         }
       }
     }
