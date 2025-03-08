@@ -124,7 +124,7 @@ function App() {
 
       <header className="App-header">
         <div>{title}</div>
-        {showCountDown && (
+        {showCountDown && !isCountingStarted && (
           <div className="timer">
             <span>இன்னும்</span>
             <FlipNumbers

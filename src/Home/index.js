@@ -9,10 +9,12 @@ import {
   enableReview,
   isCountingStarted,
   isFinalRound,
+  requiredNumberOfCandidates,
   showStatus,
 } from "../utility/config";
 import TeamDetails from "../TeamDetails";
 import { useNavigate } from "react-router-dom";
+import IconDown from "../Icons/IconDown";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
@@ -32,8 +34,13 @@ const Home = ({ sendApiResponse }) => {
       if (!data) {
         return;
       }
-      setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
-      // setMembersByRank(data?.members);
+      if (isCountingStarted) {
+        setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
+      }
+      else {
+        setMembersByRank(data?.members);
+      }
+
       setUpdatedAt(data?.time);
       setRound(data?.round ? data?.round : 0);
       sendApiResponse(data);
@@ -64,13 +71,14 @@ const Home = ({ sendApiResponse }) => {
       return "";
     }
     const prevMember = membersByRank[index - 1];
-    return member.votes - prevMember.votes;
+    return Math.abs(member.votes - prevMember.votes);
   };
 
   const getFlashBgClass = (index) => {
-    if (isCountingStarted) {
-      return `a${index}`;
+    if (isCountingStarted && index < requiredNumberOfCandidates) {
+      return `required-candidate`;
     }
+    return "";
   };
 
   const shouldShowStatus = (status, index) => {
@@ -84,6 +92,13 @@ const Home = ({ sendApiResponse }) => {
   const openReview = () => {
     navigate(APP_ROUTES["review-list"]);
   };
+
+  const getRankClass = (index) => {
+    if (index < requiredNumberOfCandidates) {
+      return "positive";
+    }
+    return "";
+  }
 
   return (
     <div className="home">
@@ -137,16 +152,18 @@ const Home = ({ sendApiResponse }) => {
                     <div className="number">{member.no}</div>
                     <div className={`image ${member.team}`}>
                       <img
-                        src={`/images/${member.no}.png`}
+                        src={`/images/sabai_2025/${member.no}.png`}
                         loading="lazy"
                       ></img>
+                      {isCountingStarted && (
+                        <div className="diff">
+                          {index !== 0 && <IconDown />}
+                          {getVoteDifference(member, index)}
+                        </div>
+                      )}
                     </div>
                   </div>
-                  {isCountingStarted && (
-                    <div className="diff">
-                      {getVoteDifference(member, index)}
-                    </div>
-                  )}
+
                 </div>
                 <div className="part2">
                   <div className="name">{member.name}</div>
@@ -156,7 +173,7 @@ const Home = ({ sendApiResponse }) => {
                         வாக்குகள்: <span className="count">{member.votes}</span>
                         {/* ({Math.round(((member.votes / totalVotes) * 100))} %) */}
                       </div>
-                      <div className="rank">நிலை: {member.rank}</div>
+                      <div className={`rank ${getRankClass(index)}`}>நிலை: {member.rank}</div>
                     </div>
                   )}
                   {shouldShowStatus(showStatus, index) && (
@@ -171,7 +188,9 @@ const Home = ({ sendApiResponse }) => {
                 </div>
               </div>
               {isCountingStarted && (
-                <div className="part3">{getVoteDifference(member, index)}</div>
+                <div className="part3">
+                  {index !== 0 && <IconDown />}
+                  {getVoteDifference(member, index)}</div>
               )}
             </div>
           );

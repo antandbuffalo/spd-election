@@ -32,8 +32,8 @@ export const getMemberStatusFromSource = async () => {
 };
 
 export const getMemberStatus = async () => {
-  const dataFromGithub = await getMemberStatusFromGithub();
-  if(dataFromGithub) return dataFromGithub;
+  // const dataFromGithub = await getMemberStatusFromGithub();
+  // if(dataFromGithub) return dataFromGithub;
 
   const dataFromSource = await getMemberStatusFromSource();
   if(dataFromSource) return dataFromSource;

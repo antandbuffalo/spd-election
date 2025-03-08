@@ -119,7 +119,8 @@
       &.a1,
       &.a2,
       &.a3,
-      &.a4 {
+      &.a4,
+      &.required-candidate {
         background-color: #d4f3d4;
         // animation-name: colorchange;
         animation-duration: 1s;
@@ -141,7 +142,13 @@
             font-size: 16px;
             text-align: center;
             color: red;
-            display: block;
+            display: flex;
+
+            svg {
+              fill: red;
+              width: 14px;
+              height: 22px;
+            }
           }
 
           .part1 {
@@ -176,7 +183,7 @@
               }
 
               &.A {
-                border: 3px solid rgb(59, 254, 76);
+                border: 3px solid #007903;
               }
 
               &.B {
@@ -207,6 +214,9 @@
             .rank {
               font-size: 22px;
               color: red;
+              &.positive {
+                color: green;
+              }
               // font-weight: bold;
             }
           }
@@ -329,7 +339,13 @@
         }
 
         .part3 {
-          display: block;
+          display: flex;
+          align-items: center;
+
+          svg {
+            fill: red;
+            height: 20px;
+          }
         }
       }
     }

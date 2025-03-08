@@ -1,11 +1,10 @@
 import FlipNumbers from "react-flip-numbers";
-import { showStatus, teams } from "../utility/config";
+import { isCountingStarted, requiredNumberOfCandidates, teams } from "../utility/config";
 import "./index.scss";
 const TeamDetails = ({ membersByRank = [] }) => {
-  const topFive = membersByRank.slice(0, 5);
+  const selected = isCountingStarted? membersByRank.slice(0, requiredNumberOfCandidates) : membersByRank;
   const getTeamCount = (team) => {
-    if (!showStatus) return "";
-    return topFive.filter((member) => member.team === team).length;
+    return selected.filter((member) => member.team === team).length;
   };
   return (
     <div className="team-details">

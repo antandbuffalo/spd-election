@@ -4,13 +4,13 @@ export const startTime = new Date("2025-03-23 23:30:00").getTime();
 export const showLiveViewCount = true;
 
 // this will show extra details like, total number of votes, current counted etc
-export const isCountingStarted = false;
+export const isCountingStarted = true;
 
 // this shows whether the candidate is trailing or heading
-export const showStatus = true;
+export const showStatus = false;
 
 // this shows whether the candidate won or not. showStatus should be true for this
-export const isFinalRound = true;
+export const isFinalRound = false;
 
 // this is used to show any news on the top
 export const currentStatusTitle = { default: "வேட்பாளர்கள்", started: "தற்போதைய நிலவரம்" };
@@ -29,3 +29,5 @@ export const teams = [
 
 // this is the footer that displays from which team we do this
 export const broughtToYouBy = "மக்கள் அணி கூட்டணி";
+
+export const requiredNumberOfCandidates = 11;
