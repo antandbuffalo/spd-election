@@ -15,6 +15,7 @@ import {
 import TeamDetails from "../TeamDetails";
 import { useNavigate } from "react-router-dom";
 import IconDown from "../Icons/IconDown";
+import { getImage } from "../storage/imageCache";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
@@ -22,6 +23,11 @@ const Home = ({ sendApiResponse }) => {
   const [round, setRound] = useState(0);
   const [totalVotes, setTotalVotes] = useState(0);
   const navigate = useNavigate();
+
+  // getImage("images/sabai_2025/1.png").then((data) => {
+  //   console.log(data);
+  // })
+
 
   const isMobile = useMemo(() => {
     return window.innerWidth < 900;

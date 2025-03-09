@@ -174,19 +174,21 @@ function App() {
                 numbers={getPercentage(countedVotes, totalVotes)}
               />
             </div>
-            <div className="count-container">
-              <div className="live-count" style={{ display: "flex" }}>
-                <IconEye />
-                <FlipNumbers
-                  height={14}
-                  width={10}
-                  play
-                  perspective={100}
-                  duration={1}
-                  numbers={viewCount + ""}
-                />
-              </div>
-              {/* <div className="live-count" style={{ display: "flex" }} onClick={onClickComment}>
+          </div>
+        )}
+        <div className="count-container">
+          <div className="live-count" style={{ display: "flex" }}>
+            <IconEye />
+            <FlipNumbers
+              height={14}
+              width={10}
+              play
+              perspective={100}
+              duration={1}
+              numbers={viewCount + ""}
+            />
+          </div>
+          {/* <div className="live-count" style={{ display: "flex" }} onClick={onClickComment}>
                 <IconComment />
                 <FlipNumbers
                   height={14}
@@ -208,9 +210,7 @@ function App() {
                   numbers={userCount + ""}
                 />
               </div> */}
-            </div>
-          </div>
-        )}
+        </div>
       </header>
       <Home sendApiResponse={getApiResponse} openReview={openReview} />
       <div className="view-count">

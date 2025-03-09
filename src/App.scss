@@ -2,9 +2,10 @@ html {
   scroll-behavior: smooth;
   background-color: #282c34;
 }
+
 .App {
-  > .review-transparent {
-    > .review {
+  >.review-transparent {
+    >.review {
       position: fixed;
       z-index: 1;
       overflow-y: scroll;
@@ -17,6 +18,7 @@ html {
     }
   }
 }
+
 .App-header {
   background-color: #282c34;
   min-height: 50px;
@@ -30,45 +32,54 @@ html {
   text-align: center;
   padding: 8px 4px;
   border-bottom: 0.5px solid #aaa;
+
+  .count-container {
+    display: flex;
+    justify-content: center;
+    flex-direction: row;
+    gap: 24px;
+    color: #52ff7d;
+
+    .live-count {
+      display: flex;
+      justify-content: center;
+      gap: 4px;
+      margin: 6px 0 0 0;
+
+      svg {
+        fill: #52ff7d;
+        align-self: center;
+      }
+
+      &:nth-child(2) {
+        cursor: pointer;
+      }
+    }
+  }
+
   .vote-details {
     margin-top: 4px;
     font-size: 16px;
     color: #eee;
     display: flex;
     flex-direction: column;
+
     div:nth-child(1) {
       display: flex;
       justify-content: center;
     }
+
     div:nth-child(2) {
       color: #52ff7d;
       margin-top: 4px;
       display: flex;
       justify-content: center;
     }
+
     div:nth-child(3) {
       margin-top: 4px;
       display: flex;
       justify-content: center;
-    }
-    .count-container {
-      display: flex;
-      justify-content: center;
-      flex-direction: row;
-      gap: 24px;
-      color: #52ff7d;
-      .live-count {
-        display: flex;
-        justify-content: center;
-        gap: 4px;
-        svg {
-          fill: #52ff7d;
-          align-self: center;
-        }
-        &:nth-child(2) {
-          cursor: pointer;
-        }
-      }
     }
   }
 }
@@ -82,6 +93,7 @@ html {
   font-size: 16px;
   margin-top: 10px;
   color: #bbb;
+
   section {
     color: #52ff7d;
   }
@@ -102,6 +114,7 @@ html {
 
 footer {
   text-align: center;
+
   .team {
     color: white;
   }
@@ -122,6 +135,7 @@ footer {
 @media (min-width: 900px) {
   .App-header {
     font-size: 32px;
+
     .vote-details {
       margin-top: 8px;
       font-size: 24px;
@@ -131,14 +145,17 @@ footer {
       width: 100%;
       color: #52ff7d;
       flex-direction: row;
+
       div:nth-child(2) {
         margin-top: 0px;
       }
+
       div:nth-child(3) {
         margin-top: 0px;
       }
     }
   }
+
   .timer {
     font-size: 26px;
 

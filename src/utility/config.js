@@ -4,7 +4,7 @@ export const startTime = new Date("2025-03-23 23:30:00").getTime();
 export const showLiveViewCount = true;
 
 // this will show extra details like, total number of votes, current counted etc
-export const isCountingStarted = true;
+export const isCountingStarted = false;
 
 // this shows whether the candidate is trailing or heading
 export const showStatus = false;
@@ -31,3 +31,6 @@ export const teams = [
 export const broughtToYouBy = "மக்கள் அணி கூட்டணி";
 
 export const requiredNumberOfCandidates = 11;
+
+// the images will get from server until it matches this date in local
+export const imageUpdatedAt = "2025-03-09 00:00:00";
