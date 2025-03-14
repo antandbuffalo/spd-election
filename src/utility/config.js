@@ -3,14 +3,21 @@ export const startTime = new Date("2025-03-23 23:30:00").getTime();
 
 export const showLiveViewCount = true;
 
-// this will show extra details like, total number of votes, current counted etc
-export const isCountingStarted = false;
+// STARTED - will show extra details like, total number of votes, current count etc
+// FINAL_ROUND - this shows whether the candidate won or not. showStatus should be true for this
+// NOT_STARTED, STARTED, FINAL_ROUND, ENDED
+export const countingStatus = "NOT_STARTED";
+export const countingStatuses = {
+    NOT_STARTED: "NOT_STARTED",
+    STARTED: "STARTED",
+    FINAL_ROUND: "FINAL_ROUND",
+    ENDED: "ENDED"
+}
 
 // this shows whether the candidate is trailing or heading
-export const showStatus = false;
+export const showStatus = true;
 
-// this shows whether the candidate won or not. showStatus should be true for this
-export const isFinalRound = false;
+export const showVoteDiff = true;
 
 // this is used to show any news on the top
 export const currentStatusTitle = { default: "வேட்பாளர்கள்", started: "தற்போதைய நிலவரம்" };
@@ -21,16 +28,19 @@ export const enableReview = false;
 
 // this is used to define the teams.
 export const teams = [
-    { key: "A", title: "மக்கள் அணி கூட்டணி", show: true },
+    { key: "A", title: "மக்கள் அணி", show: true },
     { key: "B", title: "சமூக முன்னேற்ற அணி", show: true },
     { key: "C", title: "இளைஞர் நலச்சங்கம்" },
     { key: "D", title: "சுயேட்சை" }
 ];
 
 // this is the footer that displays from which team we do this
-export const broughtToYouBy = "மக்கள் அணி கூட்டணி";
+export const broughtToYouBy = "மக்கள் அணி";
 
 export const requiredNumberOfCandidates = 11;
 
 // the images will get from server until it matches this date in local
 export const imageUpdatedAt = "2025-03-09 00:00:00";
+
+// interval to fetch members in loop. 1 min
+export const memberFetchInterval = 5000;

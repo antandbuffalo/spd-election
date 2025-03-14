@@ -4,18 +4,20 @@ import "./index.scss";
 import Spinner from "../Spinner";
 import { API_STATUS, APP_ROUTES } from "../utility/constants";
 import {
+  countingStatus,
+  countingStatuses,
   currentStatusDesc,
   currentStatusTitle,
   enableReview,
-  isCountingStarted,
-  isFinalRound,
+  memberFetchInterval,
   requiredNumberOfCandidates,
   showStatus,
+  showVoteDiff,
 } from "../utility/config";
 import TeamDetails from "../TeamDetails";
 import { useNavigate } from "react-router-dom";
 import IconDown from "../Icons/IconDown";
-import { getImage } from "../storage/imageCache";
+// import { getImage } from "../storage/imageCache";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
@@ -28,6 +30,7 @@ const Home = ({ sendApiResponse }) => {
   //   console.log(data);
   // })
 
+  const isCounting = countingStatus !== countingStatuses.NOT_STARTED;
 
   const isMobile = useMemo(() => {
     return window.innerWidth < 900;
@@ -40,7 +43,7 @@ const Home = ({ sendApiResponse }) => {
       if (!data) {
         return;
       }
-      if (isCountingStarted) {
+      if (isCounting) {
         setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
       }
       else {
@@ -57,17 +60,19 @@ const Home = ({ sendApiResponse }) => {
     //fetch data every 1 minute
     const interval = setInterval(() => {
       getData();
-    }, 60000);
+    }, memberFetchInterval);
     // return the ref
     return () => clearInterval(interval);
   };
   useEffect(() => {
     getData();
-    // invoke the startTimer function and destory the interval
-    // const clearFn = startTimer();
-    // return () => {
-    //   clearFn();
-    // };
+    if (countingStatus === countingStatuses.STARTED || countingStatus === countingStatuses.FINAL_ROUND) {
+      // invoke the startTimer function and destory the interval
+      const clearFn = startTimer();
+      return () => {
+        clearFn();
+      };
+    }
   }, []);
   const refresh = () => {
     getData();
@@ -81,18 +86,18 @@ const Home = ({ sendApiResponse }) => {
   };
 
   const getFlashBgClass = (index) => {
-    if (isCountingStarted && index < requiredNumberOfCandidates) {
+    if (isCounting && index < requiredNumberOfCandidates) {
       return `required-candidate`;
     }
     return "";
   };
 
   const shouldShowStatus = (status, index) => {
-    return isCountingStarted && status && index < 5;
+    return (isCounting || countingStatus === countingStatuses.ENDED) && status && index < requiredNumberOfCandidates;
   };
 
   const shouldAddEmptySpace = (status, index) => {
-    return isCountingStarted && status && index > 4;
+    return (isCounting || countingStatus === countingStatuses.ENDED) && status && index > requiredNumberOfCandidates - 1;
   };
 
   const openReview = () => {
@@ -112,9 +117,9 @@ const Home = ({ sendApiResponse }) => {
         <div className="home-header">
           <div></div>
           <div className="title">
-            {isCountingStarted ? currentStatusTitle.started : currentStatusTitle.default}
+            {countingStatus === countingStatuses.NOT_STARTED ? currentStatusTitle.default : currentStatusTitle.started}
             {currentStatusDesc.default !== "" && (
-              <div className="current-status">{isCountingStarted ? currentStatusDesc.started : currentStatusDesc.default}</div>
+              <div className="current-status">{countingStatus === countingStatuses.NOT_STARTED ? currentStatusDesc.started : currentStatusDesc.default}</div>
             )}
             <div className="updated-at">{updatedAt}</div>
           </div>
@@ -161,7 +166,7 @@ const Home = ({ sendApiResponse }) => {
                         src={`/images/sabai_2025/${member.no}.png`}
                         loading="lazy"
                       ></img>
-                      {isCountingStarted && (
+                      {isCounting && (
                         <div className="diff">
                           {index !== 0 && <IconDown />}
                           {getVoteDifference(member, index)}
@@ -173,7 +178,7 @@ const Home = ({ sendApiResponse }) => {
                 </div>
                 <div className="part2">
                   <div className="name">{member.name}</div>
-                  {isCountingStarted && (
+                  {isCounting && (
                     <div className="votes">
                       <div>
                         வாக்குகள்: <span className="count">{member.votes}</span>
@@ -184,16 +189,16 @@ const Home = ({ sendApiResponse }) => {
                   )}
                   {shouldShowStatus(showStatus, index) && (
                     <div
-                      className={`status ${!isFinalRound ? "animation" : ""}`}
+                      className={`status ${countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED ? "animation" : ""}`}
                     >
-                      {isFinalRound && <span>வெற்றி</span>}
-                      {!isFinalRound && <span>முன்னிலை</span>}
+                      {(countingStatus === countingStatuses.FINAL_ROUND || countingStatus === countingStatuses.ENDED) && <span>வெற்றி</span>}
+                      {(countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED) && <span>முன்னிலை</span>}
                     </div>
                   )}
                   {shouldAddEmptySpace(showStatus, index) && <div>&nbsp;</div>}
                 </div>
               </div>
-              {isCountingStarted && (
+              {(isCounting && showVoteDiff) && (
                 <div className="part3">
                   {index !== 0 && <IconDown />}
                   {getVoteDifference(member, index)}</div>

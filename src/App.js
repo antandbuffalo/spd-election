@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.scss";
 import Home from "./Home";
-import { broughtToYouBy, enableReview, isCountingStarted, startTime, title } from "./utility/config";
+import { broughtToYouBy, countingStatus, countingStatuses, enableReview, startTime, title } from "./utility/config";
 import {
   convertMillisecondsToTime,
   getUUID,
@@ -124,7 +124,7 @@ function App() {
 
       <header className="App-header">
         <div>{title}</div>
-        {showCountDown && !isCountingStarted && (
+        {showCountDown && countingStatus === countingStatuses.NOT_STARTED && (
           <div className="timer">
             <span>இன்னும்</span>
             <FlipNumbers
@@ -139,7 +139,7 @@ function App() {
             <span>மணித்துளிகளில்</span>
           </div>
         )}
-        {isCountingStarted && (
+        {(countingStatus === countingStatuses.STARTED || countingStatus === countingStatuses.FINAL_ROUND) && (
           <div className="vote-details">
             <div>
               பதிவான வாக்குகள்:
