@@ -223,6 +223,9 @@ function App() {
         <MyName />
         <div className="team">{broughtToYouBy}</div>
         <br />
+        <a href="/disclaimer">பொறுப்புத் துறப்பு</a>
+        <br />
+        <br />
       </footer>
     </div>
   );
