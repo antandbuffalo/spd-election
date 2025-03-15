@@ -166,7 +166,7 @@ const Home = ({ sendApiResponse }) => {
                         src={`/images/sabai_2025/${member.no}.png`}
                         loading="lazy"
                       ></img>
-                      {isCounting && (
+                      {isCounting && showVoteDiff && (
                         <div className="diff">
                           {index !== 0 && <IconDown />}
                           {getVoteDifference(member, index)}
