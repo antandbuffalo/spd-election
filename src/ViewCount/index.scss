@@ -2,6 +2,20 @@
   color: #ffc027;
   display: flex;
   justify-content: center;
-  gap: 2px;
-  font-style: italic;
+  gap: 4px;
+  flex-wrap: wrap;
+
+  >div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+}
+
+// desktop
+@media (min-width: 900px) {
+  .view-count-container {
+    gap: 12px;
+    font-size: 20px;
+  }
 }

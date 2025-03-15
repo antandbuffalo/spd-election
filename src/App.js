@@ -56,6 +56,7 @@ function App() {
 
   useEffect(() => {
     addUser({ id: getUUID() });
+
     if (!isReviewSubmitted() && enableReview) {
       setShowReview(true);
       // navigate("/review?pageName=review-list");
@@ -93,6 +94,7 @@ function App() {
     }
   };
 
+  // this will receive the view count response from ViewCount component
   const viewCountResponse = (data) => {
     if (!data) {
       return;
@@ -199,17 +201,18 @@ function App() {
                   numbers={commentCount + ""}
                 />
               </div>
-              <div className="live-count" style={{ display: "flex" }}>
-                <IconUser />
-                <FlipNumbers
-                  height={14}
-                  width={10}
-                  play
-                  perspective={100}
-                  duration={1}
-                  numbers={userCount + ""}
-                />
-              </div> */}
+            */}
+          <div className="live-count" style={{ display: "flex" }}>
+            <IconUser />
+            <FlipNumbers
+              height={14}
+              width={10}
+              play
+              perspective={100}
+              duration={1}
+              numbers={userCount + ""}
+            />
+          </div>
         </div>
       </header>
       <Home sendApiResponse={getApiResponse} openReview={openReview} />

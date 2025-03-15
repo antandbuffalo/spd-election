@@ -4,8 +4,10 @@ import "./index.scss";
 import FlipNumbers from "react-flip-numbers";
 import { API_STATUS } from "../utility/constants";
 
-const ViewCount = ({ sendViewCount = () => {} }) => {
+const ViewCount = ({ sendViewCount = () => { } }) => {
   const [viewCount, setViewCount] = useState(0);
+  const [totalUserCount, setTotalUserCount] = useState(0);
+
   const [viewCountApiStatus, setViewCountApiStatus] = useState(
     API_STATUS.NOT_STARTED
   );
@@ -18,6 +20,7 @@ const ViewCount = ({ sendViewCount = () => {} }) => {
       }
       sendViewCount(data);
       setViewCount(data?.viewCount);
+      setTotalUserCount(data?.uniqueUserCount);
     });
   };
   useEffect(() => {
@@ -34,17 +37,32 @@ const ViewCount = ({ sendViewCount = () => {} }) => {
   }, []);
   return (
     <div className="view-count-container">
-      தற்போதைய பார்வையாளர்கள்:
-      <FlipNumbers
-        height={16}
-        width={12}
-        color="#ffc027"
-        background="#282c34"
-        play
-        perspective={100}
-        duration={1}
-        numbers={viewCount + ""}
-      />
+      <div>
+        தற்போதைய பார்வையாளர்கள்:
+        <FlipNumbers
+          height={16}
+          width={12}
+          color="#ffc027"
+          background="#282c34"
+          play
+          perspective={100}
+          duration={1}
+          numbers={viewCount + ""}
+        />
+      </div>
+      <div>
+        மொத்த பார்வையாளர்கள்:
+        <FlipNumbers
+          height={16}
+          width={12}
+          color="#ffc027"
+          background="#282c34"
+          play
+          perspective={100}
+          duration={1}
+          numbers={totalUserCount + ""}
+        />
+      </div>
     </div>
   );
 };

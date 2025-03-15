@@ -1,4 +1,3 @@
-import { showLiveViewCount } from "../utility/config";
 import { viewCountApiUrl } from "../utility/constants";
 import { getUUID } from "../utility/util";
 
@@ -36,15 +35,14 @@ export const getMemberStatus = async () => {
   // if(dataFromGithub) return dataFromGithub;
 
   const dataFromSource = await getMemberStatusFromSource();
-  if(dataFromSource) return dataFromSource;
+  if (dataFromSource) return dataFromSource;
 
   return null;
 };
 
 export const getViewCount = async () => {
   const url =
-    isLocal && !showLiveViewCount ? `http://localhost:3001` : viewCountApiUrl;
-  if (isLocal) return;
+    isLocal ? `http://localhost:3001` : viewCountApiUrl;
   try {
     const response = await fetch(
       `${url}?id=${getUUID()}&time=${new Date().getTime()}`
