@@ -139,7 +139,7 @@ function App() {
             <span>மணித்துளிகளில்</span>
           </div>
         )}
-        {(countingStatus === countingStatuses.STARTED || countingStatus === countingStatuses.FINAL_ROUND) && (
+        {(countingStatus !== countingStatuses.NOT_STARTED) && (
           <div className="vote-details">
             <div>
               பதிவான வாக்குகள்:
