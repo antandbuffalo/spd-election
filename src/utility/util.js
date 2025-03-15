@@ -51,3 +51,21 @@ export const isAdmin = () => {
   const token = localStorage.getItem("token");
   return token && token !== "";
 };
+
+const parseDate = (dateStr) => {
+  const [datePart, timePart] = dateStr.split(", ");
+  const [day, month, year] = datePart.split("/").map(Number);
+  return new Date(year, month - 1, day, ...timePart.split(":").map(Number));
+}
+
+export const formatUpdatedAt = (input) => {
+  if (!input) return "";
+
+  const updatedAt = parseDate(input);
+  console.log(updatedAt);
+  const today = new Date();
+  if (today.getDate() === updatedAt.getDate() && today.getMonth() === updatedAt.getMonth() && today.getFullYear() === updatedAt.getFullYear()) {
+    return `Today ${input.split(" ")[1]}`;
+  }
+  return input;
+}

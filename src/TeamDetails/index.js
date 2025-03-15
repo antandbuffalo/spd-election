@@ -11,7 +11,7 @@ const TeamDetails = ({ membersByRank = [] }) => {
       {teams.map(team => {
         if (!team.show) return null;
         return (
-          <div className="team-container">
+          <div className="team-container" key={team.key}>
             <div className={`team ${team.key}`}>
               <FlipNumbers
                 height={14}
