@@ -20,3 +20,8 @@ export const APP_ROUTES = {
   disclaimer: "/disclaimer",
   contactUs: "/contact-us"
 };
+
+export const lsKeys = {
+  curr_status: "curr_status",
+  prev_status: "prev_status"
+}

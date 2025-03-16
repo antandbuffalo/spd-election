@@ -16,7 +16,7 @@ import {
 } from "../utility/config";
 import TeamDetails from "../TeamDetails";
 import { useNavigate } from "react-router-dom";
-import { formatUpdatedAt } from "../utility/util";
+import { formatUpdatedAt, leadingTrailing } from "../utility/util";
 // import { getImage } from "../storage/imageCache";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
@@ -44,7 +44,10 @@ const Home = ({ sendApiResponse }) => {
         return;
       }
       if (isCounting) {
-        setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
+        const formatted = leadingTrailing(data);
+        console.log(formatted);
+        // setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
+        setMembersByRank(formatted);
       }
       else {
         setMembersByRank(data?.members);
@@ -82,7 +85,7 @@ const Home = ({ sendApiResponse }) => {
       return "";
     }
     const prevMember = membersByRank[index - 1];
-    return Math.abs(member.votes - prevMember.votes);
+    return member.votes - prevMember.votes;
   };
 
   const getFlashBgClass = (index) => {
@@ -93,7 +96,8 @@ const Home = ({ sendApiResponse }) => {
   };
 
   const shouldShowStatus = (status, index) => {
-    return (isCounting || countingStatus === countingStatuses.ENDED) && status && index < requiredNumberOfCandidates;
+    return (isCounting || countingStatus === countingStatuses.ENDED) && status;
+    //  && index < requiredNumberOfCandidates;
   };
 
   const shouldAddEmptySpace = (status, index) => {
@@ -109,6 +113,16 @@ const Home = ({ sendApiResponse }) => {
       return "positive";
     }
     return "";
+  }
+
+  const getStatContent = (member) => {
+    if (member.change === 0) {
+      return <span style={{ color: "#555" }}>மாற்றம் இல்லை</span>
+    }
+    if (member.change === 1) {
+      return <span>முன்னிலை</span>
+    }
+    return <span style={{color: "#ff0000"}}>பின்னடைவு</span>
   }
 
   return (
@@ -169,7 +183,7 @@ const Home = ({ sendApiResponse }) => {
                       ></img>
                       {isCounting && showVoteDiff && (
                         <div className="diff">
-                          {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />}
+                          {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
                           {getVoteDifference(member, index)}
                         </div>
                       )}
@@ -193,15 +207,16 @@ const Home = ({ sendApiResponse }) => {
                       className={`status ${countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED ? "animation" : ""}`}
                     >
                       {(countingStatus === countingStatuses.FINAL_ROUND || countingStatus === countingStatuses.ENDED) && <span>வெற்றி</span>}
-                      {(countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED) && <span>முன்னிலை</span>}
+                      {/* {(countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED) && <span>முன்னிலை</span>} */}
+                      {(countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED) && getStatContent(member)}
                     </div>
                   )}
-                  {shouldAddEmptySpace(showStatus, index) && <div>&nbsp;</div>}
+                  {/* {shouldAddEmptySpace(showStatus, index) && <div>&nbsp;</div>} */}
                 </div>
               </div>
               {(isCounting && showVoteDiff) && (
                 <div className="part3">
-                  {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />}
+                  {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
                   {getVoteDifference(member, index)}</div>
               )}
             </div>

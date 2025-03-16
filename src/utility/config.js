@@ -13,7 +13,7 @@ export const countingStatuses = {
 }
 
 // this shows whether the candidate is trailing or heading
-export const showStatus = false;
+export const showStatus = true;
 
 export const showVoteDiff = true;
 

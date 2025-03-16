@@ -1,3 +1,5 @@
+import { lsKeys } from "./constants";
+
 export const roundToTwoDigits = (num) => {
   if (num < 10) {
     return `0${num}`;
@@ -68,4 +70,65 @@ export const formatUpdatedAt = (input) => {
     return `Today ${input.split(" ")[1]}`;
   }
   return input;
+}
+
+const createMembersMap = (members) => {
+  const currMembersMap = new Map();
+  for (let i = 0; i < members.length; i++) {
+    const member = members[i];
+    currMembersMap.set(member.no, member);
+  }
+  return currMembersMap;
+}
+
+const updateMembersWithStats = (sortByRank, currMembersMap) => {
+  for (let i = 0; i < sortByRank.length; i++) {
+    const member = sortByRank[i];
+    const currRank = currMembersMap.get(member.no).rank;
+    const newRank = member.rank;
+    if (newRank > currRank) {
+      sortByRank[i].change = -1;
+    }
+    else if (newRank < currRank) {
+      sortByRank[i].change = 1;
+    }
+    else {
+      sortByRank[i].change = 0;
+    }
+  }
+}
+
+export const leadingTrailing = (data) => {
+  const sortByRank = data?.members.sort((a, b) => a.rank - b.rank);
+  try {
+    const curr = JSON.parse(localStorage.getItem(lsKeys.curr_status));
+    if (!curr) {
+      localStorage.setItem(lsKeys.curr_status, JSON.stringify(data));
+      return sortByRank;
+    }
+    // current data is available. so check date
+    const currDate = parseDate(curr.time).getTime();
+    const newDate = parseDate(data?.time).getTime();
+    if (newDate > currDate) {
+      const currMembersMap = createMembersMap(curr.members);
+      updateMembersWithStats(sortByRank, currMembersMap);
+      return sortByRank;
+    }
+    if (currDate === newDate) {
+      const prev = JSON.parse(localStorage.getItem(lsKeys.prev_status));
+      if (!prev) {
+        return sortByRank;
+      }
+      // current and new received are equal. check with prev.
+      const prevMembersMap = createMembersMap(prev.members);
+      updateMembersWithStats(sortByRank, prevMembersMap);
+      return sortByRank;
+    }
+    // currDate > newDate - likely won't occur
+    return sortByRank;
+  }
+  catch {
+    localStorage.setItem(lsKeys.curr_status, JSON.stringify(data));
+    return sortByRank;
+  }
 }
