@@ -16,7 +16,6 @@ import {
 } from "../utility/config";
 import TeamDetails from "../TeamDetails";
 import { useNavigate } from "react-router-dom";
-import IconDown from "../Icons/IconDown";
 import { formatUpdatedAt } from "../utility/util";
 // import { getImage } from "../storage/imageCache";
 const Home = ({ sendApiResponse }) => {
@@ -164,12 +163,13 @@ const Home = ({ sendApiResponse }) => {
                     <div className="number">{member.no}</div>
                     <div className={`image ${member.team}`}>
                       <img
+                        className="photo"
                         src={`/images/sabai_2025/${member.no}.png`}
                         loading="lazy"
                       ></img>
                       {isCounting && showVoteDiff && (
                         <div className="diff">
-                          {index !== 0 && <IconDown />}
+                          {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />}
                           {getVoteDifference(member, index)}
                         </div>
                       )}
@@ -201,7 +201,7 @@ const Home = ({ sendApiResponse }) => {
               </div>
               {(isCounting && showVoteDiff) && (
                 <div className="part3">
-                  {index !== 0 && <IconDown />}
+                  {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />}
                   {getVoteDifference(member, index)}</div>
               )}
             </div>

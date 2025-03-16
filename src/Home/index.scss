@@ -144,11 +144,8 @@
             color: red;
             display: flex;
             justify-content: center;
-
-            svg {
-              fill: red;
-              width: 14px;
-              height: 22px;
+            .icon-down {
+              width: 18px;
             }
           }
 
@@ -177,7 +174,7 @@
               width: 50px;
               height: 50px;
 
-              img {
+              .photo {
                 border-radius: 50%;
                 width: 50px;
                 height: 50px;
@@ -326,7 +323,6 @@
 
               .count {
                 color: blue;
-                font-weight: bold;
               }
             }
 
@@ -343,8 +339,7 @@
           display: flex;
           align-items: center;
 
-          svg {
-            fill: red;
+          .icon-down {
             height: 20px;
           }
         }

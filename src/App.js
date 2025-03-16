@@ -10,14 +10,10 @@ import {
 } from "./utility/util";
 import ViewCount from "./ViewCount";
 import FlipNumbers from "react-flip-numbers";
-import IconEye from "./Icons/IconEye";
-import Review from "./Review";
+// import Review from "./Review";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "./service/api";
 import MyName from "./MyName";
-import IconComment from "./Icons/IconComment";
-import IconUser from "./Icons/IconUser";
-import AppRoutes from "./AppRoutes";
 import { APP_ROUTES } from "./utility/constants";
 
 function App() {
@@ -182,7 +178,7 @@ function App() {
         )}
         <div className="count-container">
           <div className="live-count" style={{ display: "flex" }}>
-            <IconEye />
+            <img src="/icons/IconEyeGreen.svg" />
             <FlipNumbers
               height={14}
               width={10}
@@ -192,20 +188,21 @@ function App() {
               numbers={viewCount + ""}
             />
           </div>
-          {/* <div className="live-count" style={{ display: "flex" }} onClick={onClickComment}>
-                <IconComment />
-                <FlipNumbers
-                  height={14}
-                  width={10}
-                  play
-                  perspective={100}
-                  duration={1}
-                  numbers={commentCount + ""}
-                />
-              </div>
-            */}
+          {enableReview &&
+            <div className="live-count" style={{ display: "flex" }} onClick={onClickComment}>
+              <img src="/icons/IconCommentGreen.svg" />
+              <FlipNumbers
+                height={14}
+                width={10}
+                play
+                perspective={100}
+                duration={1}
+                numbers={commentCount + ""}
+              />
+            </div>}
+
           <div className="live-count" style={{ display: "flex" }}>
-            <IconUser />
+            <img src="/icons/IconUserGreen.svg" />
             <FlipNumbers
               height={14}
               width={10}

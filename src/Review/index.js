@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import IconClose from "../Icons/IconClose";
 import "./index.scss";
 import { API_STATUS, APP_ROUTES, REVIEW_MOOD } from "../utility/constants";
 import {
@@ -98,7 +97,7 @@ const Review = ({ isFirstLoad, closeHandler = () => {} }) => {
     <div className="review">
       <div className="btn-close-container">
         <button onClick={() => onClickClose()}>
-          <IconClose />
+          <img src="/icons/IconCloseWhite.svg" />
         </button>
       </div>
 

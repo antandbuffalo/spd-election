@@ -3,8 +3,6 @@ import { deleteReview, getReviewList } from "../service/api";
 import "./index.scss";
 import { API_STATUS, APP_ROUTES, REVIEW_MOOD } from "../utility/constants";
 import { useNavigate } from "react-router-dom";
-import IconClose from "../Icons/IconClose";
-import IconEye from "../Icons/IconEye";
 import ViewCount from "../ViewCount";
 import FlipNumbers from "react-flip-numbers";
 import MyName from "../MyName";
@@ -103,7 +101,7 @@ const ReviewList = () => {
     <div className="reviews">
       <header className="App-header">
         <div className="view-count">
-          <IconEye />
+          <img src="/icons/IconEyeGreen.svg"></img>
           <FlipNumbers
             height={14}
             width={10}
@@ -115,7 +113,7 @@ const ReviewList = () => {
         </div>
         <div>கருத்துக்கள்</div>
         <div className="btn-close" onClick={onClickClose}>
-          <IconClose />
+          <img src="/icons/IconCloseWhite.svg" />
         </div>
       </header>
       <div className="review-btn-container">
