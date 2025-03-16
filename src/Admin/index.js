@@ -11,7 +11,7 @@ const Admin = () => {
     login(password).then((response) => {
       if (response?.status === "success") {
         localStorage.setItem("token", response?.token);
-        navigate(APP_ROUTES["review-list"]);
+        navigate(APP_ROUTES.reviewList);
       }
     });
   };

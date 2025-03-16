@@ -1,4 +1,4 @@
-.disclaimer {
+.contact-us {
     color: #ffffff;
     display: flex;
     flex-direction: column;
@@ -13,7 +13,15 @@
 
     .content {
         font-size: 18px;
-        line-height: 1.5;
+        > div {
+            display: flex;
+            gap: 4px;
+            width: 90vw;
+            margin-top: 10px;
+            > div:first-child {
+                width: 20%;
+            }
+        }
     }
 
     a {

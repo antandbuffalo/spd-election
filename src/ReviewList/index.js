@@ -91,7 +91,7 @@ const ReviewList = () => {
   };
 
   const addReview = () => {
-    navigate("/review?pageName=review-list");
+    navigate(`/review?pageName=${APP_ROUTES.reviewList}`);
   };
   const onClickClose = () => {
     navigate(APP_ROUTES.home);

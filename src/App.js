@@ -17,6 +17,8 @@ import { addUser } from "./service/api";
 import MyName from "./MyName";
 import IconComment from "./Icons/IconComment";
 import IconUser from "./Icons/IconUser";
+import AppRoutes from "./AppRoutes";
+import { APP_ROUTES } from "./utility/constants";
 
 function App() {
   const [time, setTime] = useState("");
@@ -113,7 +115,7 @@ function App() {
   };
 
   const onClickComment = () => {
-    navigate("/review-list");
+    navigate(APP_ROUTES.reviewList);
   }
 
   return (
@@ -224,6 +226,9 @@ function App() {
         <div className="team">{broughtToYouBy}</div>
         <br />
         <a href="/disclaimer">பொறுப்புத் துறப்பு</a>
+        <br />
+        <br />
+        <a href={APP_ROUTES.contactUs}>எங்களை தொடர்பு கொள்ள</a>
         <br />
         <br />
       </footer>

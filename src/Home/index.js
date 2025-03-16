@@ -102,7 +102,7 @@ const Home = ({ sendApiResponse }) => {
   };
 
   const openReview = () => {
-    navigate(APP_ROUTES["review-list"]);
+    navigate(APP_ROUTES.reviewList);
   };
 
   const getRankClass = (index) => {

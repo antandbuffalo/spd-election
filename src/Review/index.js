@@ -62,7 +62,7 @@ const Review = ({ isFirstLoad, closeHandler = () => {} }) => {
       if (response?.status === "success") {
         localStorage.setItem("reviewed", true);
         alert("கருத்துக்களை பகிர்ந்தமைக்கு நன்றி");
-        navigate(APP_ROUTES["review-list"]);
+        navigate(APP_ROUTES.reviewList);
         return;
       }
       alert("திரும்ப முயற்சிக்கவும்");

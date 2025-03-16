@@ -15,7 +15,8 @@ export const REVIEW_MOOD = {
 export const APP_ROUTES = {
   home: "/",
   review: "/review",
-  "review-list": "/review-list",
+  reviewList: "/review-list",
   admin: "/admin",
-  disclaimer: "/disclaimer"
+  disclaimer: "/disclaimer",
+  contactUs: "/contact-us"
 };
