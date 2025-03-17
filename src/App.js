@@ -148,7 +148,7 @@ function App() {
                 width={numberWidth}
                 play
                 perspective={100}
-                duration={1}
+                duration={2}
                 numbers={totalVotes + ""}
               />
             </div>
@@ -159,7 +159,7 @@ function App() {
                 width={numberWidth}
                 play
                 perspective={100}
-                duration={1}
+                duration={2}
                 numbers={countedVotes + ""}
               />
             </div>
@@ -170,7 +170,7 @@ function App() {
                 width={numberWidth}
                 play
                 perspective={100}
-                duration={1}
+                duration={2}
                 numbers={getPercentage(countedVotes, totalVotes)}
               />
             </div>
@@ -184,7 +184,7 @@ function App() {
               width={10}
               play
               perspective={100}
-              duration={1}
+              duration={3}
               numbers={viewCount + ""}
             />
           </div>
@@ -196,7 +196,7 @@ function App() {
                 width={10}
                 play
                 perspective={100}
-                duration={1}
+                duration={3}
                 numbers={commentCount + ""}
               />
             </div>}
@@ -208,7 +208,7 @@ function App() {
               width={10}
               play
               perspective={100}
-              duration={1}
+              duration={3}
               numbers={userCount + ""}
             />
           </div>

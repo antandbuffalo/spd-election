@@ -4,6 +4,7 @@
     position: sticky;
     top: 0px;
     padding: 0 0 8px 0;
+    z-index: 1;
 
     .review-button {
       background-color: #019c01;
@@ -204,23 +205,22 @@
           margin-left: 10px;
 
           .votes {
-            color: #777;
+            color: #666;
             display: flex;
 
             .count {
               color: blue;
             }
+          }
+          .rank {
+            font-size: 20px;
+            color: red;
+            display: flex;
 
-            .rank {
-              font-size: 20px;
-              color: red;
-
-              &.positive {
-                color: green;
-              }
-
-              // font-weight: bold;
+            &.positive {
+              color: green;
             }
+            // font-weight: bold;
           }
 
           .team {
@@ -329,7 +329,7 @@
 
             .votes {
               font-size: 22px;
-              color: #000;
+              color: #666;
               display: flex;
 
               .count {

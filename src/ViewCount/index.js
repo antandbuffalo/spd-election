@@ -46,7 +46,7 @@ const ViewCount = ({ sendViewCount = () => { } }) => {
           background="#282c34"
           play
           perspective={100}
-          duration={1}
+          duration={3}
           numbers={viewCount + ""}
         />
       </div>
@@ -59,7 +59,7 @@ const ViewCount = ({ sendViewCount = () => { } }) => {
           background="#282c34"
           play
           perspective={100}
-          duration={1}
+          duration={3}
           numbers={totalUserCount + ""}
         />
       </div>

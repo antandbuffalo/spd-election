@@ -186,7 +186,14 @@ const Home = ({ sendApiResponse }) => {
                       {isCounting && showVoteDiff && (
                         <div className="diff">
                           {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
-                          {getVoteDifference(member, index)}
+                          <FlipNumbers
+                            height={14}
+                            width={12}
+                            numbers={getVoteDifference(member, index) + ""}
+                            perspective={100}
+                            play
+                            duration={3}
+                          />
                         </div>
                       )}
                     </div>
@@ -212,7 +219,18 @@ const Home = ({ sendApiResponse }) => {
                         {/* </span> */}
                         {/* ({Math.round(((member.votes / totalVotes) * 100))} %) */}
                       </div>
-                      <div className={`rank ${getRankClass(index)}`}>நிலை: {member.rank}</div>
+                      <div className={`rank ${getRankClass(index)}`}>
+                        <div>நிலை: </div>
+                        <FlipNumbers
+                          height={14}
+                          width={12}
+                          numbers={member.rank + ""}
+                          perspective={100}
+                          play
+                          duration={3}
+                        />
+
+                      </div>
                     </div>
                   )}
                   {shouldShowStatus(showStatus, index) && (
@@ -230,7 +248,15 @@ const Home = ({ sendApiResponse }) => {
               {(isCounting && showVoteDiff) && (
                 <div className="part3">
                   {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
-                  {getVoteDifference(member, index)}</div>
+                  <FlipNumbers
+                    height={18}
+                    width={14}
+                    numbers={getVoteDifference(member, index) + ""}
+                    perspective={100}
+                    play
+                    duration={3}
+                  />
+                </div>
               )}
             </div>
           );
