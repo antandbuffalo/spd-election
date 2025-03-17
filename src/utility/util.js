@@ -73,62 +73,63 @@ export const formatUpdatedAt = (input) => {
 }
 
 const createMembersMap = (members) => {
-  const currMembersMap = new Map();
+  const membersMap = new Map();
   for (let i = 0; i < members.length; i++) {
     const member = members[i];
-    currMembersMap.set(member.no, member);
+    membersMap.set(member.no, member);
   }
-  return currMembersMap;
+  return membersMap;
 }
 
-const updateMembersWithStats = (sortByRank, currMembersMap) => {
+const updateMembersWithStats = (sortByRank, prevMembersMap) => {
   for (let i = 0; i < sortByRank.length; i++) {
     const member = sortByRank[i];
-    const currRank = currMembersMap.get(member.no).rank;
+    const currRank = prevMembersMap.get(member.no).rank;
     const newRank = member.rank;
-    if (newRank > currRank) {
-      sortByRank[i].change = -1;
-    }
-    else if (newRank < currRank) {
-      sortByRank[i].change = 1;
-    }
-    else {
-      sortByRank[i].change = 0;
-    }
+    sortByRank[i].change = currRank - newRank;
   }
 }
 
 export const leadingTrailing = (data) => {
-  const sortByRank = data?.members.sort((a, b) => a.rank - b.rank);
+  const sortedByRank = data?.members.sort((a, b) => a.rank - b.rank);
+
   try {
-    const curr = JSON.parse(localStorage.getItem(lsKeys.curr_status));
+    let curr = JSON.parse(localStorage.getItem(lsKeys.curr_status));
+    let prev = JSON.parse(localStorage.getItem(lsKeys.prev_status));
+
     if (!curr) {
       localStorage.setItem(lsKeys.curr_status, JSON.stringify(data));
-      return sortByRank;
+      return sortedByRank;
     }
+
     // current data is available. so check date
-    const currDate = parseDate(curr.time).getTime();
     const newDate = parseDate(data?.time).getTime();
+    const currDate = parseDate(curr.time).getTime();
+
+    if (newDate === currDate && !prev) {
+      return sortedByRank;
+    }
+
+    // newDate < currDate - likely won't occur
+    if (newDate < currDate) {
+      return sortedByRank;
+    }
+
     if (newDate > currDate) {
-      const currMembersMap = createMembersMap(curr.members);
-      updateMembersWithStats(sortByRank, currMembersMap);
-      return sortByRank;
+      // new data is available
+      localStorage.setItem(lsKeys.prev_status, JSON.stringify(curr));
+      localStorage.setItem(lsKeys.curr_status, JSON.stringify(data));
+      prev = curr;
+      curr = data;
     }
-    if (currDate === newDate) {
-      const prev = JSON.parse(localStorage.getItem(lsKeys.prev_status));
-      if (!prev) {
-        return sortByRank;
-      }
-      // current and new received are equal. check with prev.
-      const prevMembersMap = createMembersMap(prev.members);
-      updateMembersWithStats(sortByRank, prevMembersMap);
-      return sortByRank;
-    }
-    // currDate > newDate - likely won't occur
-    return sortByRank;
+
+    // both curr and prev available
+    const prevMembersMap = createMembersMap(prev.members);
+    updateMembersWithStats(sortedByRank, prevMembersMap);
+    return sortedByRank;
   }
   catch {
     localStorage.setItem(lsKeys.curr_status, JSON.stringify(data));
-    return sortByRank;
+    return sortedByRank;
   }
 }

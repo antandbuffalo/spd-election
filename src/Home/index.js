@@ -118,10 +118,11 @@ const Home = ({ sendApiResponse }) => {
   }
 
   const getStatContent = (member) => {
+    const changeContent = `(${member.rank + member.change} -> ${member.rank})`;
     if (member.change === 0) {
-      return <span style={{ color: "#555" }}>மாற்றம் இல்லை</span>
+      return <span style={{ color: "#444" }}>மாற்றம் இல்லை</span>
     }
-    if (member.change === 1) {
+    if (member.change > 0) {
       return <span>முன்னிலை</span>
     }
     return <span style={{ color: "#ff0000" }}>பின்னடைவு</span>
@@ -205,12 +206,12 @@ const Home = ({ sendApiResponse }) => {
                   {isCounting && (
                     <div>
                       <div className="votes">
-                        <div>வாக்குகள்:</div>
+                        <div>வாக்குகள்: </div>
                         {/* <span className="count"> */}
                         {/* {member.votes} */}
                         <FlipNumbers
                           height={14}
-                          width={12}
+                          width={11}
                           numbers={member.votes + ""}
                           perspective={100}
                           play
@@ -223,7 +224,7 @@ const Home = ({ sendApiResponse }) => {
                         <div>நிலை: </div>
                         <FlipNumbers
                           height={14}
-                          width={12}
+                          width={11}
                           numbers={member.rank + ""}
                           perspective={100}
                           play
