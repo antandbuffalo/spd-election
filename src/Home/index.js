@@ -121,11 +121,15 @@ const Home = ({ sendApiResponse }) => {
     const changeContent = `(${member.rank + member.change} -> ${member.rank})`;
     if (member.change === 0) {
       return <span style={{ color: "#444" }}>மாற்றம் இல்லை</span>
-    }
-    if (member.change > 0) {
+    } else if (member.change > 0) {
       return <span>முன்னிலை</span>
     }
-    return <span style={{ color: "#ff0000" }}>பின்னடைவு</span>
+    else if (member.change < 0) {
+      return <span style={{ color: "#ff0000" }}>பின்னடைவு</span>
+    }
+    else {
+      return "";
+    }
   }
 
   return (
