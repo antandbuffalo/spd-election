@@ -41,4 +41,4 @@ export const requiredNumberOfCandidates = 11;
 export const imageUpdatedAt = "2025-03-09 00:00:00";
 
 // interval to fetch members in loop. 1 min = 60000
-export const memberFetchInterval = 60000;
+export const memberFetchInterval = 6000000;

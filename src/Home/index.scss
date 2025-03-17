@@ -203,15 +203,16 @@
         .part2 {
           margin-left: 10px;
 
-          >.votes {
+          .votes {
             color: #777;
+            display: flex;
 
             .count {
               color: blue;
             }
 
             .rank {
-              font-size: 22px;
+              font-size: 20px;
               color: red;
 
               &.positive {
@@ -326,9 +327,10 @@
           .part2 {
             margin-left: 10px;
 
-            >.votes {
+            .votes {
               font-size: 22px;
               color: #000;
+              display: flex;
 
               .count {
                 color: blue;

@@ -17,6 +17,7 @@ import {
 import TeamDetails from "../TeamDetails";
 import { useNavigate } from "react-router-dom";
 import { formatUpdatedAt, leadingTrailing } from "../utility/util";
+import FlipNumbers from "react-flip-numbers";
 // import { getImage } from "../storage/imageCache";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
@@ -37,6 +38,7 @@ const Home = ({ sendApiResponse }) => {
   }, [window.innerWidth]);
 
   const getData = () => {
+    setMembersByRank([]);
     setApiStatus(API_STATUS.IN_PROGRESS);
     getMemberStatus().then((data) => {
       setApiStatus(API_STATUS.SUCCESS);
@@ -122,7 +124,7 @@ const Home = ({ sendApiResponse }) => {
     if (member.change === 1) {
       return <span>முன்னிலை</span>
     }
-    return <span style={{color: "#ff0000"}}>பின்னடைவு</span>
+    return <span style={{ color: "#ff0000" }}>பின்னடைவு</span>
   }
 
   return (
@@ -194,9 +196,20 @@ const Home = ({ sendApiResponse }) => {
                 <div className="part2">
                   <div className="name">{member.name}</div>
                   {isCounting && (
-                    <div className="votes">
-                      <div>
-                        வாக்குகள்: <span className="count">{member.votes}</span>
+                    <div>
+                      <div className="votes">
+                        <div>வாக்குகள்:</div>
+                        {/* <span className="count"> */}
+                        {/* {member.votes} */}
+                        <FlipNumbers
+                          height={14}
+                          width={12}
+                          numbers={member.votes + ""}
+                          perspective={100}
+                          play
+                          duration={3}
+                        />
+                        {/* </span> */}
                         {/* ({Math.round(((member.votes / totalVotes) * 100))} %) */}
                       </div>
                       <div className={`rank ${getRankClass(index)}`}>நிலை: {member.rank}</div>
