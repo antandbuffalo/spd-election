@@ -66,7 +66,7 @@ const Home = ({ sendApiResponse }) => {
       await getData();
       timer = setTimeout(fetchAndSchedule, memberFetchInterval);
     }
-    fetchAndSchedule();
+    timer = setTimeout(fetchAndSchedule, memberFetchInterval);
 
     // return the ref
     return () => clearTimeout(timer);

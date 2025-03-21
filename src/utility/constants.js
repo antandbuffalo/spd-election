@@ -25,3 +25,6 @@ export const lsKeys = {
   curr_status: "curr_status",
   prev_status: "prev_status"
 }
+
+// 30 secs
+export const viewCountApiInterval = 30000;

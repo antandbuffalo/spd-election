@@ -2,37 +2,34 @@ import { useEffect, useState } from "react";
 import { getViewCount } from "../service/api";
 import "./index.scss";
 import FlipNumbers from "react-flip-numbers";
-import { API_STATUS } from "../utility/constants";
+import { API_STATUS, viewCountApiInterval } from "../utility/constants";
 
 const ViewCount = ({ sendViewCount = () => { } }) => {
   const [viewCount, setViewCount] = useState(0);
   const [totalUserCount, setTotalUserCount] = useState(0);
 
-  const [viewCountApiStatus, setViewCountApiStatus] = useState(
-    API_STATUS.NOT_STARTED
-  );
-  const getData = () => {
-    setViewCountApiStatus(API_STATUS.IN_PROGRESS);
-    getViewCount().then((data) => {
-      setViewCountApiStatus(API_STATUS.SUCCESS);
-      if (!data) {
-        return;
-      }
-      sendViewCount(data);
-      setViewCount(data?.viewCount);
-      setTotalUserCount(data?.uniqueUserCount);
-    });
+  const getData = async () => {
+    const data = await getViewCount();
+    if (!data) {
+      return;
+    }
+    sendViewCount(data);
+    setViewCount(data?.viewCount);
+    setTotalUserCount(data?.uniqueUserCount);
   };
+
   useEffect(() => {
     getData();
-    // invoke the startTimer function and destory the interval
-    const interval = setInterval(() => {
-      if (viewCountApiStatus !== API_STATUS.IN_PROGRESS) {
-        getData();
-      }
-    }, 10000);
+
+    let timer = null;
+    const fetchAndSchedule = async () => {
+      await getData();
+      timer = setTimeout(fetchAndSchedule, viewCountApiInterval);
+    }
+    timer = setTimeout(fetchAndSchedule, viewCountApiInterval);
+
     return () => {
-      clearInterval(interval);
+      clearTimeout(timer);
     };
   }, []);
   return (
