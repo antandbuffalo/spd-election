@@ -47,7 +47,6 @@ const Home = ({ sendApiResponse }) => {
       }
       if (isCounting) {
         const formatted = leadingTrailing(data);
-        console.log(formatted);
         // setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
         setMembersByRank(formatted);
       }
