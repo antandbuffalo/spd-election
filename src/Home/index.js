@@ -37,36 +37,39 @@ const Home = ({ sendApiResponse }) => {
     return window.innerWidth < 900;
   }, [window.innerWidth]);
 
-  const getData = () => {
+  const getData = async () => {
     setMembersByRank([]);
     setApiStatus(API_STATUS.IN_PROGRESS);
-    getMemberStatus().then((data) => {
-      setApiStatus(API_STATUS.SUCCESS);
-      if (!data) {
-        return;
-      }
-      if (isCounting) {
-        const formatted = leadingTrailing(data);
-        // setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
-        setMembersByRank(formatted);
-      }
-      else {
-        setMembersByRank(data?.members);
-      }
+    const data = await getMemberStatus();
+    setApiStatus(API_STATUS.SUCCESS);
 
-      setUpdatedAt(data?.time);
-      setRound(data?.round ? data?.round : 0);
-      sendApiResponse(data);
-      setTotalVotes(data?.totalVotes);
-    });
+    if (!data) {
+      return;
+    }
+    if (isCounting) {
+      const formatted = leadingTrailing(data);
+      // setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
+      setMembersByRank(formatted);
+    }
+    else {
+      setMembersByRank(data?.members);
+    }
+
+    setUpdatedAt(data?.time);
+    setRound(data?.round ? data?.round : 0);
+    sendApiResponse(data);
+    setTotalVotes(data?.totalVotes);
   };
   const startTimer = () => {
-    //fetch data every 1 minute
-    const interval = setInterval(() => {
-      getData();
-    }, memberFetchInterval);
+    let timer = null;
+    const fetchAndSchedule = async () => {
+      await getData();
+      timer = setTimeout(fetchAndSchedule, memberFetchInterval);
+    }
+    fetchAndSchedule();
+
     // return the ref
-    return () => clearInterval(interval);
+    return () => clearTimeout(timer);
   };
   useEffect(() => {
     getData();
