@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getMemberStatus } from "../service/api";
 import "./index.scss";
 import Spinner from "../Spinner";
-import { API_STATUS, APP_ROUTES } from "../utility/constants";
+import { API_STATUS, APP_ROUTES, candidates } from "../utility/constants";
 import {
   countingStatus,
   countingStatuses,
@@ -178,7 +178,7 @@ const Home = ({ sendApiResponse }) => {
           return (
             <div
               className={`members ${getFlashBgClass(index)}`}
-              key={member.name}
+              key={member.no}
             >
               <div className="left-side">
                 <div className="part-1-container">
@@ -208,7 +208,7 @@ const Home = ({ sendApiResponse }) => {
 
                 </div>
                 <div className="part2">
-                  <div className="name">{member.name}</div>
+                  <div className="name">{candidates[member.no]}</div>
                   {isCounting && (
                     <div>
                       <div className="votes">
