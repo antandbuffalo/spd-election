@@ -99,9 +99,12 @@ const Home = ({ sendApiResponse }) => {
     return "";
   };
 
-  const shouldShowStatus = (status, index) => {
-    return (isCounting || countingStatus === countingStatuses.ENDED) && status;
-    //  && index < requiredNumberOfCandidates;
+  const shouldShowCurrentStatus = (status) => {
+    return countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED && status;
+  };
+
+  const shouldShowVictoryStatus = (status, index) => {
+    return (countingStatus === countingStatuses.FINAL_ROUND || countingStatus === countingStatuses.ENDED) && status && index < requiredNumberOfCandidates;
   };
 
   const shouldAddEmptySpace = (status, index) => {
@@ -240,15 +243,15 @@ const Home = ({ sendApiResponse }) => {
                       </div>
                     </div>
                   )}
-                  {shouldShowStatus(showStatus, index) && (
-                    <div
-                      className={`status ${countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED ? "animation" : ""}`}
-                    >
-                      {(countingStatus === countingStatuses.FINAL_ROUND || countingStatus === countingStatuses.ENDED) && <span>வெற்றி</span>}
-                      {/* {(countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED) && <span>முன்னிலை</span>} */}
-                      {(countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED) && getStatContent(member)}
-                    </div>
-                  )}
+
+                  <div
+                    className={`status ${countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED ? "animation" : ""}`}
+                  >
+                    {shouldShowVictoryStatus(showStatus, index) && <span>வெற்றி</span>}
+                    {/* {(countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED) && <span>முன்னிலை</span>} */}
+
+                    {shouldShowCurrentStatus(showStatus) && getStatContent(member)}
+                  </div>
                   {/* {shouldAddEmptySpace(showStatus, index) && <div>&nbsp;</div>} */}
                 </div>
               </div>
