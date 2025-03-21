@@ -112,8 +112,8 @@ export const leadingTrailing = (data) => {
       return sortedByRank;
     }
 
-    // newDate < currDate - likely won't occur
-    if (newDate < currDate) {
+    // // newDate < currDate - likely won't occur
+    if (newDate < currDate && !prev) {
       return sortedByRank;
     }
 
