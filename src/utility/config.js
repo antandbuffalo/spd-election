@@ -46,3 +46,6 @@ export const showStatus = true;
 
 export const showVoteDiff = true;
 
+// to fetch live count from api for projector
+export const projector = false;
+

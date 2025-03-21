@@ -1,3 +1,4 @@
+import { projector } from "../utility/config";
 import { viewCountApiUrl } from "../utility/constants";
 import { getUUID } from "../utility/util";
 
@@ -42,7 +43,7 @@ export const getMemberStatus = async () => {
 
 export const getViewCount = async () => {
   const url =
-    isLocal ? `http://localhost:3001` : viewCountApiUrl;
+    isLocal && !projector ? `http://localhost:3001` : viewCountApiUrl;
   try {
     const response = await fetch(
       `${url}?id=${getUUID()}&time=${new Date().getTime()}`
@@ -94,15 +95,17 @@ export const getReviewList = async () => {
 };
 
 export const addUser = async (user) => {
+  const hostname = window?.location?.hostname;
+  console.log(hostname)
   const contextPath = "/add-user";
-  const url = isLocal
+  const url = isLocal && !projector
     ? `http://localhost:3001${contextPath}`
     : `${viewCountApiUrl}${contextPath}`;
 
   try {
     const response = await fetch(url, {
       method: "POST",
-      body: JSON.stringify(user),
+      body: JSON.stringify({ ...user, hostname }),
       headers: {
         "Content-Type": "application/json",
       },
