@@ -219,8 +219,6 @@ function App() {
         <ViewCount sendViewCount={viewCountResponse} />
       </div>
       <footer>
-        <MyName />
-        <div className="team">{broughtToYouBy}</div>
         <br />
         <a href="/disclaimer">பொறுப்புத் துறப்பு</a>
         <br />
@@ -228,6 +226,8 @@ function App() {
         <a href={APP_ROUTES.contactUs}>எங்களை தொடர்பு கொள்ள</a>
         <br />
         <br />
+        <div className="team">{broughtToYouBy}</div>
+        <MyName />
       </footer>
     </div>
   );
