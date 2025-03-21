@@ -160,3 +160,16 @@ export const deleteReview = async ({ id, token }) => {
     return null;
   }
 };
+
+export const fetchConfig = async () => {
+  try {
+    const response = await fetch(
+      `config.json?time=${new Date().getTime()}`
+    );
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};

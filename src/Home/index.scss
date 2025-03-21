@@ -256,9 +256,10 @@
 
             &.animation {
               animation-name: fontColorChange;
-              animation-duration: 1s;
+              animation-duration: 0.8s;
               animation-iteration-count: infinite;
               animation-direction: alternate;
+              // animation-timing-function: ease-in;
               animation-timing-function: ease-in;
               // ease-out - makes the content easy to read
             }

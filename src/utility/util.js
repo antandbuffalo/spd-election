@@ -1,3 +1,5 @@
+import { fetchConfig } from "../service/api";
+import { countingStatus, memberFetchInterval, showStatus, showVoteDiff, startTime } from "./config";
 import { lsKeys } from "./constants";
 
 export const roundToTwoDigits = (num) => {
@@ -132,4 +134,17 @@ export const leadingTrailing = (data) => {
     localStorage.setItem(lsKeys.curr_status, JSON.stringify(data));
     return sortedByRank;
   }
+}
+
+export const getConfig = async () => {
+  const config = await fetchConfig();
+  if (config) return config;
+  return {
+    "memberFetchInterval": memberFetchInterval,
+    "startTime": startTime,
+    "countingStatus": countingStatus,
+    "showStatus": showStatus,
+    "showVoteDiff": showVoteDiff
+  }
+
 }
