@@ -7,7 +7,7 @@ const Disclaimer = () => {
                 <br />
                 <br />
                 தேர்தல் அதிகாரி அவர்களின் முடிவே இறுதியானது. நன்றி.</p></div>
-        <a href="/">ஒத்துக்குக்கொள்கிறேன்</a>
+        <a href="/">ஒப்புக்கொள்கிறேன்</a>
     </div>
 }
 export default Disclaimer;
