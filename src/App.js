@@ -14,7 +14,7 @@ import FlipNumbers from "react-flip-numbers";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "./service/api";
 import MyName from "./MyName";
-import { APP_ROUTES } from "./utility/constants";
+import { APP_ROUTES, hostCloudFlare, hostFirebase } from "./utility/constants";
 
 function App() {
   const [time, setTime] = useState("");
@@ -113,6 +113,8 @@ function App() {
   const onClickComment = () => {
     navigate(APP_ROUTES.reviewList);
   }
+
+  const alternateHost = hostCloudFlare.includes(window?.location.hostname) ? hostFirebase : hostCloudFlare;
 
   return (
     <div className="App">
@@ -223,6 +225,12 @@ function App() {
           <a href={APP_ROUTES.disclaimer}>பொறுப்புத் துறப்பு</a>
           <a href={APP_ROUTES.contactUs}>எங்களை தொடர்பு கொள்ள</a>
         </div>
+        <br />
+        <a href={alternateHost}>தேர்தல் முடிவுகளை இந்த வலை தளத்திலும் நீங்கள் தெரிந்து கொள்ளலாம்.
+          <br />
+          {alternateHost}
+        </a>
+        <br />
         <br />
         <div className="team">{broughtToYouBy}</div>
         <MyName />

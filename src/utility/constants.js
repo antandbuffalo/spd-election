@@ -54,3 +54,5 @@ export const candidates = {
   "22": "ஶ்ரீதரன் N G நம்பி"
 };
 
+export const hostFirebase = "https://spd-election.web.app";
+export const hostCloudFlare = "https://election-result.pages.dev";
