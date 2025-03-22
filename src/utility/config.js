@@ -42,9 +42,9 @@ export const startTime = new Date("2025-03-23 23:30:00").getTime();
 export const countingStatus = countingStatuses.NOT_STARTED;
 
 // this shows whether the candidate is trailing or heading
-export const showStatus = true;
+export const showStatus = false;
 
-export const showVoteDiff = true;
+export const showVoteDiff = false;
 
 // to fetch live count from api for projector
 export const projector = false;

@@ -94,6 +94,11 @@ const updateMembersWithStats = (sortByRank, prevMembersMap) => {
 
 export const leadingTrailing = (data) => {
   const sortedByRank = data?.members.sort((a, b) => a.rank - b.rank);
+  if (!showStatus) {
+    localStorage.removeItem(lsKeys.curr_status);
+    localStorage.removeItem(lsKeys.prev_status);
+    return sortedByRank;
+  }
 
   try {
     let curr = JSON.parse(localStorage.getItem(lsKeys.curr_status));

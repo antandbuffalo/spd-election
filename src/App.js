@@ -189,7 +189,7 @@ function App() {
             />
           </div>
           {enableReview &&
-            <div className="live-count" style={{ display: "flex" }} onClick={onClickComment}>
+            <div className="live-count comment" style={{ display: "flex" }} onClick={onClickComment}>
               <img src="/icons/IconCommentGreen.svg" />
               <FlipNumbers
                 height={14}
