@@ -219,12 +219,10 @@ function App() {
         <ViewCount sendViewCount={viewCountResponse} />
       </div>
       <footer>
-        <br />
-        <a href="/disclaimer">பொறுப்புத் துறப்பு</a>
-        <br />
-        <br />
-        <a href={APP_ROUTES.contactUs}>எங்களை தொடர்பு கொள்ள</a>
-        <br />
+        <div className="other-pages">
+          <a href={APP_ROUTES.disclaimer}>பொறுப்புத் துறப்பு</a>
+          <a href={APP_ROUTES.contactUs}>எங்களை தொடர்பு கொள்ள</a>
+        </div>
         <br />
         <div className="team">{broughtToYouBy}</div>
         <MyName />
