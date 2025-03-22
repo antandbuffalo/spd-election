@@ -9,16 +9,23 @@
 
     .title {
         font-size: 24px;
+        color: #52ff7d;
     }
 
     .content {
         font-size: 18px;
-        > div {
+
+        a {
+            color: #f0c370;
+        }
+
+        >div {
             display: flex;
             gap: 4px;
             width: 90vw;
             margin-top: 10px;
-            > div:first-child {
+
+            >div:first-child {
                 width: 20%;
             }
         }
@@ -26,7 +33,7 @@
 
     a {
         margin: 12px 0 0 0;
-        color: #f0c370;
         font-size: 20px;
+        color: #52ff7d;
     }
 }
