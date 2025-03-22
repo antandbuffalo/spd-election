@@ -1,139 +1,139 @@
 {
-  "time": "22/3/2025, 16:42:58",
+  "time": "22/3/2025, 19:29:11",
   "totalVotes": 100,
-  "countedVotes": 0,
-  "invalidVotes": 0,
+  "countedVotes": 75,
+  "invalidVotes": 3,
   "members": [
     {
       "no": 1,
-      "votes": 0,
-      "rank": 1,
+      "votes": 28,
+      "rank": 18,
       "team": "A"
     },
     {
       "no": 2,
-      "votes": 0,
-      "rank": 1,
+      "votes": 45,
+      "rank": 3,
       "team": "B"
     },
     {
       "no": 3,
-      "votes": 0,
-      "rank": 1,
+      "votes": 37,
+      "rank": 9,
       "team": "A"
     },
     {
       "no": 4,
-      "votes": 0,
-      "rank": 1,
+      "votes": 44,
+      "rank": 5,
       "team": "B"
     },
     {
       "no": 5,
-      "votes": 0,
-      "rank": 1,
+      "votes": 35,
+      "rank": 11,
       "team": "A"
     },
     {
       "no": 6,
-      "votes": 0,
-      "rank": 1,
+      "votes": 39,
+      "rank": 8,
       "team": "A"
     },
     {
       "no": 7,
-      "votes": 0,
-      "rank": 1,
+      "votes": 42,
+      "rank": 6,
       "team": "B"
     },
     {
       "no": 8,
-      "votes": 0,
-      "rank": 1,
+      "votes": 40,
+      "rank": 7,
       "team": "A"
     },
     {
       "no": 9,
-      "votes": 0,
-      "rank": 1,
+      "votes": 26,
+      "rank": 20,
       "team": "A"
     },
     {
       "no": 10,
-      "votes": 0,
-      "rank": 1,
+      "votes": 34,
+      "rank": 13,
       "team": "B"
     },
     {
       "no": 11,
-      "votes": 0,
-      "rank": 1,
+      "votes": 31,
+      "rank": 16,
       "team": "A"
     },
     {
       "no": 12,
-      "votes": 0,
-      "rank": 1,
+      "votes": 49,
+      "rank": 2,
       "team": "B"
     },
     {
       "no": 13,
-      "votes": 0,
-      "rank": 1,
+      "votes": 26,
+      "rank": 20,
       "team": "B"
     },
     {
       "no": 14,
-      "votes": 0,
-      "rank": 1,
+      "votes": 37,
+      "rank": 9,
       "team": "B"
     },
     {
       "no": 15,
-      "votes": 0,
-      "rank": 1,
+      "votes": 31,
+      "rank": 16,
       "team": "A"
     },
     {
       "no": 16,
-      "votes": 0,
-      "rank": 1,
+      "votes": 45,
+      "rank": 3,
       "team": "A"
     },
     {
       "no": 17,
-      "votes": 0,
-      "rank": 1,
+      "votes": 28,
+      "rank": 18,
       "team": "B"
     },
     {
       "no": 18,
-      "votes": 0,
-      "rank": 1,
+      "votes": 32,
+      "rank": 15,
       "team": "B"
     },
     {
       "no": 19,
-      "votes": 0,
-      "rank": 1,
+      "votes": 35,
+      "rank": 11,
       "team": "A"
     },
     {
       "no": 20,
-      "votes": 0,
+      "votes": 50,
       "rank": 1,
       "team": "B"
     },
     {
       "no": 21,
-      "votes": 0,
-      "rank": 1,
+      "votes": 25,
+      "rank": 22,
       "team": "A"
     },
     {
       "no": 22,
-      "votes": 0,
-      "rank": 1,
+      "votes": 33,
+      "rank": 14,
       "team": "B"
     }
   ]
