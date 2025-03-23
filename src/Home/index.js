@@ -8,6 +8,7 @@ import {
   countingStatuses,
   currentStatusDesc,
   currentStatusTitle,
+  enableAnimation,
   enableReview,
   memberFetchInterval,
   requiredNumberOfCandidates,
@@ -18,6 +19,7 @@ import TeamDetails from "../TeamDetails";
 import { useNavigate } from "react-router-dom";
 import { formatUpdatedAt, leadingTrailing } from "../utility/util";
 import FlipNumbers from "react-flip-numbers";
+import { AnimatePresence, motion } from "framer-motion";
 // import { getImage } from "../storage/imageCache";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
@@ -137,6 +139,96 @@ const Home = ({ sendApiResponse }) => {
     }
   }
 
+  const getContent = (member, index) => {
+    return (<div>
+      <div className="left-side">
+        <div className="part-1-container">
+          <div className="part1">
+            <div className="number">{member.no}</div>
+            <div className={`image ${member.team}`}>
+              <img
+                className="photo"
+                src={`/images/sabai_2025/${member.no}.png`}
+                loading="lazy"
+              ></img>
+              {isCounting && showVoteDiff && (
+                <div className="diff">
+                  {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
+                  <FlipNumbers
+                    height={14}
+                    width={12}
+                    numbers={getVoteDifference(member, index) + ""}
+                    perspective={100}
+                    play
+                    duration={3}
+                  />
+                </div>
+              )}
+            </div>
+          </div>
+
+        </div>
+        <div className="part2">
+          <div className="name">{candidates[member.no]}</div>
+          {isCounting && (
+            <div>
+              <div className="votes">
+                <div>வாக்குகள்: </div>
+                {/* <span className="count"> */}
+                {/* {member.votes} */}
+                <FlipNumbers
+                  height={14}
+                  width={11}
+                  numbers={member.votes + ""}
+                  perspective={100}
+                  play
+                  duration={3}
+                />
+                {/* </span> */}
+                {/* ({Math.round(((member.votes / totalVotes) * 100))} %) */}
+              </div>
+              <div className={`rank ${getRankClass(index)}`}>
+                <div>நிலை: </div>
+                <FlipNumbers
+                  height={14}
+                  width={11}
+                  numbers={member.rank + ""}
+                  perspective={100}
+                  play
+                  duration={3}
+                />
+
+              </div>
+            </div>
+          )}
+
+          <div
+            className={`status ${countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED ? "animation" : ""}`}
+          >
+            {shouldShowVictoryStatus(showStatus, index) && <span>வெற்றி</span>}
+            {/* {(countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED) && <span>முன்னிலை</span>} */}
+
+            {shouldShowCurrentStatus(showStatus) && getStatContent(member)}
+          </div>
+          {/* {shouldAddEmptySpace(showStatus, index) && <div>&nbsp;</div>} */}
+        </div>
+      </div>
+      {(isCounting && showVoteDiff) && (
+        <div className="part3">
+          {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
+          <FlipNumbers
+            height={18}
+            width={14}
+            numbers={getVoteDifference(member, index) + ""}
+            perspective={100}
+            play
+            duration={3}
+          />
+        </div>
+      )}
+    </div>)
+  }
+
   return (
     <div className="home">
       <div className="home-header-container">
@@ -177,100 +269,35 @@ const Home = ({ sendApiResponse }) => {
         </div>
       </div>
       <div className="members-container">
-        {membersByRank.map((member, index) => {
-          return (
-            <div
-              className={`members ${getFlashBgClass(index)}`}
-              key={member.no}
-            >
-              <div className="left-side">
-                <div className="part-1-container">
-                  <div className="part1">
-                    <div className="number">{member.no}</div>
-                    <div className={`image ${member.team}`}>
-                      <img
-                        className="photo"
-                        src={`/images/sabai_2025/${member.no}.png`}
-                        loading="lazy"
-                      ></img>
-                      {isCounting && showVoteDiff && (
-                        <div className="diff">
-                          {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
-                          <FlipNumbers
-                            height={14}
-                            width={12}
-                            numbers={getVoteDifference(member, index) + ""}
-                            perspective={100}
-                            play
-                            duration={3}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                </div>
-                <div className="part2">
-                  <div className="name">{candidates[member.no]}</div>
-                  {isCounting && (
-                    <div>
-                      <div className="votes">
-                        <div>வாக்குகள்: </div>
-                        {/* <span className="count"> */}
-                        {/* {member.votes} */}
-                        <FlipNumbers
-                          height={14}
-                          width={11}
-                          numbers={member.votes + ""}
-                          perspective={100}
-                          play
-                          duration={3}
-                        />
-                        {/* </span> */}
-                        {/* ({Math.round(((member.votes / totalVotes) * 100))} %) */}
-                      </div>
-                      <div className={`rank ${getRankClass(index)}`}>
-                        <div>நிலை: </div>
-                        <FlipNumbers
-                          height={14}
-                          width={11}
-                          numbers={member.rank + ""}
-                          perspective={100}
-                          play
-                          duration={3}
-                        />
-
-                      </div>
-                    </div>
-                  )}
-
-                  <div
-                    className={`status ${countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED ? "animation" : ""}`}
-                  >
-                    {shouldShowVictoryStatus(showStatus, index) && <span>வெற்றி</span>}
-                    {/* {(countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED) && <span>முன்னிலை</span>} */}
-
-                    {shouldShowCurrentStatus(showStatus) && getStatContent(member)}
-                  </div>
-                  {/* {shouldAddEmptySpace(showStatus, index) && <div>&nbsp;</div>} */}
-                </div>
-              </div>
-              {(isCounting && showVoteDiff) && (
-                <div className="part3">
-                  {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
-                  <FlipNumbers
-                    height={18}
-                    width={14}
-                    numbers={getVoteDifference(member, index) + ""}
-                    perspective={100}
-                    play
-                    duration={3}
-                  />
-                </div>
-              )}
-            </div>
-          );
-        })}
+        <AnimatePresence>
+          {membersByRank.map((member, index) => {
+            return (
+              enableAnimation ?
+                <motion.div
+                  className={`members ${getFlashBgClass(index)}`}
+                  key={member.no}
+                  layout
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
+                  transition={{
+                    duration: 0.8,
+                    type: "tween",
+                    ease: "easeInOut"
+                    // duration: 0.3,
+                    // type: "spring",
+                    // stiffness: 100,
+                    // damping: 15,
+                  }}
+                >
+                  {getContent(member, index)}
+                </motion.div> : <div
+                  className={`members ${getFlashBgClass(index)}`}
+                  key={member.no}
+                >{getContent(member, index)}</div>
+            );
+          })}
+        </AnimatePresence>
 
         <div className="members team-count">
           <TeamDetails membersByRank={membersByRank} />

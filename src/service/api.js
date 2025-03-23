@@ -21,8 +21,12 @@ export const getMemberStatusFromGithub = async () => {
 export const getMemberStatusFromSource = async () => {
   try {
     const response = await fetch(
-      `memberStatus.json?time=${new Date().getTime()}`
+      `memberStatus.json`
     );
+    // const response = await fetch(
+    //   `memberStatus.json?time=${new Date().getTime()}`
+    // );
+
     const json = await response.json();
     return json;
   } catch (e) {
