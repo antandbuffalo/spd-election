@@ -19,8 +19,8 @@
     "build": "GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "fb-deploy": "firebase deploy",
-    "cf-deploy": "wrangler pages deploy ./build --project-name election-result --branch=main",
+    "fb-deploy": "npm run build && firebase deploy",
+    "cf-deploy": "npm run build && wrangler pages deploy ./build --project-name election-result --branch=main",
     "build-deploy": "npm run build && firebase deploy && npm run cf-deploy"
   },
   "eslintConfig": {
