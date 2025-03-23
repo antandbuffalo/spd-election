@@ -8,7 +8,7 @@ export const countingStatuses = {
 }
 
 // this is used to show any news on the top
-export const currentStatusTitle = { default: "வாக்குப்பதிவு நிறைவடைந்தது", started: "தற்போதைய நிலவரம்" };
+export const currentStatusTitle = { default: "வேட்பாளர்கள்", started: "தற்போதைய நிலவரம்" };
 export const currentStatusDesc = { default: "", started: "வாக்குப்பதிவு" };
 
 
