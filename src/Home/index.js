@@ -128,19 +128,19 @@ const Home = ({ sendApiResponse }) => {
       return <span style={{ color: "#444" }}>மாற்றம் இல்லை</span>
     } else if (member.change > 0) {
       return <span>முன்னிலை</span>
-    }
-    else if (member.change < 0) {
+    } else if (member.change < 0) {
       return <span style={{ color: "#ff0000" }}>பின்னடைவு</span>
-    }
-    else {
+    } else {
       return "";
     }
   }
 
+  const isLocal = window?.location?.hostname?.includes("localhost");
+
   return (
     <div className="home">
       <div className="home-header-container">
-        <div className="home-header">
+        {!isLocal && <div className="home-header">
           <div></div>
           <div className="title">
             {countingStatus === countingStatuses.NOT_STARTED ? currentStatusTitle.default : currentStatusTitle.started}
@@ -163,7 +163,7 @@ const Home = ({ sendApiResponse }) => {
               </button>
             )}
           </div>
-        </div>
+        </div>}
         <div>
           {enableReview && (
             <button

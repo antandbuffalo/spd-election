@@ -9,7 +9,7 @@ export const countingStatuses = {
 
 // this is used to show any news on the top
 export const currentStatusTitle = { default: "வேட்பாளர்கள்", started: "தற்போதைய நிலவரம்" };
-export const currentStatusDesc = { default: "", started: "வாக்குப்பதிவு" };
+export const currentStatusDesc = { default: "", started: "பதிவான வாக்குகள்: 5313" };
 
 
 export const enableReview = false;
@@ -34,18 +34,18 @@ export const imageUpdatedAt = "2025-03-09 00:00:00";
 export const memberFetchInterval = 60000;
 
 // the time to start counting. used for count down
-export const startTime = new Date("2025-03-23 21:00:00").getTime();
+export const startTime = new Date("2025-03-23 23:00:00").getTime();
 
 // STARTED - will show extra details like, total number of votes, current count etc
 // FINAL_ROUND - this shows whether the candidate won or not. showStatus should be true for this
 // NOT_STARTED, STARTED, FINAL_ROUND, ENDED
-export const countingStatus = countingStatuses.NOT_STARTED;
+export const countingStatus = countingStatuses.STARTED;
 
 // this shows whether the candidate is trailing or heading
-export const showStatus = false;
+export const showStatus = true;
 
-export const showVoteDiff = false;
+export const showVoteDiff = true;
 
 // to fetch live count from api for projector
-export const projector = false;
+export const projector = true;
 

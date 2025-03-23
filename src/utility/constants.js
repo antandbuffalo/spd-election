@@ -27,7 +27,7 @@ export const lsKeys = {
 }
 
 // 30 secs
-export const viewCountApiInterval = 30000;
+export const viewCountApiInterval = 10000;
 
 export const candidates = {
   "1": "அசோக்குமார் A R அம்பலம்",
