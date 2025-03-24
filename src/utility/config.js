@@ -39,7 +39,7 @@ export const startTime = new Date("2025-03-23 23:00:00").getTime();
 // STARTED - will show extra details like, total number of votes, current count etc
 // FINAL_ROUND - this shows whether the candidate won or not. showStatus should be true for this
 // NOT_STARTED, STARTED, FINAL_ROUND, ENDED
-export const countingStatus = countingStatuses.STARTED;
+export const countingStatus = countingStatuses.ENDED;
 
 // this shows whether the candidate is trailing or heading
 export const showStatus = true;
