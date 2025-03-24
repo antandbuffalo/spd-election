@@ -21,6 +21,8 @@ function App() {
   const [showCountDown, setShowCountDown] = useState(false);
   const [totalVotes, setTotalVotes] = useState(0);
   const [countedVotes, setCountedVotes] = useState(0);
+  const [validVotes, setValidVotes] = useState(0);
+  const [inValidVotes, setInvalidVotes] = useState(0);
   const [viewCount, setViewCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
@@ -77,6 +79,8 @@ function App() {
   const getApiResponse = (response) => {
     setTotalVotes(response?.totalVotes);
     setCountedVotes(response?.countedVotes);
+    setValidVotes(response?.totalVotes - response?.invalidVotes);
+    setInvalidVotes(response?.invalidVotes);
   };
 
   const getPercentage = (countedVotes, totalVotes) => {
@@ -163,6 +167,28 @@ function App() {
                 perspective={100}
                 duration={2}
                 numbers={countedVotes + ""}
+              />
+            </div>
+            <div>
+              செல்லுபடியான வாக்குகள்:
+              <FlipNumbers
+                height={numberHeight}
+                width={numberWidth}
+                play
+                perspective={100}
+                duration={2}
+                numbers={validVotes + ""}
+              />
+            </div>
+            <div>
+              செல்லாத வாக்குகள்:
+              <FlipNumbers
+                height={numberHeight}
+                width={numberWidth}
+                play
+                perspective={100}
+                duration={2}
+                numbers={inValidVotes + ""}
               />
             </div>
             <div>

@@ -39,6 +39,7 @@ html {
     flex-direction: row;
     gap: 24px;
     color: #52ff7d;
+    margin: 6px 0 0 0;
 
     .live-count {
       display: flex;
@@ -64,23 +65,31 @@ html {
     display: flex;
     flex-direction: column;
 
-    div:nth-child(1) {
+    >div {
       display: flex;
-      justify-content: center;
-    }
-
-    div:nth-child(2) {
+      flex-wrap: wrap;
+      margin: 4px 0 0 0;
       color: #52ff7d;
-      margin-top: 4px;
-      display: flex;
       justify-content: center;
     }
 
-    div:nth-child(3) {
-      margin-top: 4px;
-      display: flex;
-      justify-content: center;
-    }
+    // div:nth-child(1) {
+    //   display: flex;
+    //   justify-content: center;
+    // }
+
+    // div:nth-child(2) {
+    //   color: #52ff7d;
+    //   margin-top: 4px;
+    //   display: flex;
+    //   justify-content: center;
+    // }
+
+    // div:nth-child(3) {
+    //   margin-top: 4px;
+    //   display: flex;
+    //   justify-content: center;
+    // }
   }
 }
 
@@ -118,9 +127,11 @@ footer {
   .team {
     color: white;
   }
+
   a {
     color: #52ff7d;
   }
+
   .other-pages {
     display: flex;
     justify-content: space-evenly;
@@ -156,13 +167,13 @@ footer {
       color: #52ff7d;
       flex-direction: row;
 
-      div:nth-child(2) {
-        margin-top: 0px;
-      }
+      // div:nth-child(2) {
+      //   margin-top: 0px;
+      // }
 
-      div:nth-child(3) {
-        margin-top: 0px;
-      }
+      // div:nth-child(3) {
+      //   margin-top: 0px;
+      // }
     }
   }
 
