@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import IconClose from "../Icons/IconClose";
 import "./index.scss";
 import { API_STATUS, APP_ROUTES, REVIEW_MOOD } from "../utility/constants";
 import {
@@ -62,7 +61,7 @@ const Review = ({ isFirstLoad, closeHandler = () => {} }) => {
       if (response?.status === "success") {
         localStorage.setItem("reviewed", true);
         alert("கருத்துக்களை பகிர்ந்தமைக்கு நன்றி");
-        navigate(APP_ROUTES["review-list"]);
+        navigate(APP_ROUTES.reviewList);
         return;
       }
       alert("திரும்ப முயற்சிக்கவும்");
@@ -98,7 +97,7 @@ const Review = ({ isFirstLoad, closeHandler = () => {} }) => {
     <div className="review">
       <div className="btn-close-container">
         <button onClick={() => onClickClose()}>
-          <IconClose />
+          <img src="/icons/IconCloseWhite.svg" />
         </button>
       </div>
 

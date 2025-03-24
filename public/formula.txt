@@ -15,3 +15,7 @@
 
 
 =CONCATENATE("{""time"":" & """" & M9 & """" & "," & """round"":" & MAX(RoundCount!A2:A21) & "," & """totalVotes""" & ":" & F4 & "," & """countedVotes""" & ":" & F5 & "," & """invalidVotes""" & ":" & F7 & "," & """members"":" & "[", L9:L26, "]" & "}")
+
+
+// create json formula
+=CONCATENATE("{""time"":" & """" & M9 & """" & "," & """totalVotes""" & ":" & F4 & "," & """countedVotes""" & ":" & F5 & "," & """invalidVotes""" & ":" & F7 & "," & """members"":","[",L9:L30,"]}")

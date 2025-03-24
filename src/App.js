@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.scss";
 import Home from "./Home";
-import { enableReview, isCountingStarted, startTime } from "./utility/config";
+import { broughtToYouBy, countingStatus, countingStatuses, enableReview, startTime, title } from "./utility/config";
 import {
   convertMillisecondsToTime,
   getUUID,
@@ -10,23 +10,23 @@ import {
 } from "./utility/util";
 import ViewCount from "./ViewCount";
 import FlipNumbers from "react-flip-numbers";
-import IconEye from "./Icons/IconEye";
-import Review from "./Review";
+// import Review from "./Review";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "./service/api";
 import MyName from "./MyName";
-import IconComment from "./Icons/IconComment";
-import IconUser from "./Icons/IconUser";
+import { APP_ROUTES, hostCloudFlare, hostFirebase } from "./utility/constants";
 
 function App() {
   const [time, setTime] = useState("");
   const [showCountDown, setShowCountDown] = useState(false);
   const [totalVotes, setTotalVotes] = useState(0);
   const [countedVotes, setCountedVotes] = useState(0);
+  const [validVotes, setValidVotes] = useState(0);
+  const [inValidVotes, setInvalidVotes] = useState(0);
   const [viewCount, setViewCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
-  const [showReview, setShowReview] = useState(!isReviewSubmitted());
+  const [showReview, setShowReview] = useState(!isReviewSubmitted() && enableReview);
 
   const navigate = useNavigate();
 
@@ -56,6 +56,7 @@ function App() {
 
   useEffect(() => {
     addUser({ id: getUUID() });
+
     if (!isReviewSubmitted() && enableReview) {
       setShowReview(true);
       // navigate("/review?pageName=review-list");
@@ -78,6 +79,8 @@ function App() {
   const getApiResponse = (response) => {
     setTotalVotes(response?.totalVotes);
     setCountedVotes(response?.countedVotes);
+    setValidVotes(response?.totalVotes - response?.invalidVotes);
+    setInvalidVotes(response?.invalidVotes);
   };
 
   const getPercentage = (countedVotes, totalVotes) => {
@@ -93,6 +96,7 @@ function App() {
     }
   };
 
+  // this will receive the view count response from ViewCount component
   const viewCountResponse = (data) => {
     if (!data) {
       return;
@@ -111,20 +115,22 @@ function App() {
   };
 
   const onClickComment = () => {
-    navigate("/review-list");
+    navigate(APP_ROUTES.reviewList);
   }
+
+  const alternateHost = hostCloudFlare.includes(window?.location.hostname) ? hostFirebase : hostCloudFlare;
 
   return (
     <div className="App">
-      {showReview && (
+      {/* {showReview && (
         <div className="review-transparent">
           <Review isFirstLoad={true} closeHandler={onClickReviewClose} />
         </div>
-      )}
+      )} */}
 
       <header className="App-header">
-        <div>சு பெ தேவஸ்தானம் தேர்தல் முடிவுகள் 2023</div>
-        {showCountDown && (
+        <div>{title}</div>
+        {showCountDown && countingStatus === countingStatuses.NOT_STARTED && (
           <div className="timer">
             <span>இன்னும்</span>
             <FlipNumbers
@@ -139,7 +145,7 @@ function App() {
             <span>மணித்துளிகளில்</span>
           </div>
         )}
-        {isCountingStarted && (
+        {(countingStatus !== countingStatuses.NOT_STARTED) && (
           <div className="vote-details">
             <div>
               பதிவான வாக்குகள்:
@@ -148,7 +154,7 @@ function App() {
                 width={numberWidth}
                 play
                 perspective={100}
-                duration={1}
+                duration={2}
                 numbers={totalVotes + ""}
               />
             </div>
@@ -159,8 +165,30 @@ function App() {
                 width={numberWidth}
                 play
                 perspective={100}
-                duration={1}
+                duration={2}
                 numbers={countedVotes + ""}
+              />
+            </div>
+            <div>
+              செல்லுபடியான வாக்குகள்:
+              <FlipNumbers
+                height={numberHeight}
+                width={numberWidth}
+                play
+                perspective={100}
+                duration={2}
+                numbers={validVotes + ""}
+              />
+            </div>
+            <div>
+              செல்லாத வாக்குகள்:
+              <FlipNumbers
+                height={numberHeight}
+                width={numberWidth}
+                play
+                perspective={100}
+                duration={2}
+                numbers={inValidVotes + ""}
               />
             </div>
             <div>
@@ -170,56 +198,68 @@ function App() {
                 width={numberWidth}
                 play
                 perspective={100}
-                duration={1}
+                duration={2}
                 numbers={getPercentage(countedVotes, totalVotes)}
               />
             </div>
-            <div className="count-container">
-              <div className="live-count" style={{ display: "flex" }}>
-                <IconEye />
-                <FlipNumbers
-                  height={14}
-                  width={10}
-                  play
-                  perspective={100}
-                  duration={1}
-                  numbers={viewCount + ""}
-                />
-              </div>
-              <div className="live-count" style={{ display: "flex" }} onClick={onClickComment}>
-                <IconComment />
-                <FlipNumbers
-                  height={14}
-                  width={10}
-                  play
-                  perspective={100}
-                  duration={1}
-                  numbers={commentCount + ""}
-                />
-              </div>
-              <div className="live-count" style={{ display: "flex" }}>
-                <IconUser />
-                <FlipNumbers
-                  height={14}
-                  width={10}
-                  play
-                  perspective={100}
-                  duration={1}
-                  numbers={userCount + ""}
-                />
-              </div>
-            </div>
           </div>
         )}
+        <div className="count-container">
+          <div className="live-count" style={{ display: "flex" }}>
+            <img src="/icons/IconEyeGreen.svg" />
+            <FlipNumbers
+              height={14}
+              width={10}
+              play
+              perspective={100}
+              duration={3}
+              numbers={viewCount + ""}
+            />
+          </div>
+          {enableReview &&
+            <div className="live-count comment" style={{ display: "flex" }} onClick={onClickComment}>
+              <img src="/icons/IconCommentGreen.svg" />
+              <FlipNumbers
+                height={14}
+                width={10}
+                play
+                perspective={100}
+                duration={3}
+                numbers={commentCount + ""}
+              />
+            </div>}
+
+          <div className="live-count" style={{ display: "flex" }}>
+            <img src="/icons/IconUserGreen.svg" />
+            <FlipNumbers
+              height={14}
+              width={10}
+              play
+              perspective={100}
+              duration={3}
+              numbers={userCount + ""}
+            />
+          </div>
+        </div>
       </header>
       <Home sendApiResponse={getApiResponse} openReview={openReview} />
       <div className="view-count">
         <ViewCount sendViewCount={viewCountResponse} />
       </div>
       <footer>
-        <MyName />
-        <div className="team">மக்கள் அணி கூட்டணி</div>
+        <div className="other-pages">
+          <a href={APP_ROUTES.disclaimer}>பொறுப்புத் துறப்பு</a>
+          <a href={APP_ROUTES.contactUs}>எங்களை தொடர்பு கொள்ள</a>
+        </div>
         <br />
+        <a href={alternateHost}>தேர்தல் முடிவுகளை இந்த வலை தளத்திலும் நீங்கள் தெரிந்து கொள்ளலாம்.
+          <br />
+          {alternateHost}
+        </a>
+        <br />
+        <br />
+        <div className="team">{broughtToYouBy}</div>
+        <MyName />
       </footer>
     </div>
   );

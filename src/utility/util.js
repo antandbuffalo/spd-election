@@ -1,3 +1,7 @@
+import { fetchConfig } from "../service/api";
+import { countingStatus, memberFetchInterval, showStatus, showVoteDiff, startTime } from "./config";
+import { lsKeys } from "./constants";
+
 export const roundToTwoDigits = (num) => {
   if (num < 10) {
     return `0${num}`;
@@ -51,3 +55,101 @@ export const isAdmin = () => {
   const token = localStorage.getItem("token");
   return token && token !== "";
 };
+
+const parseDate = (dateStr) => {
+  const [datePart, timePart] = dateStr.split(", ");
+  const [day, month, year] = datePart.split("/").map(Number);
+  return new Date(year, month - 1, day, ...timePart.split(":").map(Number));
+}
+
+export const formatUpdatedAt = (input) => {
+  if (!input) return "";
+
+  const updatedAt = parseDate(input);
+  console.log(updatedAt);
+  const today = new Date();
+  if (today.getDate() === updatedAt.getDate() && today.getMonth() === updatedAt.getMonth() && today.getFullYear() === updatedAt.getFullYear()) {
+    return `Today ${input.split(" ")[1]}`;
+  }
+  return input;
+}
+
+const createMembersMap = (members) => {
+  const membersMap = new Map();
+  for (let i = 0; i < members.length; i++) {
+    const member = members[i];
+    membersMap.set(member.no, member);
+  }
+  return membersMap;
+}
+
+const updateMembersWithStats = (sortByRank, prevMembersMap) => {
+  for (let i = 0; i < sortByRank.length; i++) {
+    const member = sortByRank[i];
+    const currRank = prevMembersMap.get(member.no).rank;
+    const newRank = member.rank;
+    sortByRank[i].change = currRank - newRank;
+  }
+}
+
+export const leadingTrailing = (data) => {
+  const sortedByRank = data?.members.sort((a, b) => a.rank - b.rank);
+  if (!showStatus) {
+    localStorage.removeItem(lsKeys.curr_status);
+    localStorage.removeItem(lsKeys.prev_status);
+    return sortedByRank;
+  }
+
+  try {
+    let curr = JSON.parse(localStorage.getItem(lsKeys.curr_status));
+    let prev = JSON.parse(localStorage.getItem(lsKeys.prev_status));
+
+    if (!curr) {
+      localStorage.setItem(lsKeys.curr_status, JSON.stringify(data));
+      return sortedByRank;
+    }
+
+    // current data is available. so check date
+    const newDate = parseDate(data?.time).getTime();
+    const currDate = parseDate(curr.time).getTime();
+
+    if (newDate === currDate && !prev) {
+      return sortedByRank;
+    }
+
+    // // newDate < currDate - likely won't occur
+    if (newDate < currDate && !prev) {
+      return sortedByRank;
+    }
+
+    if (newDate > currDate) {
+      // new data is available
+      localStorage.setItem(lsKeys.prev_status, JSON.stringify(curr));
+      localStorage.setItem(lsKeys.curr_status, JSON.stringify(data));
+      prev = curr;
+      curr = data;
+    }
+
+    // both curr and prev available
+    const prevMembersMap = createMembersMap(prev.members);
+    updateMembersWithStats(sortedByRank, prevMembersMap);
+    return sortedByRank;
+  }
+  catch {
+    localStorage.setItem(lsKeys.curr_status, JSON.stringify(data));
+    return sortedByRank;
+  }
+}
+
+export const getConfig = async () => {
+  const config = await fetchConfig();
+  if (config) return config;
+  return {
+    "memberFetchInterval": memberFetchInterval,
+    "startTime": startTime,
+    "countingStatus": countingStatus,
+    "showStatus": showStatus,
+    "showVoteDiff": showVoteDiff
+  }
+
+}

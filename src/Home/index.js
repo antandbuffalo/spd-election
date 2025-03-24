@@ -2,16 +2,23 @@ import { useEffect, useMemo, useState } from "react";
 import { getMemberStatus } from "../service/api";
 import "./index.scss";
 import Spinner from "../Spinner";
-import { API_STATUS, APP_ROUTES } from "../utility/constants";
+import { API_STATUS, APP_ROUTES, candidates } from "../utility/constants";
 import {
-  currentStatus,
+  countingStatus,
+  countingStatuses,
+  currentStatusDesc,
+  currentStatusTitle,
   enableReview,
-  isCountingStarted,
-  isFinalRound,
+  memberFetchInterval,
+  requiredNumberOfCandidates,
   showStatus,
+  showVoteDiff,
 } from "../utility/config";
 import TeamDetails from "../TeamDetails";
 import { useNavigate } from "react-router-dom";
+import { formatUpdatedAt, leadingTrailing } from "../utility/util";
+import FlipNumbers from "react-flip-numbers";
+// import { getImage } from "../storage/imageCache";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
@@ -20,40 +27,59 @@ const Home = ({ sendApiResponse }) => {
   const [totalVotes, setTotalVotes] = useState(0);
   const navigate = useNavigate();
 
+  // getImage("images/sabai_2025/1.png").then((data) => {
+  //   console.log(data);
+  // })
+
+  const isCounting = countingStatus !== countingStatuses.NOT_STARTED;
+
   const isMobile = useMemo(() => {
     return window.innerWidth < 900;
   }, [window.innerWidth]);
 
-  const getData = () => {
+  const getData = async () => {
+    setMembersByRank([]);
     setApiStatus(API_STATUS.IN_PROGRESS);
-    getMemberStatus().then((data) => {
-      setApiStatus(API_STATUS.SUCCESS);
-      if (!data) {
-        return;
-      }
-      setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
-      // setMembersByRank(data?.members);
-      setUpdatedAt(data?.time);
-      setRound(data?.round ? data?.round : 0);
-      sendApiResponse(data);
-      setTotalVotes(data?.totalVotes);
-    });
+    const data = await getMemberStatus();
+    setApiStatus(API_STATUS.SUCCESS);
+
+    if (!data) {
+      return;
+    }
+    if (isCounting) {
+      const formatted = leadingTrailing(data);
+      // setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
+      setMembersByRank(formatted);
+    }
+    else {
+      setMembersByRank(data?.members);
+    }
+
+    setUpdatedAt(data?.time);
+    setRound(data?.round ? data?.round : 0);
+    sendApiResponse(data);
+    setTotalVotes(data?.totalVotes);
   };
   const startTimer = () => {
-    //fetch data every 1 minute
-    const interval = setInterval(() => {
-      getData();
-    }, 60000);
+    let timer = null;
+    const fetchAndSchedule = async () => {
+      await getData();
+      timer = setTimeout(fetchAndSchedule, memberFetchInterval);
+    }
+    timer = setTimeout(fetchAndSchedule, memberFetchInterval);
+
     // return the ref
-    return () => clearInterval(interval);
+    return () => clearTimeout(timer);
   };
   useEffect(() => {
     getData();
-    // invoke the startTimer function and destory the interval
-    // const clearFn = startTimer();
-    // return () => {
-    //   clearFn();
-    // };
+    if (countingStatus === countingStatuses.STARTED || countingStatus === countingStatuses.FINAL_ROUND) {
+      // invoke the startTimer function and destory the interval
+      const clearFn = startTimer();
+      return () => {
+        clearFn();
+      };
+    }
   }, []);
   const refresh = () => {
     getData();
@@ -67,57 +93,87 @@ const Home = ({ sendApiResponse }) => {
   };
 
   const getFlashBgClass = (index) => {
-    if (isCountingStarted) {
-      return `a${index}`;
+    if (isCounting && index < requiredNumberOfCandidates) {
+      return `required-candidate`;
     }
+    return "";
   };
 
-  const shouldShowStatus = (status, index) => {
-    return isCountingStarted && status && index < 5;
+  const shouldShowCurrentStatus = (status) => {
+    return countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED && status;
+  };
+
+  const shouldShowVictoryStatus = (status, index) => {
+    return (countingStatus === countingStatuses.FINAL_ROUND || countingStatus === countingStatuses.ENDED) && status && index < requiredNumberOfCandidates;
   };
 
   const shouldAddEmptySpace = (status, index) => {
-    return isCountingStarted && status && index > 4;
+    return (isCounting || countingStatus === countingStatuses.ENDED) && status && index > requiredNumberOfCandidates - 1;
   };
 
   const openReview = () => {
-    navigate(APP_ROUTES["review-list"]);
+    navigate(APP_ROUTES.reviewList);
   };
+
+  const getRankClass = (index) => {
+    if (index < requiredNumberOfCandidates) {
+      return "positive";
+    }
+    return "";
+  }
+
+  const getStatContent = (member) => {
+    const changeContent = `(${member.rank + member.change} -> ${member.rank})`;
+    if (member.change === 0) {
+      return <span style={{ color: "#444" }}>மாற்றம் இல்லை</span>
+    } else if (member.change > 0) {
+      return <span>முன்னிலை</span>
+    } else if (member.change < 0) {
+      return <span style={{ color: "#ff0000" }}>பின்னடைவு</span>
+    } else {
+      return "";
+    }
+  }
+
+  const isLocal = window?.location?.hostname?.includes("localhost");
 
   return (
     <div className="home">
       <div className="home-header-container">
-        <div className="home-header">
+        {!isLocal && <div className="home-header">
+          <div></div>
           <div className="title">
-            <div>
-              {enableReview && (
-                <button
-                  className="review-button"
-                  onClick={openReview}
-                  disabled={apiStatus === API_STATUS.IN_PROGRESS}
-                >
-                  கருத்துக்களை பார்க்க
-                </button>
-              )}
-            </div>
-            {currentStatus !== "" && (
-              <div className="current-status">{currentStatus}</div>
+            {countingStatus === countingStatuses.NOT_STARTED ? currentStatusTitle.default : currentStatusTitle.started}
+            {currentStatusDesc.default !== "" && (
+              <div className="current-status">{countingStatus === countingStatuses.NOT_STARTED ? currentStatusDesc.started : currentStatusDesc.default}</div>
             )}
+            <div className="updated-at">{updatedAt}</div>
           </div>
           <div className="btn-container">
             {apiStatus === API_STATUS.IN_PROGRESS && (
               <Spinner className="spinner" />
             )}
-            {apiStatus !== API_STATUS.IN_PROGRESS && !enableReview && (
+            {apiStatus !== API_STATUS.IN_PROGRESS && (
               <button
                 className="refresh-button"
                 onClick={refresh}
                 disabled={apiStatus === API_STATUS.IN_PROGRESS}
               >
-                Refresh
+                புதுப்பி
               </button>
             )}
           </div>
+        </div>}
+        <div>
+          {enableReview && (
+            <button
+              className="review-button"
+              onClick={openReview}
+              disabled={apiStatus === API_STATUS.IN_PROGRESS}
+            >
+              கருத்துக்களை பார்க்க
+            </button>
+          )}
         </div>
       </div>
       <div className="members-container">
@@ -125,7 +181,7 @@ const Home = ({ sendApiResponse }) => {
           return (
             <div
               className={`members ${getFlashBgClass(index)}`}
-              key={member.name}
+              key={member.no}
             >
               <div className="left-side">
                 <div className="part-1-container">
@@ -133,41 +189,84 @@ const Home = ({ sendApiResponse }) => {
                     <div className="number">{member.no}</div>
                     <div className={`image ${member.team}`}>
                       <img
-                        src={`/images/${member.no}.png`}
+                        className="photo"
+                        src={`/images/sabai_2025/${member.no}.png`}
                         loading="lazy"
                       ></img>
+                      {isCounting && showVoteDiff && (
+                        <div className="diff">
+                          {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
+                          <FlipNumbers
+                            height={14}
+                            width={12}
+                            numbers={getVoteDifference(member, index) + ""}
+                            perspective={100}
+                            play
+                            duration={3}
+                          />
+                        </div>
+                      )}
                     </div>
                   </div>
-                  {isCountingStarted && (
-                    <div className="diff">
-                      {getVoteDifference(member, index)}
-                    </div>
-                  )}
+
                 </div>
                 <div className="part2">
-                  <div className="name">{member.name}</div>
-                  {isCountingStarted && (
-                    <div className="votes">
-                      <div>
-                        வாக்குகள்: <span className="count">{member.votes}</span>
+                  <div className="name">{candidates[member.no]}</div>
+                  {isCounting && (
+                    <div>
+                      <div className="votes">
+                        <div>வாக்குகள்: </div>
+                        {/* <span className="count"> */}
+                        {/* {member.votes} */}
+                        <FlipNumbers
+                          height={14}
+                          width={11}
+                          numbers={member.votes + ""}
+                          perspective={100}
+                          play
+                          duration={3}
+                        />
+                        {/* </span> */}
                         {/* ({Math.round(((member.votes / totalVotes) * 100))} %) */}
                       </div>
-                      <div className="rank">நிலை: {member.rank}</div>
+                      <div className={`rank ${getRankClass(index)}`}>
+                        <div>நிலை: </div>
+                        <FlipNumbers
+                          height={14}
+                          width={11}
+                          numbers={member.rank + ""}
+                          perspective={100}
+                          play
+                          duration={3}
+                        />
+
+                      </div>
                     </div>
                   )}
-                  {shouldShowStatus(showStatus, index) && (
-                    <div
-                      className={`status ${!isFinalRound ? "animation" : ""}`}
-                    >
-                      {isFinalRound && <span>வெற்றி</span>}
-                      {!isFinalRound && <span>முன்னிலை</span>}
-                    </div>
-                  )}
-                  {shouldAddEmptySpace(showStatus, index) && <div>&nbsp;</div>}
+
+                  <div
+                    className={`status ${countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED ? "animation" : ""}`}
+                  >
+                    {shouldShowVictoryStatus(showStatus, index) && <span>வெற்றி</span>}
+                    {/* {(countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED) && <span>முன்னிலை</span>} */}
+
+                    {shouldShowCurrentStatus(showStatus) && getStatContent(member)}
+                  </div>
+                  {/* {shouldAddEmptySpace(showStatus, index) && <div>&nbsp;</div>} */}
                 </div>
               </div>
-              {isCountingStarted && (
-                <div className="part3">{getVoteDifference(member, index)}</div>
+              {(isCounting && showVoteDiff) && (
+                <div className="part3">
+                  {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
+                  <FlipNumbers
+                    height={18}
+                    width={14}
+                    numbers={getVoteDifference(member, index) + ""}
+                    perspective={100}
+                    play
+                    duration={3}
+                  />
+                </div>
               )}
             </div>
           );

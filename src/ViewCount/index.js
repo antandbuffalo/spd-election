@@ -2,49 +2,64 @@ import { useEffect, useState } from "react";
 import { getViewCount } from "../service/api";
 import "./index.scss";
 import FlipNumbers from "react-flip-numbers";
-import { API_STATUS } from "../utility/constants";
+import { API_STATUS, viewCountApiInterval } from "../utility/constants";
 
-const ViewCount = ({ sendViewCount = () => {} }) => {
+const ViewCount = ({ sendViewCount = () => { } }) => {
   const [viewCount, setViewCount] = useState(0);
-  const [viewCountApiStatus, setViewCountApiStatus] = useState(
-    API_STATUS.NOT_STARTED
-  );
-  const getData = () => {
-    setViewCountApiStatus(API_STATUS.IN_PROGRESS);
-    getViewCount().then((data) => {
-      setViewCountApiStatus(API_STATUS.SUCCESS);
-      if (!data) {
-        return;
-      }
-      sendViewCount(data);
-      setViewCount(data?.viewCount);
-    });
+  const [totalUserCount, setTotalUserCount] = useState(0);
+
+  const getData = async () => {
+    const data = await getViewCount();
+    if (!data) {
+      return;
+    }
+    sendViewCount(data);
+    setViewCount(data?.viewCount);
+    setTotalUserCount(data?.uniqueUserCount);
   };
+
   useEffect(() => {
     getData();
-    // invoke the startTimer function and destory the interval
-    const interval = setInterval(() => {
-      if (viewCountApiStatus !== API_STATUS.IN_PROGRESS) {
-        getData();
-      }
-    }, 10000);
+
+    let timer = null;
+    const fetchAndSchedule = async () => {
+      await getData();
+      timer = setTimeout(fetchAndSchedule, viewCountApiInterval);
+    }
+    timer = setTimeout(fetchAndSchedule, viewCountApiInterval);
+
     return () => {
-      clearInterval(interval);
+      clearTimeout(timer);
     };
   }, []);
   return (
     <div className="view-count-container">
-      தற்போதைய பார்வையாளர்கள்:
-      <FlipNumbers
-        height={16}
-        width={12}
-        color="#ffc027"
-        background="#282c34"
-        play
-        perspective={100}
-        duration={1}
-        numbers={viewCount + ""}
-      />
+      <div>
+        தற்போதைய பார்வையாளர்கள்:
+        <FlipNumbers
+          height={16}
+          width={12}
+          color="#ffc027"
+          background="#282c34"
+          play
+          perspective={100}
+          duration={3}
+          numbers={viewCount + ""}
+        />
+      </div>
+      <div>
+        மொத்த பார்வையாளர்கள்:
+        <FlipNumbers
+          height={16}
+          width={12}
+          color="#ffc027"
+          background="#282c34"
+          play
+          perspective={100}
+          duration={3}
+          numbers={totalUserCount + ""}
+        />
+      </div>
     </div>
   );
 };

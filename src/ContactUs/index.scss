@@ -1,0 +1,39 @@
+.contact-us {
+    color: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+
+    .title {
+        font-size: 24px;
+        color: #52ff7d;
+    }
+
+    .content {
+        font-size: 18px;
+
+        a {
+            color: #f0c370;
+        }
+
+        >div {
+            display: flex;
+            gap: 4px;
+            width: 90vw;
+            margin-top: 10px;
+
+            >div:first-child {
+                width: 20%;
+            }
+        }
+    }
+
+    a {
+        margin: 12px 0 0 0;
+        font-size: 20px;
+        color: #52ff7d;
+    }
+}

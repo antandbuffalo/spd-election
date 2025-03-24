@@ -1,0 +1,25 @@
+.disclaimer {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    color: #ffffff;
+
+    .title {
+        font-size: 24px;
+        color: #52ff7d;
+    }
+
+    .content {
+        font-size: 18px;
+        line-height: 1.5;
+    }
+
+    a {
+        margin: 12px 0 0 0;
+        color: #52ff7d;
+        font-size: 20px;
+    }
+}

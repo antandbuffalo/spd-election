@@ -1,11 +1,24 @@
-import { showLiveViewCount } from "../utility/config";
+import { projector } from "../utility/config";
 import { viewCountApiUrl } from "../utility/constants";
 import { getUUID } from "../utility/util";
 
-const isLocal = window.location.host.includes("localhost") && false;
+const isLocal = window.location.host.includes("localhost");
+const memberStatusGithubUrl = `https://raw.githubusercontent.com/antandbuffalo/spd-election/refs/heads/feat/sabai-election/public/memberStatus.json`;
 
-export const getMemberStatus = async () => {
-  // const isLocal = window.location.host.includes("localhost");
+export const getMemberStatusFromGithub = async () => {
+  try {
+    const response = await fetch(
+      `${memberStatusGithubUrl}?time=${new Date().getTime()}`
+    );
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+}
+
+export const getMemberStatusFromSource = async () => {
   try {
     const response = await fetch(
       `memberStatus.json?time=${new Date().getTime()}`
@@ -18,10 +31,19 @@ export const getMemberStatus = async () => {
   }
 };
 
+export const getMemberStatus = async () => {
+  // const dataFromGithub = await getMemberStatusFromGithub();
+  // if(dataFromGithub) return dataFromGithub;
+
+  const dataFromSource = await getMemberStatusFromSource();
+  if (dataFromSource) return dataFromSource;
+
+  return null;
+};
+
 export const getViewCount = async () => {
   const url =
-    isLocal && !showLiveViewCount ? `http://localhost:3001` : viewCountApiUrl;
-
+    isLocal && !projector ? `http://localhost:3001` : viewCountApiUrl;
   try {
     const response = await fetch(
       `${url}?id=${getUUID()}&time=${new Date().getTime()}`
@@ -73,15 +95,17 @@ export const getReviewList = async () => {
 };
 
 export const addUser = async (user) => {
+  const hostname = window?.location?.hostname;
+  console.log(hostname)
   const contextPath = "/add-user";
-  const url = isLocal
+  const url = isLocal && !projector
     ? `http://localhost:3001${contextPath}`
     : `${viewCountApiUrl}${contextPath}`;
 
   try {
     const response = await fetch(url, {
       method: "POST",
-      body: JSON.stringify(user),
+      body: JSON.stringify({ ...user, hostname }),
       headers: {
         "Content-Type": "application/json",
       },
@@ -117,7 +141,7 @@ export const login = async (password) => {
 };
 
 export const deleteReview = async ({ id, token }) => {
-  if(!id || !token) return;
+  if (!id || !token) return;
 
   const contextPath = "/review";
   const url = isLocal
@@ -132,6 +156,19 @@ export const deleteReview = async ({ id, token }) => {
         "Content-Type": "application/json",
       },
     });
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
+
+export const fetchConfig = async () => {
+  try {
+    const response = await fetch(
+      `config.json?time=${new Date().getTime()}`
+    );
     const json = await response.json();
     return json;
   } catch (e) {

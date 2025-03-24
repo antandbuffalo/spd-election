@@ -3,13 +3,34 @@
     background-color: #282c34;
     position: sticky;
     top: 0px;
+    padding: 0 0 8px 0;
+    z-index: 1;
+
+    .review-button {
+      background-color: #019c01;
+      // background-color: rgb(23, 24, 29);
+      padding: 10px;
+      border-radius: 10px;
+      font-size: 18px;
+      min-width: 60px;
+      cursor: pointer;
+      color: white;
+      border: none;
+      width: calc(100% - 20px);
+      margin: 0 10px;
+
+      &:disabled {
+        background-color: rgb(5, 61, 5);
+        color: gray;
+        cursor: not-allowed;
+      }
+    }
 
     .home-header {
       display: flex;
       justify-content: center;
       align-items: center;
       min-height: 50px;
-      padding: 8px 0 0 0;
 
       >.title {
         text-align: center;
@@ -19,7 +40,8 @@
         display: flex;
         flex-direction: column;
         margin: 12px;
-        width: 100%;
+        width: calc(100% - 150px);
+        word-wrap: break-word;
 
         span:first-child {
           color: #00ff3f;
@@ -41,6 +63,7 @@
       .btn-container {
         position: absolute;
         right: 12px;
+        align-self: center;
       }
 
       .spinner {
@@ -56,23 +79,6 @@
         cursor: pointer;
         color: white;
         border: none;
-
-        &:disabled {
-          background-color: rgb(5, 61, 5);
-          color: gray;
-          cursor: not-allowed;
-        }
-      }
-      .review-button {
-        background-color: #019c01;
-        padding: 10px;
-        border-radius: 10px;
-        font-size: 18px;
-        min-width: 60px;
-        cursor: pointer;
-        color: white;
-        border: none;
-        width: 100%;
 
         &:disabled {
           background-color: rgb(5, 61, 5);
@@ -115,7 +121,8 @@
       &.a1,
       &.a2,
       &.a3,
-      &.a4 {
+      &.a4,
+      &.required-candidate {
         background-color: #d4f3d4;
         // animation-name: colorchange;
         animation-duration: 1s;
@@ -137,7 +144,12 @@
             font-size: 16px;
             text-align: center;
             color: red;
-            display: block;
+            display: flex;
+            justify-content: center;
+
+            .icon-down {
+              width: 18px;
+            }
           }
 
           .part1 {
@@ -165,14 +177,14 @@
               width: 50px;
               height: 50px;
 
-              img {
+              .photo {
                 border-radius: 50%;
                 width: 50px;
                 height: 50px;
               }
 
               &.A {
-                border: 3px solid rgb(59, 254, 76);
+                border: 3px solid #3300ff;
               }
 
               &.B {
@@ -193,18 +205,23 @@
         .part2 {
           margin-left: 10px;
 
-          >.votes {
-            color: #777;
+          .votes {
+            color: #666;
+            display: flex;
 
             .count {
               color: blue;
             }
+          }
+          .rank {
+            font-size: 20px;
+            color: red;
+            display: flex;
 
-            .rank {
-              font-size: 22px;
-              color: red;
-              // font-weight: bold;
+            &.positive {
+              color: green;
             }
+            // font-weight: bold;
           }
 
           .team {
@@ -216,15 +233,19 @@
 
           @keyframes fontColorChange {
             0% {
-              color: #00790c;
+              // color: #00790c;
+              opacity: 0;
             }
 
-            // 50% {
-            //   color: #00790c;
-            // }
+            50% {
+              //   color: #00790c;
+              // opacity: 0.5;
+            }
+
             100% {
               // color: #c9eec9;
-              color: #d4f3d4;
+              // color: #d4f3d4;
+              opacity: 1;
             }
           }
 
@@ -239,6 +260,9 @@
               animation-duration: 0.8s;
               animation-iteration-count: infinite;
               animation-direction: alternate;
+              // animation-timing-function: ease-in;
+              animation-timing-function: ease-in;
+              // ease-out - makes the content easy to read
             }
           }
         }
@@ -273,11 +297,6 @@
             font-size: 16px;
           }
         }
-
-        .btn-container {
-          top: 20px;
-          bottom: 20px;
-        }
       }
     }
 
@@ -310,13 +329,13 @@
           .part2 {
             margin-left: 10px;
 
-            >.votes {
+            .votes {
               font-size: 22px;
-              color: #000;
+              color: #666;
+              display: flex;
 
               .count {
                 color: blue;
-                font-weight: bold;
               }
             }
 
@@ -330,7 +349,12 @@
         }
 
         .part3 {
-          display: block;
+          display: flex;
+          align-items: center;
+
+          .icon-down {
+            height: 20px;
+          }
         }
       }
     }
