@@ -1,6 +1,8 @@
 $primary-color: #52ff7d;
+
 .reviews {
   background-color: #282c34;
+
   // height: 100vh;
   .App-header {
     color: $primary-color;
@@ -9,16 +11,21 @@ $primary-color: #52ff7d;
     justify-content: space-between;
     flex-direction: row;
     padding: 0 20px;
+
     .btn-close {
+      cursor: pointer;
+
       svg {
         fill: white;
       }
     }
+
     .view-count {
       margin-top: 0;
       font-size: 12px;
       display: flex;
       gap: 2px;
+
       svg {
         fill: $primary-color;
         height: 20px;
@@ -33,26 +40,41 @@ $primary-color: #52ff7d;
     margin: 14px;
     border-radius: 12px;
     padding: 12px;
+
     .comment {
       font-size: 18px;
     }
+
     .name {
       // color: #000;
       color: #7a4500;
       text-align: right;
       font-size: 14px;
     }
+
     .created-at {
       text-align: right;
       font-size: 12px;
       color: #888;
       margin-top: 4px;
     }
+
     &.good {
       background-color: #e4ffe4;
     }
+
     &.bad {
       background-color: #fee1e1;
+    }
+
+    .working-well {
+      font-size: 14px;
+      color: #005300;
+    }
+
+    .not-working-well {
+      font-size: 14px;
+      color: #8e0000;
     }
   }
 
@@ -60,21 +82,25 @@ $primary-color: #52ff7d;
     position: sticky;
     top: 0;
     background-color: #282c34;
+
     .mood-count {
       display: flex;
       color: $primary-color;
       justify-content: space-evenly;
       padding: 0 12px 12px 12px;
+
       .good,
       .bad {
         display: flex;
         gap: 4px;
       }
+
       .bad {
         color: #ff9f00;
       }
     }
   }
+
   .review-button {
     background-color: #019c01;
     padding: 10px;
@@ -86,12 +112,14 @@ $primary-color: #52ff7d;
     border: none;
     width: calc(100% - 24px);
     margin: 12px;
+
     &:disabled {
       background-color: rgb(5, 61, 5);
       color: gray;
       cursor: not-allowed;
     }
   }
+
   @media (min-width: 900px) {
     .reviews-container {
       display: grid;

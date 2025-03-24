@@ -56,3 +56,6 @@ export const candidates = {
 
 export const hostFirebase = "https://spd-election.web.app";
 export const hostCloudFlare = "https://election-result.pages.dev";
+
+export const goodContent = "மேலும் உங்கள் கருத்துக்களை இங்கே பதிவிடவும்";
+export const badContent = "என்ன சிரமம் என்பதை தெரிவிக்கவும்";

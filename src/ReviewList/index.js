@@ -71,11 +71,13 @@ const ReviewList = () => {
   };
 
   const getReviewCard = (data) => {
-    if (!data || !data.comment) {
+    if (!data) {
       return null;
     }
     return (
       <div className={`review-card ${data.mood.toLowerCase()}`}>
+        {data.mood === REVIEW_MOOD.GOOD && <div className="working-well">எந்த சிரமும் இல்லை</div>}
+        {data.mood === REVIEW_MOOD.BAD && <div className="not-working-well">சிரமம் ஏற்பட்டது</div>}
         <div className="comment">{data.comment}</div>
         <div className="name">- {data.name}</div>
         <div className="created-at">{getDateTime(data)}</div>
@@ -122,7 +124,7 @@ const ReviewList = () => {
         </button>
         <div className="mood-count">
           <div className="good">
-            தொடரவும்:
+            எந்த சிரமும் இல்லை:
             <FlipNumbers
               height={14}
               width={10}
@@ -133,7 +135,7 @@ const ReviewList = () => {
             />
           </div>
           <div className="bad">
-            தொடர வேண்டாம்:
+            சிரமம் ஏற்பட்டது:
             <FlipNumbers
               height={14}
               width={10}

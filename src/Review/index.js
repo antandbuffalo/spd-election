@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import "./index.scss";
-import { API_STATUS, APP_ROUTES, REVIEW_MOOD } from "../utility/constants";
+import { API_STATUS, APP_ROUTES, badContent, goodContent, REVIEW_MOOD } from "../utility/constants";
 import {
   getUUID,
   validateReviewRequest,
@@ -10,8 +10,10 @@ import { submitReview } from "../service/api";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import Spinner from "../Spinner";
 import MyName from "../MyName";
-const Review = ({ isFirstLoad, closeHandler = () => {} }) => {
+import { title } from "../utility/config";
+const Review = ({ isFirstLoad, closeHandler = () => { } }) => {
   const [reviewMood, setReviewMood] = useState(REVIEW_MOOD.GOOD);
+  const [reviewChangeContent, setReviewChangeContent] = useState(goodContent)
   const [reviewComment, setReviewComment] = useState("");
   const [name, setName] = useState("");
   const navigate = useNavigate();
@@ -38,10 +40,15 @@ const Review = ({ isFirstLoad, closeHandler = () => {} }) => {
    * @param {Event} event
    */
   const onReviewMoodChange = (event) => {
+    console.log(event.target.id);
     if (event.target.checked) {
       setReviewMood(event.target.id);
-    } else {
-      setReviewMood("");
+    }
+    if (event.target.id === REVIEW_MOOD.GOOD) {
+      setReviewChangeContent(goodContent);
+    }
+    else {
+      setReviewChangeContent(badContent);
     }
   };
   const onClickSubmitReview = () => {
@@ -102,7 +109,7 @@ const Review = ({ isFirstLoad, closeHandler = () => {} }) => {
       </div>
 
       <div className="heading">
-        <div>சு பெ தேவஸ்தானம் தேர்தல் முடிவுகள் 2023</div>
+        <div>{title}</div>
         <div className="sub-heading">
           இந்த வலைத்தளத்தை மேம்படுத்த, உங்கள் கருத்துக்களை பகிரவும்
         </div>
@@ -121,7 +128,7 @@ const Review = ({ isFirstLoad, closeHandler = () => {} }) => {
           </div>
 
           <label htmlFor={REVIEW_MOOD.GOOD}>
-            இந்த வலைத்தளம் மிகவும் உபயோகமாக இருந்தது. இந்த சேவையை தொடரவும்
+            இந்த வலைத்தளத்தை பயன்படுத்துவதில் எந்த சிரமும் இல்லை
           </label>
         </div>
         <br />
@@ -134,13 +141,13 @@ const Review = ({ isFirstLoad, closeHandler = () => {} }) => {
             checked={reviewMood === REVIEW_MOOD.BAD}
             onChange={onReviewMoodChange}
           />
-          <label htmlFor={REVIEW_MOOD.BAD}>தொடர வேண்டாம்</label>
+          <label htmlFor={REVIEW_MOOD.BAD}>இந்த வலைத்தளத்தை பயன்படுத்துவதில் சிரமும் ஏற்பட்டது</label>
         </div>
         <br />
         <br />
         <div className="others">
           <label htmlFor="text">
-            மேலும் உங்கள் கருத்துக்களை இங்கே பதிவிடவும்
+            {reviewChangeContent}
           </label>
           <textarea
             rows={8}

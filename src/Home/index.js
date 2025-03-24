@@ -135,12 +135,10 @@ const Home = ({ sendApiResponse }) => {
     }
   }
 
-  const isLocal = window?.location?.hostname?.includes("localhost");
-
   return (
     <div className="home">
       <div className="home-header-container">
-        {!isLocal && <div className="home-header">
+        <div className="home-header">
           <div></div>
           <div className="title">
             {countingStatus === countingStatuses.NOT_STARTED ? currentStatusTitle.default : currentStatusTitle.started}
@@ -163,7 +161,7 @@ const Home = ({ sendApiResponse }) => {
               </button>
             )}
           </div>
-        </div>}
+        </div>
         <div>
           {enableReview && (
             <button

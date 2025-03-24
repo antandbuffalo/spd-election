@@ -12,7 +12,7 @@ export const currentStatusTitle = { default: "வேட்பாளர்கள�
 export const currentStatusDesc = { default: "", started: "பதிவான வாக்குகள்: 5313" };
 
 
-export const enableReview = false;
+export const enableReview = true;
 
 // this is used to define the teams.
 export const teams = [
@@ -47,5 +47,5 @@ export const showStatus = true;
 export const showVoteDiff = true;
 
 // to fetch live count from api for projector
-export const projector = true;
+export const projector = false;
 
