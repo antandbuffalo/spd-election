@@ -33,7 +33,10 @@ export const getUUID = () => {
 };
 
 export const isReviewSubmitted = () => {
-  return localStorage.getItem("reviewed");
+  if(localStorage.getItem("reviewed")) {
+    return true;
+  }
+  return !!sessionStorage.getItem("reviewClosed");
 };
 
 export const isReviewClosed = () => {

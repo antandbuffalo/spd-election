@@ -84,11 +84,15 @@ const Review = ({ isFirstLoad, closeHandler = () => { } }) => {
 
   const navigateToPage = () => {
     sessionStorage.setItem("reviewClosed", true);
-    if (APP_ROUTES[pageName]) {
-      navigate(APP_ROUTES[pageName]);
-    } else {
-      navigate(APP_ROUTES.home);
+
+    for (let key of Object.keys(APP_ROUTES)) {
+      const path = APP_ROUTES[key];
+      if (path === pageName) {
+        navigate(APP_ROUTES[key]);
+        return;
+      }
     }
+    navigate(APP_ROUTES.home);
   };
 
   const onClickClose = () => {

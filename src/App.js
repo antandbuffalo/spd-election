@@ -10,7 +10,7 @@ import {
 } from "./utility/util";
 import ViewCount from "./ViewCount";
 import FlipNumbers from "react-flip-numbers";
-// import Review from "./Review";
+import Review from "./Review";
 import { useNavigate } from "react-router-dom";
 import { addUser } from "./service/api";
 import MyName from "./MyName";
@@ -107,6 +107,7 @@ function App() {
   };
 
   const onClickReviewClose = () => {
+    sessionStorage.setItem("reviewClosed", true);
     setShowReview(false);
   };
 
@@ -122,11 +123,11 @@ function App() {
 
   return (
     <div className="App">
-      {/* {showReview && (
+      {showReview && (
         <div className="review-transparent">
           <Review isFirstLoad={true} closeHandler={onClickReviewClose} />
         </div>
-      )} */}
+      )}
 
       <header className="App-header">
         <div>{title}</div>
