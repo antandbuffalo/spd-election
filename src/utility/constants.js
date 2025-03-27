@@ -18,7 +18,8 @@ export const APP_ROUTES = {
   reviewList: "/review-list",
   admin: "/admin",
   disclaimer: "/disclaimer",
-  contactUs: "/contact-us"
+  contactUs: "/contact-us",
+  hostAnalytics: "/host-analytics",
 };
 
 export const lsKeys = {

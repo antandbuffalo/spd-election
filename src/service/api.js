@@ -16,7 +16,7 @@ export const getMemberStatusFromGithub = async () => {
     console.log(e);
     return null;
   }
-}
+};
 
 export const getMemberStatusFromSource = async () => {
   try {
@@ -42,8 +42,7 @@ export const getMemberStatus = async () => {
 };
 
 export const getViewCount = async () => {
-  const url =
-    isLocal && !projector ? `http://localhost:3001` : viewCountApiUrl;
+  const url = isLocal && !projector ? `http://localhost:3001` : viewCountApiUrl;
   try {
     const response = await fetch(
       `${url}?id=${getUUID()}&time=${new Date().getTime()}`
@@ -96,11 +95,12 @@ export const getReviewList = async () => {
 
 export const addUser = async (user) => {
   const hostname = window?.location?.hostname;
-  console.log(hostname)
+  console.log(hostname);
   const contextPath = "/add-user";
-  const url = isLocal && !projector
-    ? `http://localhost:3001${contextPath}`
-    : `${viewCountApiUrl}${contextPath}`;
+  const url =
+    isLocal && !projector
+      ? `http://localhost:3001${contextPath}`
+      : `${viewCountApiUrl}${contextPath}`;
 
   try {
     const response = await fetch(url, {
@@ -166,9 +166,23 @@ export const deleteReview = async ({ id, token }) => {
 
 export const fetchConfig = async () => {
   try {
-    const response = await fetch(
-      `config.json?time=${new Date().getTime()}`
-    );
+    const response = await fetch(`config.json?time=${new Date().getTime()}`);
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
+
+export const getUsers = async () => {
+  const contextPath = "/users";
+  const url = isLocal
+    ? `http://localhost:3001${contextPath}`
+    : `${viewCountApiUrl}${contextPath}`;
+
+  try {
+    const response = await fetch(url);
     const json = await response.json();
     return json;
   } catch (e) {
