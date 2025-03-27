@@ -154,6 +154,7 @@ export const deleteReview = async ({ id, token }) => {
       body: JSON.stringify({ id, token }),
       headers: {
         "Content-Type": "application/json",
+        "x-admin-token": token,
       },
     });
     const json = await response.json();
@@ -182,7 +183,19 @@ export const getUsers = async () => {
     : `${viewCountApiUrl}${contextPath}`;
 
   try {
-    const response = await fetch(url);
+    const response = await fetch(url, {
+      headers: {
+        "x-admin-token": localStorage.getItem("token") || "",
+      },
+    });
+
+    if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error("Unauthorized: Please login again");
+      }
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
     const json = await response.json();
     return json;
   } catch (e) {
