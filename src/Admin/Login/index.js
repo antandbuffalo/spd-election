@@ -1,9 +1,9 @@
 import { useState } from "react";
-import { login } from "../service/api";
+import { login } from "../../service/api";
 import "./index.scss";
 import { useNavigate } from "react-router-dom";
-import { APP_ROUTES } from "../utility/constants";
-const Admin = () => {
+import { APP_ROUTES } from "../../utility/constants";
+const Login = () => {
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
 
@@ -11,7 +11,7 @@ const Admin = () => {
     login(password).then((response) => {
       if (response?.status === "success") {
         localStorage.setItem("token", response?.token);
-        navigate(APP_ROUTES.reviewList);
+        navigate(APP_ROUTES.admin);
       }
     });
   };
@@ -24,8 +24,8 @@ const Admin = () => {
   };
 
   return (
-    <div className="admin">
-      <h1>Admin</h1>
+    <div className="login">
+      <h1>Login</h1>
       <div className="password">
         <input
           type="text"
@@ -47,4 +47,4 @@ const Admin = () => {
   );
 };
 
-export default Admin;
+export default Login;
