@@ -17,6 +17,7 @@ export const APP_ROUTES = {
   review: "/review",
   reviewList: "/review-list",
   admin: "/admin",
+  login: "/login",
   disclaimer: "/disclaimer",
   contactUs: "/contact-us",
   hostAnalytics: "/host-analytics",
