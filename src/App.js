@@ -1,11 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
 import "./App.scss";
 import Home from "./Home";
-import { broughtToYouBy, countingStatus, countingStatuses, enableReview, startTime, title } from "./utility/config";
+import {
+  broughtToYouBy,
+  countingStatus,
+  countingStatuses,
+  enableReview,
+  startTime,
+  title,
+} from "./utility/config";
 import {
   convertMillisecondsToTime,
   getUUID,
-  isReviewClosed,
   isReviewSubmitted,
 } from "./utility/util";
 import ViewCount from "./ViewCount";
@@ -26,13 +32,11 @@ function App() {
   const [viewCount, setViewCount] = useState(0);
   const [commentCount, setCommentCount] = useState(0);
   const [userCount, setUserCount] = useState(0);
-  const [showReview, setShowReview] = useState(!isReviewSubmitted() && enableReview);
+  const [showReview, setShowReview] = useState(
+    !isReviewSubmitted() && enableReview
+  );
 
   const navigate = useNavigate();
-
-  const isMobile = useMemo(() => {
-    return window.innerWidth < 900;
-  }, [window.innerWidth]);
 
   const numberWidth = useMemo(() => {
     return window.innerWidth > 900 ? 14 : 10;
@@ -117,9 +121,11 @@ function App() {
 
   const onClickComment = () => {
     navigate(APP_ROUTES.reviewList);
-  }
+  };
 
-  const alternateHost = hostCloudFlare.includes(window?.location.hostname) ? hostFirebase : hostCloudFlare;
+  const alternateHost = hostCloudFlare.includes(window?.location.hostname)
+    ? hostFirebase
+    : hostCloudFlare;
 
   return (
     <div className="App">
@@ -146,7 +152,7 @@ function App() {
             <span>மணித்துளிகளில்</span>
           </div>
         )}
-        {(countingStatus !== countingStatuses.NOT_STARTED) && (
+        {countingStatus !== countingStatuses.NOT_STARTED && (
           <div className="vote-details">
             <div>
               பதிவான வாக்குகள்:
@@ -217,8 +223,12 @@ function App() {
               numbers={viewCount + ""}
             />
           </div>
-          {enableReview &&
-            <div className="live-count comment" style={{ display: "flex" }} onClick={onClickComment}>
+          {enableReview && (
+            <div
+              className="live-count comment"
+              style={{ display: "flex" }}
+              onClick={onClickComment}
+            >
               <img src="/icons/IconCommentGreen.svg" />
               <FlipNumbers
                 height={14}
@@ -228,7 +238,8 @@ function App() {
                 duration={3}
                 numbers={commentCount + ""}
               />
-            </div>}
+            </div>
+          )}
 
           <div className="live-count" style={{ display: "flex" }}>
             <img src="/icons/IconUserGreen.svg" />
@@ -253,7 +264,8 @@ function App() {
           <a href={APP_ROUTES.contactUs}>எங்களை தொடர்பு கொள்ள</a>
         </div>
         <br />
-        <a href={alternateHost}>தேர்தல் முடிவுகளை இந்த வலை தளத்திலும் நீங்கள் தெரிந்து கொள்ளலாம்.
+        <a href={alternateHost}>
+          தேர்தல் முடிவுகளை இந்த வலை தளத்திலும் நீங்கள் தெரிந்து கொள்ளலாம்.
           <br />
           {alternateHost}
         </a>
