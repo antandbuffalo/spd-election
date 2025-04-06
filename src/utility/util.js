@@ -1,5 +1,10 @@
 import { fetchConfig } from "../service/api";
-import { countingStatus, memberFetchInterval, showStatus, showVoteDiff, startTime } from "./config";
+import {
+  countingStatus,
+  countingStatuses,
+  memberFetchInterval,
+  startTime,
+} from "./config";
 import { lsKeys } from "./constants";
 
 export const roundToTwoDigits = (num) => {
@@ -33,7 +38,7 @@ export const getUUID = () => {
 };
 
 export const isReviewSubmitted = () => {
-  if(localStorage.getItem("reviewed")) {
+  if (localStorage.getItem("reviewed")) {
     return true;
   }
   return !!sessionStorage.getItem("reviewClosed");
@@ -63,7 +68,7 @@ const parseDate = (dateStr) => {
   const [datePart, timePart] = dateStr.split(", ");
   const [day, month, year] = datePart.split("/").map(Number);
   return new Date(year, month - 1, day, ...timePart.split(":").map(Number));
-}
+};
 
 export const formatUpdatedAt = (input) => {
   if (!input) return "";
@@ -71,11 +76,15 @@ export const formatUpdatedAt = (input) => {
   const updatedAt = parseDate(input);
   console.log(updatedAt);
   const today = new Date();
-  if (today.getDate() === updatedAt.getDate() && today.getMonth() === updatedAt.getMonth() && today.getFullYear() === updatedAt.getFullYear()) {
+  if (
+    today.getDate() === updatedAt.getDate() &&
+    today.getMonth() === updatedAt.getMonth() &&
+    today.getFullYear() === updatedAt.getFullYear()
+  ) {
     return `Today ${input.split(" ")[1]}`;
   }
   return input;
-}
+};
 
 const createMembersMap = (members) => {
   const membersMap = new Map();
@@ -84,7 +93,7 @@ const createMembersMap = (members) => {
     membersMap.set(member.no, member);
   }
   return membersMap;
-}
+};
 
 const updateMembersWithStats = (sortByRank, prevMembersMap) => {
   for (let i = 0; i < sortByRank.length; i++) {
@@ -93,11 +102,11 @@ const updateMembersWithStats = (sortByRank, prevMembersMap) => {
     const newRank = member.rank;
     sortByRank[i].change = currRank - newRank;
   }
-}
+};
 
 export const leadingTrailing = (data) => {
   const sortedByRank = data?.members.sort((a, b) => a.rank - b.rank);
-  if (!showStatus) {
+  if (countingStatus !== countingStatuses.IN_PROGRESS) {
     localStorage.removeItem(lsKeys.curr_status);
     localStorage.removeItem(lsKeys.prev_status);
     return sortedByRank;
@@ -137,22 +146,18 @@ export const leadingTrailing = (data) => {
     const prevMembersMap = createMembersMap(prev.members);
     updateMembersWithStats(sortedByRank, prevMembersMap);
     return sortedByRank;
-  }
-  catch {
+  } catch {
     localStorage.setItem(lsKeys.curr_status, JSON.stringify(data));
     return sortedByRank;
   }
-}
+};
 
 export const getConfig = async () => {
   const config = await fetchConfig();
   if (config) return config;
   return {
-    "memberFetchInterval": memberFetchInterval,
-    "startTime": startTime,
-    "countingStatus": countingStatus,
-    "showStatus": showStatus,
-    "showVoteDiff": showVoteDiff
-  }
-
-}
+    memberFetchInterval: memberFetchInterval,
+    startTime: startTime,
+    countingStatus: countingStatus,
+  };
+};

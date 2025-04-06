@@ -1,0 +1,136 @@
+import {
+  countingStatus,
+  countingStatuses,
+  requiredNumberOfCandidates,
+} from "../utility/config";
+import "./index.scss";
+import FlipNumbers from "react-flip-numbers";
+import { candidates } from "../utility/constants";
+
+const MemberCard = ({ member, index, prevMember }) => {
+  const isCounting = countingStatus !== countingStatuses.NOT_STARTED;
+
+  const getVoteDifference = (member, prevMember) => {
+    if (!prevMember) {
+      return "";
+    }
+    return member.votes - prevMember.votes;
+  };
+  const getRankClass = (index) => {
+    if (index < requiredNumberOfCandidates) {
+      return "positive";
+    }
+    return "";
+  };
+  const showCurrentStatus = () => {
+    return countingStatus === countingStatuses.IN_PROGRESS;
+  };
+  const getStatContent = (member) => {
+    const changeContent = `(${member.rank + member.change} -> ${member.rank})`;
+    if (member.change === 0) {
+      return <span style={{ color: "#444" }}>மாற்றம் இல்லை</span>;
+    } else if (member.change > 0) {
+      return <span>முன்னிலை</span>;
+    } else if (member.change < 0) {
+      return <span style={{ color: "#ff0000" }}>பின்னடைவு</span>;
+    } else {
+      return "";
+    }
+  };
+  const showVictoryStatus = () => {
+    return (
+      countingStatus === countingStatuses.ENDED &&
+      index < requiredNumberOfCandidates
+    );
+  };
+  return (
+    <div className="member-card">
+      <div className="members" key={member.no}>
+        <div className="left-side">
+          <div className="part-1-container">
+            <div className="part1">
+              <div className="number">{member.no}</div>
+              <div className={`image ${member.team}`}>
+                <img
+                  className="photo"
+                  src={`/images/sabai_2025/${member.no}.png`}
+                  loading="lazy"
+                ></img>
+                {isCounting && (
+                  <div className="diff">
+                    {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
+                    <FlipNumbers
+                      height={14}
+                      width={12}
+                      numbers={getVoteDifference(member, prevMember) + ""}
+                      perspective={100}
+                      play
+                      duration={3}
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          <div className="part2">
+            <div className="name">{candidates[member.no]}</div>
+            {isCounting && (
+              <div>
+                <div className="votes">
+                  <div>வாக்குகள்: </div>
+                  {/* <span className="count"> */}
+                  {/* {member.votes} */}
+                  <FlipNumbers
+                    height={14}
+                    width={11}
+                    numbers={member.votes + ""}
+                    perspective={100}
+                    play
+                    duration={3}
+                  />
+                  {/* </span> */}
+                  {/* ({Math.round(((member.votes / totalVotes) * 100))} %) */}
+                </div>
+                <div className={`rank ${getRankClass(index)}`}>
+                  <div>நிலை: </div>
+                  <FlipNumbers
+                    height={14}
+                    width={11}
+                    numbers={member.rank + ""}
+                    perspective={100}
+                    play
+                    duration={3}
+                  />
+                </div>
+              </div>
+            )}
+
+            <div
+              className={`status ${
+                countingStatus === countingStatuses.IN_PROGRESS ? "animation" : ""
+              }`}
+            >
+              {showVictoryStatus(index) && <span>வெற்றி</span>}
+              {showCurrentStatus() && getStatContent(member)}
+            </div>
+          </div>
+        </div>
+        {isCounting && (
+          <div className="part3">
+            {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
+            <FlipNumbers
+              height={18}
+              width={14}
+              numbers={getVoteDifference(member, prevMember) + ""}
+              perspective={100}
+              play
+              duration={3}
+            />
+          </div>
+        )}
+      </div>
+    </div>
+  );
+};
+
+export default MemberCard;

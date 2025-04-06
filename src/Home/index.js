@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { getMemberStatus } from "../service/api";
 import "./index.scss";
 import Spinner from "../Spinner";
-import { API_STATUS, APP_ROUTES, candidates } from "../utility/constants";
+import { API_STATUS, APP_ROUTES } from "../utility/constants";
 import {
   countingStatus,
   countingStatuses,
@@ -10,26 +10,16 @@ import {
   currentStatusTitle,
   enableReview,
   memberFetchInterval,
-  requiredNumberOfCandidates,
-  showStatus,
-  showVoteDiff,
 } from "../utility/config";
 import TeamDetails from "../TeamDetails";
 import { useNavigate } from "react-router-dom";
-import { formatUpdatedAt, leadingTrailing } from "../utility/util";
-import FlipNumbers from "react-flip-numbers";
-// import { getImage } from "../storage/imageCache";
+import { leadingTrailing } from "../utility/util";
+import MemberCard from "../MemberCard";
 const Home = ({ sendApiResponse }) => {
   const [membersByRank, setMembersByRank] = useState([]);
   const [updatedAt, setUpdatedAt] = useState("");
   const [apiStatus, setApiStatus] = useState(API_STATUS.NOT_STARTED);
-  const [round, setRound] = useState(0);
-  const [totalVotes, setTotalVotes] = useState(0);
   const navigate = useNavigate();
-
-  // getImage("images/sabai_2025/1.png").then((data) => {
-  //   console.log(data);
-  // })
 
   const isCounting = countingStatus !== countingStatuses.NOT_STARTED;
 
@@ -50,22 +40,19 @@ const Home = ({ sendApiResponse }) => {
       const formatted = leadingTrailing(data);
       // setMembersByRank(data?.members.sort((a, b) => a.rank - b.rank));
       setMembersByRank(formatted);
-    }
-    else {
+    } else {
       setMembersByRank(data?.members);
     }
 
     setUpdatedAt(data?.time);
-    setRound(data?.round ? data?.round : 0);
     sendApiResponse(data);
-    setTotalVotes(data?.totalVotes);
   };
   const startTimer = () => {
     let timer = null;
     const fetchAndSchedule = async () => {
       await getData();
       timer = setTimeout(fetchAndSchedule, memberFetchInterval);
-    }
+    };
     timer = setTimeout(fetchAndSchedule, memberFetchInterval);
 
     // return the ref
@@ -73,7 +60,7 @@ const Home = ({ sendApiResponse }) => {
   };
   useEffect(() => {
     getData();
-    if (countingStatus === countingStatuses.STARTED || countingStatus === countingStatuses.FINAL_ROUND) {
+    if (countingStatus === countingStatuses.IN_PROGRESS) {
       // invoke the startTimer function and destory the interval
       const clearFn = startTimer();
       return () => {
@@ -84,56 +71,10 @@ const Home = ({ sendApiResponse }) => {
   const refresh = () => {
     getData();
   };
-  const getVoteDifference = (member, index) => {
-    if (index === 0) {
-      return "";
-    }
-    const prevMember = membersByRank[index - 1];
-    return member.votes - prevMember.votes;
-  };
-
-  const getFlashBgClass = (index) => {
-    if (isCounting && index < requiredNumberOfCandidates) {
-      return `required-candidate`;
-    }
-    return "";
-  };
-
-  const shouldShowCurrentStatus = (status) => {
-    return countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED && status;
-  };
-
-  const shouldShowVictoryStatus = (status, index) => {
-    return (countingStatus === countingStatuses.FINAL_ROUND || countingStatus === countingStatuses.ENDED) && status && index < requiredNumberOfCandidates;
-  };
-
-  const shouldAddEmptySpace = (status, index) => {
-    return (isCounting || countingStatus === countingStatuses.ENDED) && status && index > requiredNumberOfCandidates - 1;
-  };
 
   const openReview = () => {
     navigate(APP_ROUTES.reviewList);
   };
-
-  const getRankClass = (index) => {
-    if (index < requiredNumberOfCandidates) {
-      return "positive";
-    }
-    return "";
-  }
-
-  const getStatContent = (member) => {
-    const changeContent = `(${member.rank + member.change} -> ${member.rank})`;
-    if (member.change === 0) {
-      return <span style={{ color: "#444" }}>மாற்றம் இல்லை</span>
-    } else if (member.change > 0) {
-      return <span>முன்னிலை</span>
-    } else if (member.change < 0) {
-      return <span style={{ color: "#ff0000" }}>பின்னடைவு</span>
-    } else {
-      return "";
-    }
-  }
 
   return (
     <div className="home">
@@ -141,9 +82,15 @@ const Home = ({ sendApiResponse }) => {
         <div className="home-header">
           <div></div>
           <div className="title">
-            {countingStatus === countingStatuses.NOT_STARTED ? currentStatusTitle.default : currentStatusTitle.started}
+            {countingStatus === countingStatuses.NOT_STARTED
+              ? currentStatusTitle.default
+              : currentStatusTitle.started}
             {currentStatusDesc.default !== "" && (
-              <div className="current-status">{countingStatus === countingStatuses.NOT_STARTED ? currentStatusDesc.started : currentStatusDesc.default}</div>
+              <div className="current-status">
+                {countingStatus === countingStatuses.NOT_STARTED
+                  ? currentStatusDesc.started
+                  : currentStatusDesc.default}
+              </div>
             )}
             <div className="updated-at">{updatedAt}</div>
           </div>
@@ -177,99 +124,14 @@ const Home = ({ sendApiResponse }) => {
       <div className="members-container">
         {membersByRank.map((member, index) => {
           return (
-            <div
-              className={`members ${getFlashBgClass(index)}`}
+            <MemberCard
               key={member.no}
-            >
-              <div className="left-side">
-                <div className="part-1-container">
-                  <div className="part1">
-                    <div className="number">{member.no}</div>
-                    <div className={`image ${member.team}`}>
-                      <img
-                        className="photo"
-                        src={`/images/sabai_2025/${member.no}.png`}
-                        loading="lazy"
-                      ></img>
-                      {isCounting && showVoteDiff && (
-                        <div className="diff">
-                          {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
-                          <FlipNumbers
-                            height={14}
-                            width={12}
-                            numbers={getVoteDifference(member, index) + ""}
-                            perspective={100}
-                            play
-                            duration={3}
-                          />
-                        </div>
-                      )}
-                    </div>
-                  </div>
-
-                </div>
-                <div className="part2">
-                  <div className="name">{candidates[member.no]}</div>
-                  {isCounting && (
-                    <div>
-                      <div className="votes">
-                        <div>வாக்குகள்: </div>
-                        {/* <span className="count"> */}
-                        {/* {member.votes} */}
-                        <FlipNumbers
-                          height={14}
-                          width={11}
-                          numbers={member.votes + ""}
-                          perspective={100}
-                          play
-                          duration={3}
-                        />
-                        {/* </span> */}
-                        {/* ({Math.round(((member.votes / totalVotes) * 100))} %) */}
-                      </div>
-                      <div className={`rank ${getRankClass(index)}`}>
-                        <div>நிலை: </div>
-                        <FlipNumbers
-                          height={14}
-                          width={11}
-                          numbers={member.rank + ""}
-                          perspective={100}
-                          play
-                          duration={3}
-                        />
-
-                      </div>
-                    </div>
-                  )}
-
-                  <div
-                    className={`status ${countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED ? "animation" : ""}`}
-                  >
-                    {shouldShowVictoryStatus(showStatus, index) && <span>வெற்றி</span>}
-                    {/* {(countingStatus !== countingStatuses.FINAL_ROUND && countingStatus !== countingStatuses.ENDED) && <span>முன்னிலை</span>} */}
-
-                    {shouldShowCurrentStatus(showStatus) && getStatContent(member)}
-                  </div>
-                  {/* {shouldAddEmptySpace(showStatus, index) && <div>&nbsp;</div>} */}
-                </div>
-              </div>
-              {(isCounting && showVoteDiff) && (
-                <div className="part3">
-                  {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
-                  <FlipNumbers
-                    height={18}
-                    width={14}
-                    numbers={getVoteDifference(member, index) + ""}
-                    perspective={100}
-                    play
-                    duration={3}
-                  />
-                </div>
-              )}
-            </div>
+              member={member}
+              index={index}
+              prevMember={index > 0 ? membersByRank[index - 1] : null}
+            />
           );
         })}
-
         <div className="members team-count">
           <TeamDetails membersByRank={membersByRank} />
         </div>
