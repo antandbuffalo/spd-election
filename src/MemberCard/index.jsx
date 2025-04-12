@@ -50,12 +50,29 @@ const MemberCard = ({ member, index, prevMember }) => {
           <div className="part-1-container">
             <div className="part1">
               <div className="number">{member.no}</div>
-              <div className={`image ${member.team}`}>
+              <div
+                className={`image ${member.team} ${
+                  countingStatus === countingStatuses.IN_PROGRESS
+                    ? "in-progress"
+                    : ""
+                }`}
+              >
+                {countingStatus === countingStatuses.IN_PROGRESS && (
+                  <div
+                    className={`index-overlay ${
+                      index >= requiredNumberOfCandidates
+                        ? "below-required"
+                        : ""
+                    }`}
+                  >
+                    {index + 1}
+                  </div>
+                )}
                 <img
                   className="photo"
                   src={`/images/sabai_2025/${member.no}.png`}
                   loading="lazy"
-                ></img>
+                />
               </div>
             </div>
           </div>

@@ -83,11 +83,82 @@
             border-radius: 50%;
             width: 50px;
             height: 50px;
+            position: relative;
+            overflow: hidden;
+
+            @keyframes imageSlideDown {
+              0%,
+              45% {
+                transform: translateY(0);
+                opacity: 1;
+              }
+              55%,
+              95% {
+                transform: translateY(100%);
+                opacity: 0.3;
+              }
+              100% {
+                transform: translateY(0);
+                opacity: 1;
+              }
+            }
+
+            @keyframes numberSlideIn {
+              0%,
+              45% {
+                transform: translateY(-100%);
+                opacity: 0;
+              }
+              55%,
+              95% {
+                transform: translateY(0);
+                opacity: 1;
+              }
+              100% {
+                transform: translateY(-100%);
+                opacity: 0;
+              }
+            }
+
+            .index-overlay {
+              position: absolute;
+              top: 0;
+              left: 0;
+              width: 100%;
+              height: 100%;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              background-color: #019c011c;
+              color: #019c01; // Green text for candidates within required number
+              font-size: 1.8rem;
+              font-weight: bold;
+              z-index: 1;
+              border-radius: 50%;
+
+              &.below-required {
+                color: #ff0000;
+                background-color: #ff00001c;
+              }
+            }
 
             .photo {
               border-radius: 50%;
               width: 50px;
               height: 50px;
+            }
+
+            // Apply animations only when countingStatus is IN_PROGRESS
+            &.in-progress {
+              .photo {
+                animation: imageSlideDown 4s infinite
+                  cubic-bezier(0.4, 0, 0.6, 1);
+              }
+
+              .index-overlay {
+                animation: numberSlideIn 4s infinite
+                  cubic-bezier(0.4, 0, 0.6, 1);
+              }
             }
 
             &.A {
@@ -175,8 +246,6 @@
             animation-iteration-count: infinite;
             animation-direction: alternate;
             // animation-timing-function: ease-in;
-            animation-timing-function: ease-in;
-            // ease-out - makes the content easy to read
           }
         }
       }
