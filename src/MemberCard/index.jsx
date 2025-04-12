@@ -14,7 +14,7 @@ const MemberCard = ({ member, index, prevMember }) => {
     if (!prevMember) {
       return "";
     }
-    return member.votes - prevMember.votes;
+    return `(${Math.abs(member.votes - prevMember.votes)})`;
   };
   const getRankClass = (index) => {
     if (index < requiredNumberOfCandidates) {
@@ -56,19 +56,6 @@ const MemberCard = ({ member, index, prevMember }) => {
                   src={`/images/sabai_2025/${member.no}.png`}
                   loading="lazy"
                 ></img>
-                {isCounting && (
-                  <div className="diff">
-                    {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
-                    <FlipNumbers
-                      height={14}
-                      width={12}
-                      numbers={getVoteDifference(member, prevMember) + ""}
-                      perspective={100}
-                      play
-                      duration={3}
-                    />
-                  </div>
-                )}
               </div>
             </div>
           </div>
@@ -77,19 +64,12 @@ const MemberCard = ({ member, index, prevMember }) => {
             {isCounting && (
               <div>
                 <div className="votes">
-                  <div>வாக்குகள்: </div>
-                  {/* <span className="count"> */}
-                  {/* {member.votes} */}
-                  <FlipNumbers
-                    height={14}
-                    width={11}
-                    numbers={member.votes + ""}
-                    perspective={100}
-                    play
-                    duration={3}
-                  />
-                  {/* </span> */}
+                  வாக்குகள்:
+                  <span className="count">{member.votes}</span>
                   {/* ({Math.round(((member.votes / totalVotes) * 100))} %) */}
+                  <span className="change">
+                    {getVoteDifference(member, prevMember)}
+                  </span>
                 </div>
                 <div className={`rank ${getRankClass(index)}`}>
                   <div>நிலை: </div>
@@ -107,7 +87,9 @@ const MemberCard = ({ member, index, prevMember }) => {
 
             <div
               className={`status ${
-                countingStatus === countingStatuses.IN_PROGRESS ? "animation" : ""
+                countingStatus === countingStatuses.IN_PROGRESS
+                  ? "animation"
+                  : ""
               }`}
             >
               {showVictoryStatus(index) && <span>வெற்றி</span>}
@@ -115,19 +97,6 @@ const MemberCard = ({ member, index, prevMember }) => {
             </div>
           </div>
         </div>
-        {isCounting && (
-          <div className="part3">
-            {/* {index !== 0 && <img className="icon-down" src="/icons/IconDownRed.svg" />} */}
-            <FlipNumbers
-              height={18}
-              width={14}
-              numbers={getVoteDifference(member, prevMember) + ""}
-              perspective={100}
-              play
-              duration={3}
-            />
-          </div>
-        )}
       </div>
     </div>
   );

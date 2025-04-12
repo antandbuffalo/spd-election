@@ -115,9 +115,16 @@
         .votes {
           color: #666;
           display: flex;
+          align-items: center;
+          gap: 2px;
 
           .count {
             color: blue;
+          }
+          .change {
+            margin-left: 2px;
+            color: red;
+            font-size: 16px;
           }
         }
         .rank {
@@ -173,13 +180,6 @@
           }
         }
       }
-    }
-
-    .part3 {
-      text-align: center;
-      margin-right: 12px;
-      color: red;
-      display: none;
     }
   }
 }
