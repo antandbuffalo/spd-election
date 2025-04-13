@@ -1,14 +1,23 @@
 import FlipNumbers from "react-flip-numbers";
-import { countingStatus, countingStatuses, requiredNumberOfCandidates, teams } from "../utility/config";
+import {
+  countingStatus,
+  countingStatuses,
+  requiredNumberOfCandidates,
+  teams,
+} from "../utility/config";
 import "./index.scss";
 const TeamDetails = ({ membersByRank = [] }) => {
-  const selected = countingStatus === countingStatuses.STARTED || countingStatus === countingStatuses.FINAL_ROUND || countingStatus === countingStatuses.ENDED ? membersByRank.slice(0, requiredNumberOfCandidates) : membersByRank;
+  const selected =
+    countingStatus === countingStatuses.STARTED ||
+    countingStatus === countingStatuses.ENDED
+      ? membersByRank.slice(0, requiredNumberOfCandidates)
+      : membersByRank;
   const getTeamCount = (team) => {
     return selected.filter((member) => member.team === team).length;
   };
   return (
     <div className="team-details">
-      {teams.map(team => {
+      {teams.map((team) => {
         if (!team.show) return null;
         return (
           <div className="team-container" key={team.key}>
@@ -24,7 +33,7 @@ const TeamDetails = ({ membersByRank = [] }) => {
             </div>
             {team.title}
           </div>
-        )
+        );
       })}
     </div>
   );
