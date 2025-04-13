@@ -43,7 +43,7 @@ export const startTime = new Date("2025-03-23 23:00:00").getTime();
 // STARTED - will show extra details like, total number of votes, current count etc
 // FINAL_ROUND - this shows whether the candidate won or not. showStatus should be true for this
 // NOT_STARTED, IN_PROGRESS, ENDED
-export const countingStatus = countingStatuses.IN_PROGRESS;
+export const countingStatus = countingStatuses.ENDED;
 
 // to fetch live count from api for projector
 export const projector = false;
