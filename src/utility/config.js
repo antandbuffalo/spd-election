@@ -18,7 +18,7 @@ export const currentStatusDesc = {
 
 export const enableReview = true;
 
-// this is used to define the teams.
+// this is used to define the teams
 export const teams = [
   { key: "A", title: "மக்கள் அணி", show: true },
   { key: "B", title: "சமூக முன்னேற்ற அணி", show: true },
