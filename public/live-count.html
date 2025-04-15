@@ -1,0 +1,40 @@
+<script>
+  async function getLiveCount(onUpdate) {
+    const deviceId =
+      localStorage.getItem("deviceId") ||
+      crypto.randomUUID() ||
+      Math.random().toString(36).substring(2, 15);
+    localStorage.setItem("deviceId", deviceId);
+    const domain = window.location.hostname || "localhost";
+    const server = "https://spd-election.onrender.com/count";
+
+    try {
+      const url = new URL(server);
+      url.searchParams.append("deviceId", deviceId);
+      url.searchParams.append("domain", domain);
+
+      const response = await fetch(url.toString(), {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+
+      if (!response.ok) {
+        onUpdate(0);
+        return;
+      }
+
+      const data = await response.json();
+      onUpdate(data.liveCount);
+    } catch (error) {
+      onUpdate(0);
+      console.error("Error fetching live count:", error);
+    }
+  }
+  getLiveCount((viewCount) => {
+    console.log(viewCount);
+    document.getElementById("live-count").innerHTML = viewCount;
+  });
+</script>
+<div id="live-count"></div>
