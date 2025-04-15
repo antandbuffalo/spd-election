@@ -5,11 +5,11 @@
  * It can be used both as a module (import/require) or directly in a script tag.
  */
 
-(function(root, factory) {
-  if (typeof define === 'function' && define.amd) {
+(function (root, factory) {
+  if (typeof define === "function" && define.amd) {
     // AMD. Register as an anonymous module
     define([], factory);
-  } else if (typeof module === 'object' && module.exports) {
+  } else if (typeof module === "object" && module.exports) {
     // Node. Does not work with strict CommonJS, but
     // only CommonJS-like environments that support module.exports,
     // like Node.
@@ -18,8 +18,7 @@
     // Browser globals (root is window)
     root.getLiveCount = factory();
   }
-}(typeof self !== 'undefined' ? self : this, function() {
-
+})(typeof self !== "undefined" ? self : this, function () {
   /**
    * Gets the live visitor count from the server
    * @param {Function} onUpdate - Callback function that receives the live count
@@ -28,15 +27,18 @@
   async function getLiveCount(onUpdate) {
     const deviceId =
       localStorage.getItem("deviceId") ||
-      (typeof crypto !== 'undefined' && crypto.randomUUID ? crypto.randomUUID() : null) ||
+      (typeof crypto !== "undefined" && crypto.randomUUID
+        ? crypto.randomUUID()
+        : null) ||
       Math.random().toString(36).substring(2, 15);
 
     localStorage.setItem("deviceId", deviceId);
 
     // Try to get domain from window.location or default to localhost
-    const domain = (typeof window !== 'undefined' && window.location)
-      ? window.location.hostname
-      : "localhost";
+    const domain =
+      window && window.location && window.location.hostname
+        ? window.location.hostname
+        : "localhost";
 
     const server = "https://spd-election.onrender.com/count";
 
@@ -66,4 +68,4 @@
   }
 
   return getLiveCount;
-}));
+});
