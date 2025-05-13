@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Festival Analytics</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 15px;
+        line-height: 1.5;
+        font-size: 16px;
+      }
+      .container {
+        max-width: 100%;
+        margin: 0 auto;
+      }
+      h1 {
+        color: #333;
+        margin-bottom: 15px;
+        font-size: 24px;
+        text-align: center;
+      }
+      .analytics-card {
+        background-color: #f5f5f5;
+        border-radius: 8px;
+        padding: 15px;
+        margin-bottom: 15px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        opacity: 0;
+        animation: fadeIn 0.8s ease-in-out forwards;
+      }
+      .metric {
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .metric-title {
+        font-weight: bold;
+        margin-bottom: 5px;
+        font-size: 16px;
+      }
+      .metric-value {
+        font-size: 32px;
+        color: #0066cc;
+        font-weight: bold;
+      }
+      .metric-detail {
+        font-size: 14px;
+        color: #666;
+      }
+      .ua-analytics-section {
+        margin-top: 20px;
+      }
+      .ua-analytics-title {
+        font-size: 18px;
+        margin-bottom: 15px;
+        color: #333;
+        text-align: center;
+        font-weight: bold;
+      }
+      .chart-container {
+        margin-bottom: 25px;
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+      }
+      .chart-bar {
+        height: 40px;
+        display: flex;
+        align-items: center;
+        margin-bottom: 0;
+      }
+      .chart-label {
+        width: 120px;
+        text-align: right;
+        padding-right: 12px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-size: 14px;
+        display: flex;
+        justify-content: flex-end;
+        align-items: center;
+        height: 100%;
+        flex-shrink: 0;
+      }
+      .chart-bar-value {
+        height: 100%;
+        background-color: #4285f4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 40px;
+        padding: 0 10px;
+        color: white;
+        border-radius: 4px;
+        font-weight: bold;
+        flex-grow: 0;
+        box-sizing: border-box;
+        width: 0;
+        animation: growBar 1.5s ease-out forwards;
+        animation-delay: 0.3s;
+      }
+      .note {
+        font-style: italic;
+        color: #666;
+        margin-top: 10px;
+        font-size: 13px;
+        text-align: center;
+      }
+      .loading {
+        text-align: center;
+        padding: 20px;
+        font-style: italic;
+        color: #666;
+      }
+      .error {
+        color: #d32f2f;
+        text-align: center;
+        padding: 15px;
+        background-color: #ffebee;
+        border-radius: 4px;
+        margin-bottom: 15px;
+      }
+
+      /* Animations */
+      @keyframes fadeIn {
+        from {
+          opacity: 0;
+          transform: translateY(10px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      @keyframes growBar {
+        from {
+          width: 0;
+        }
+        to {
+          width: var(--final-width, 100%);
+        }
+      }
+
+      .analytics-card:nth-child(1) {
+        animation-delay: 0.1s;
+      }
+
+      .ua-analytics-section .analytics-card {
+        animation-delay: 0.3s;
+      }
+
+      /* Mobile-specific enhancements */
+      @media (max-width: 768px) {
+        .chart-label {
+          width: 120px;
+          font-size: 14px;
+          padding-right: 12px;
+        }
+        .chart-bar {
+          height: 36px;
+        }
+        .chart-bar-value {
+          font-size: 15px;
+        }
+        .metric-value {
+          font-size: 28px;
+        }
+        .ua-analytics-title {
+          font-size: 16px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Festival Analytics</h1>
+
+      <div id="content">
+        <div class="loading">Loading analytics data...</div>
+      </div>
+    </div>
+
+    <script>
+      // Wait for the document to be fully loaded
+      document.addEventListener("DOMContentLoaded", function () {
+        fetchAnalyticsData();
+      });
+
+      async function fetchAnalyticsData() {
+        try {
+          const response = await fetch(
+            "https://spd-election.onrender.com/festival-analytics"
+          );
+
+          if (!response.ok) {
+            throw new Error("Failed to fetch analytics data");
+          }
+
+          const data = await response.json();
+          renderAnalytics(data);
+        } catch (error) {
+          console.error("Error fetching analytics data:", error);
+          document.getElementById("content").innerHTML = `
+                    <div class="error">
+                        Error loading analytics data. Please try again later.
+                    </div>
+                `;
+        }
+      }
+
+      function renderAnalytics(data) {
+        const contentElement = document.getElementById("content");
+
+        // Format date
+        const lastUpdated = new Date(data.lastUpdated);
+        const formattedDate =
+          lastUpdated.toLocaleDateString() +
+          ", " +
+          lastUpdated.toLocaleTimeString();
+
+        // Format max live count timestamp
+        const maxLiveTime = new Date(data.maxLiveCountTimestamp);
+        const formattedMaxLiveTime =
+          maxLiveTime.toLocaleDateString() +
+          " at " +
+          maxLiveTime.toLocaleTimeString();
+
+        // Build HTML content
+        let html = `
+                <div class="analytics-card">
+                    <div class="metric">
+                        <div class="metric-title">Total Number of Visits</div>
+                        <div class="metric-value" data-count="${
+                          data.totalVisits
+                        }">0</div>
+                    </div>
+
+                    <div class="metric">
+                        <div class="metric-title">Unique Users</div>
+                        <div class="metric-value" data-count="${
+                          data.uniqueUsers
+                        }">0</div>
+                    </div>
+
+                    <div class="metric">
+                        <div class="metric-title">Maximum Live Count</div>
+                        <div class="metric-value" data-count="${
+                          data.maxLiveCount
+                        }">0</div>
+                        <div class="metric-detail">Occurred on ${formattedMaxLiveTime}</div>
+                    </div>
+                </div>
+
+                <div class="ua-analytics-section">
+                    <div class="analytics-card">
+                        <div class="ua-analytics-title">Users by Device Type</div>
+                        <div class="chart-container">
+                            ${renderChartBars(data.deviceTypes)}
+                        </div>
+
+                        <div class="ua-analytics-title">Users by Operating System</div>
+                        <div class="chart-container">
+                            ${renderChartBars(data.operatingSystems)}
+                        </div>
+
+                        <div class="ua-analytics-title">Users by Browser</div>
+                        <div class="chart-container">
+                            ${renderChartBars(data.browsers)}
+                        </div>
+
+                        <div class="note">
+                            Last updated: ${formattedDate}
+                        </div>
+                    </div>
+                </div>
+            `;
+
+        contentElement.innerHTML = html;
+
+        // Animate count up for metric values
+        animateCountUp(".metric-value");
+
+        // Animate count up for chart bar values with a slight delay
+        setTimeout(function () {
+          animateCountUp(".chart-bar-value");
+        }, 500);
+      }
+
+      function renderChartBars(dataObject) {
+        if (!dataObject) return "";
+
+        // Find the maximum value for scaling
+        const maxValue = Math.max(...Object.values(dataObject));
+
+        // Sort by value in descending order
+        const sortedEntries = Object.entries(dataObject).sort(
+          (a, b) => b[1] - a[1]
+        );
+
+        return sortedEntries
+          .map(([key, value]) => {
+            // Calculate width percentage relative to max value (minimum 10% for visibility)
+            const widthPercentage = Math.max(10, (value / maxValue) * 100);
+
+            return `
+                    <div class="chart-bar">
+                        <div class="chart-label" title="${key}">${key}</div>
+                        <div class="chart-bar-value" style="--final-width: ${widthPercentage}%;" data-count="${value}">0</div>
+                    </div>
+                `;
+          })
+          .join("");
+      }
+
+      function animateCountUp(selector) {
+        const elements = document.querySelectorAll(selector);
+
+        elements.forEach((element) => {
+          const target = parseInt(element.getAttribute("data-count"));
+          const duration = 1500; // milliseconds
+          const stepTime = 50;
+          const steps = duration / stepTime;
+          const increment = target / steps;
+          let current = 0;
+
+          const timer = setInterval(() => {
+            current += increment;
+
+            if (current >= target) {
+              element.textContent = target;
+              clearInterval(timer);
+            } else {
+              element.textContent = Math.floor(current);
+            }
+          }, stepTime);
+        });
+      }
+    </script>
+  </body>
+</html>
