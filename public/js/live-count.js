@@ -20,11 +20,12 @@
   }
 })(typeof self !== "undefined" ? self : this, function () {
   /**
-   * Gets the live visitor count from the server
+   * Gets the live visitor count from the server and sets up continuous polling
    * @param {Function} onUpdate - Callback function that receives the live count
-   * @returns {Promise<void>}
+   * @param {number} interval - Update interval in milliseconds (default: 1 minute)
+   * @returns {Function} Function to stop the polling
    */
-  async function getLiveCount(onUpdate) {
+  function getLiveCount(onUpdate, interval = 60000) {
     const deviceId =
       localStorage.getItem("deviceId") ||
       (typeof crypto !== "undefined" && crypto.randomUUID
@@ -42,29 +43,60 @@
 
     const server = "https://spd-election.onrender.com/count";
 
-    try {
-      const url = new URL(server);
-      url.searchParams.append("deviceId", deviceId);
-      url.searchParams.append("domain", domain);
+    // Tracking variable to control polling
+    let isPolling = true;
+    let isFirstCall = true;
 
-      const response = await fetch(url.toString(), {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      });
+    // Function to handle the polling with delay
+    async function poll() {
+      if (!isPolling) return;
 
-      if (!response.ok) {
+      try {
+        const url = new URL(server);
+
+        const payload = {
+          deviceId: deviceId,
+          domain: domain,
+        };
+
+        // Add extra parameter for first call
+        if (isFirstCall) {
+          payload.isFirstTime = true;
+          isFirstCall = false;
+        }
+
+        const response = await fetch(url.toString(), {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(payload),
+        });
+
+        if (!response.ok) {
+          onUpdate(0);
+        } else {
+          const data = await response.json();
+          onUpdate(data.liveCount);
+        }
+      } catch (error) {
         onUpdate(0);
-        return;
+        console.error("Error fetching live count:", error);
       }
 
-      const data = await response.json();
-      onUpdate(data.liveCount);
-    } catch (error) {
-      onUpdate(0);
-      console.error("Error fetching live count:", error);
+      // Schedule next call only after the current one finishes
+      if (isPolling) {
+        setTimeout(poll, interval);
+      }
     }
+
+    // Start the initial polling
+    poll();
+
+    // Return function to stop polling
+    return function stopPolling() {
+      isPolling = false;
+    };
   }
 
   return getLiveCount;
