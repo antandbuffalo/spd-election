@@ -203,3 +203,23 @@ export const getUsers = async () => {
     return null;
   }
 };
+
+export const generateFestivalAnalytics = async () => {
+  const contextPath = "/generate-festival-analytics";
+  const url = isLocal
+    ? `http://localhost:3001${contextPath}`
+    : `${viewCountApiUrl}${contextPath}`;
+
+  try {
+    const response = await fetch(url, {
+      headers: {
+        "x-admin-token": localStorage.getItem("token") || "",
+      },
+    });
+    const json = await response.json();
+    return json;
+  } catch (e) {
+    console.log(e);
+    return null;
+  }
+};
