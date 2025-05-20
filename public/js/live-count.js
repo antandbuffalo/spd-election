@@ -26,6 +26,10 @@
    * @returns {Function} Function to stop the polling
    */
   function getLiveCount(onUpdate, interval = 60000) {
+    // Minimum interval is 10 seconds
+    if (interval < 10000) {
+      interval = 10000;
+    }
     const deviceId =
       localStorage.getItem("deviceId") ||
       (typeof crypto !== "undefined" && crypto.randomUUID
