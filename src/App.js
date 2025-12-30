@@ -62,7 +62,7 @@ function App() {
   };
 
   useEffect(() => {
-    addUser({ id: getUUID() });
+    addUser();
 
     if (!isReviewSubmitted() && enableReview) {
       setShowReview(true);
