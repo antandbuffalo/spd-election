@@ -43,7 +43,8 @@ export const getMemberStatus = async () => {
 };
 
 export const getViewCount = async () => {
-  const url = false && isLocal && !projector ? `http://localhost:3001` : viewCountApiUrl;
+  const url =
+    false && isLocal && !projector ? `http://localhost:3001` : viewCountApiUrl;
   try {
     const response = await fetch(`${url}/analytics/live`, {
       method: "POST",
@@ -52,12 +53,12 @@ export const getViewCount = async () => {
         "Content-Type": "application/json",
       },
     });
-    const json = await response.json();    
+    const json = await response.json();
     return {
       liveCount: json.liveCount || 0,
       uniqueUserCount: json.uniqueUserCount || 0,
       commentCount: json.commentCount || 0,
-    }
+    };
   } catch (e) {
     console.log(e);
     return null;
@@ -110,19 +111,17 @@ export const getReviewList = async () => {
   }
 };
 
-export const addUser = async (user) => {
-  const hostname = window?.location?.hostname;
-  console.log(hostname);
-  const contextPath = "/add-user";
+export const addUser = async () => {
+  const contextPath = "/analytics/users";
   const url =
-    isLocal && !projector
+    false && isLocal && !projector
       ? `http://localhost:3001${contextPath}`
       : `${viewCountApiUrl}${contextPath}`;
 
   try {
     const response = await fetch(url, {
       method: "POST",
-      body: JSON.stringify({ ...user, hostname }),
+      body: JSON.stringify({ deviceId: getUUID() }),
       headers: {
         "Content-Type": "application/json",
       },
