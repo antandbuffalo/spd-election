@@ -1,37 +1,13 @@
-import { useEffect, useState } from "react";
-import { getViewCount } from "../service/api";
+import { useViewCount } from "../service/api";
 import "./index.scss";
 import FlipNumbers from "react-flip-numbers";
-import { API_STATUS, viewCountApiInterval } from "../utility/constants";
 
-const ViewCount = ({ sendViewCount = () => { } }) => {
-  const [viewCount, setViewCount] = useState(0);
-  const [totalUserCount, setTotalUserCount] = useState(0);
+const ViewCount = () => {
+  const { data } = useViewCount();
 
-  const getData = async () => {
-    const data = await getViewCount();
-    if (!data) {
-      return;
-    }
-    sendViewCount(data);
-    setViewCount(data?.viewCount);
-    setTotalUserCount(data?.uniqueUserCount);
-  };
+  const viewCount = data?.liveCount || 0;
+  const totalUserCount = data?.uniqueUserCount || 0;
 
-  useEffect(() => {
-    getData();
-
-    let timer = null;
-    const fetchAndSchedule = async () => {
-      await getData();
-      timer = setTimeout(fetchAndSchedule, viewCountApiInterval);
-    }
-    timer = setTimeout(fetchAndSchedule, viewCountApiInterval);
-
-    return () => {
-      clearTimeout(timer);
-    };
-  }, []);
   return (
     <div className="view-count-container">
       <div>

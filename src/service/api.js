@@ -1,5 +1,6 @@
+import { useQuery } from "@tanstack/react-query";
 import { projector } from "../utility/config";
-import { viewCountApiUrl } from "../utility/constants";
+import { viewCountApiInterval, viewCountApiUrl } from "../utility/constants";
 import { getUUID } from "../utility/util";
 
 const isLocal = window.location.host.includes("localhost");
@@ -42,17 +43,33 @@ export const getMemberStatus = async () => {
 };
 
 export const getViewCount = async () => {
-  const url = isLocal && !projector ? `http://localhost:3001` : viewCountApiUrl;
+  const url = false && isLocal && !projector ? `http://localhost:3001` : viewCountApiUrl;
   try {
-    const response = await fetch(
-      `${url}?id=${getUUID()}&time=${new Date().getTime()}`
-    );
-    const json = await response.json();
-    return json;
+    const response = await fetch(`${url}/analytics/live`, {
+      method: "POST",
+      body: JSON.stringify({ deviceId: getUUID() }),
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
+    const json = await response.json();    
+    return {
+      liveCount: json.liveCount || 0,
+      uniqueUserCount: json.uniqueUserCount || 0,
+      commentCount: json.commentCount || 0,
+    }
   } catch (e) {
     console.log(e);
     return null;
   }
+};
+
+export const useViewCount = () => {
+  return useQuery({
+    queryKey: ["viewCount"],
+    queryFn: getViewCount,
+    refetchInterval: viewCountApiInterval,
+  });
 };
 
 export const submitReview = async (review) => {
