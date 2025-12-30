@@ -24,16 +24,19 @@
 
   .dashboard__links {
     display: flex;
-    gap: 16px;
-    flex-wrap: wrap;
+    flex-direction: column;
+    gap: 10px;
     width: 100%;
     max-width: 720px;
+    align-items: flex-start;
   }
 
   a {
     color: #52ff7d;
     text-decoration: none;
     font-weight: 600;
+    display: inline-flex;
+    padding: 6px 0;
 
     &:hover {
       text-decoration: underline;
