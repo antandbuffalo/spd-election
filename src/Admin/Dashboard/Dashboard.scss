@@ -5,11 +5,62 @@
   justify-content: center;
   width: 100vw;
   gap: 10px;
+  padding: 24px;
+  box-sizing: border-box;
+
+  .dashboard__header {
+    display: flex;
+    width: 100%;
+    max-width: 720px;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
   .title {
     color: #fff;
+    margin: 0;
   }
+
+  .dashboard__links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+    max-width: 720px;
+    align-items: flex-start;
+  }
+
   a {
     color: #52ff7d;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    padding: 6px 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .logout-btn {
+    border: 1px solid #ff7373;
+    color: #ff7373;
+    background: rgba(255, 115, 115, 0.08);
+    border-radius: 6px;
+    padding: 10px 16px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+
+    &:hover {
+      background: rgba(255, 115, 115, 0.16);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
   }
   .festival-analytics-btn {
     background: #52ff7d;
