@@ -97,7 +97,7 @@ const ReviewList = () => {
     navigate(APP_ROUTES.home);
   };
   const viewCountResponse = (response) => {
-    setViewCount(response.viewCount);
+    setViewCount(response.liveCount);
   };
   return (
     <div className="reviews">

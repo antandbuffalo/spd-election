@@ -18,7 +18,7 @@ import ViewCount from "./ViewCount";
 import FlipNumbers from "react-flip-numbers";
 import Review from "./Review";
 import { useNavigate } from "react-router-dom";
-import { addUser } from "./service/api";
+import { addUser, useViewCount } from "./service/api";
 import MyName from "./MyName";
 import { APP_ROUTES, hostCloudFlare, hostFirebase } from "./utility/constants";
 
@@ -29,12 +29,15 @@ function App() {
   const [countedVotes, setCountedVotes] = useState(0);
   const [validVotes, setValidVotes] = useState(0);
   const [inValidVotes, setInvalidVotes] = useState(0);
-  const [viewCount, setViewCount] = useState(0);
-  const [commentCount, setCommentCount] = useState(0);
-  const [userCount, setUserCount] = useState(0);
   const [showReview, setShowReview] = useState(
     !isReviewSubmitted() && enableReview
   );
+
+  const { data: viewCountData } = useViewCount();
+
+  const viewCount = viewCountData?.liveCount || 0;
+  const commentCount = viewCountData?.commentCount || 0;
+  const userCount = viewCountData?.uniqueUserCount || 0;
 
   const navigate = useNavigate();
 
@@ -101,14 +104,14 @@ function App() {
   };
 
   // this will receive the view count response from ViewCount component
-  const viewCountResponse = (data) => {
-    if (!data) {
-      return;
-    }
-    setViewCount(data?.viewCount);
-    setCommentCount(data?.commentCount);
-    setUserCount(data?.uniqueUserCount);
-  };
+  // const viewCountResponse = (data) => {
+  //   if (!data) {
+  //     return;
+  //   }
+  //   setViewCount(data?.liveCount);
+  //   setCommentCount(data?.commentCount);
+  //   setUserCount(data?.uniqueUserCount);
+  // };
 
   const onClickReviewClose = () => {
     sessionStorage.setItem("reviewClosed", true);
@@ -256,7 +259,7 @@ function App() {
       </header>
       <Home sendApiResponse={getApiResponse} openReview={openReview} />
       <div className="view-count">
-        <ViewCount sendViewCount={viewCountResponse} />
+        <ViewCount />
       </div>
       <footer>
         <div className="other-pages">
