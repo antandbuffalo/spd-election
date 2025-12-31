@@ -43,8 +43,7 @@ export const getMemberStatus = async () => {
 };
 
 export const getViewCount = async () => {
-  const url =
-    false && isLocal && !projector ? `http://localhost:3001` : viewCountApiUrl;
+  const url = isLocal && !projector ? `http://localhost:3001` : viewCountApiUrl;
   try {
     const response = await fetch(`${url}/analytics/live`, {
       method: "POST",
@@ -74,7 +73,7 @@ export const useViewCount = () => {
 };
 
 export const submitReview = async (review) => {
-  const contextPath = "/review";
+  const contextPath = "/election/reviews";
   const url = isLocal
     ? `http://localhost:3001${contextPath}`
     : `${viewCountApiUrl}${contextPath}`;
@@ -96,8 +95,8 @@ export const submitReview = async (review) => {
 };
 
 export const getReviewList = async () => {
-  const contextPath = "/review";
-  const url = isLocal
+  const contextPath = "/election/reviews";
+  const url = false && isLocal
     ? `http://localhost:3001${contextPath}`
     : `${viewCountApiUrl}${contextPath}`;
 
@@ -114,7 +113,7 @@ export const getReviewList = async () => {
 export const addUser = async () => {
   const contextPath = "/analytics/users";
   const url =
-    false && isLocal && !projector
+    isLocal && !projector
       ? `http://localhost:3001${contextPath}`
       : `${viewCountApiUrl}${contextPath}`;
 
@@ -134,27 +133,6 @@ export const addUser = async () => {
   }
 };
 
-export const login = async (password) => {
-  const contextPath = "/login";
-  const url = isLocal
-    ? `http://localhost:3001${contextPath}`
-    : `${viewCountApiUrl}${contextPath}`;
-
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      body: JSON.stringify({ password }),
-      headers: {
-        "Content-Type": "application/json",
-      },
-    });
-    const json = await response.json();
-    return json;
-  } catch (e) {
-    console.log(e);
-    return null;
-  }
-};
 
 export const deleteReview = async ({ id, token }) => {
   if (!id || !token) return;
